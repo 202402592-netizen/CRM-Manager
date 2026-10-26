@@ -1,0 +1,11 @@
+{
+  "name": "clientflow-crm",
+  "private": true,
+  "scripts": {
+    "api:install": "npm install --prefix apps/api",
+    "api:dev": "npm --prefix apps/api run start:dev",
+    "api:build": "npm --prefix apps/api run build",
+    "api:seed": "npm --prefix apps/api run seed",
+    "api:test": "npm --prefix apps/api run test"
+  }
+}

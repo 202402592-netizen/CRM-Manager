@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deal Details — Acme Global Corp — ClientFlow CRM</title>
+  <meta name="description" content="View opportunity metrics, milestone progression, and contract documentation in ClientFlow CRM.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .stepper-pipeline {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 1.25rem 0 0.5rem 0;
+      padding: 0 0.5rem;
+    }
+    .stepper-track-bg {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+      right: 1rem;
+      height: 4px;
+      background: #E2E8F0;
+      z-index: 1;
+      transform: translateY(-50%);
+    }
+    .stepper-track-fill {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+      width: 50%;
+      height: 4px;
+      background: #059669;
+      z-index: 1;
+      transform: translateY(-50%);
+    }
+    .stepper-node {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    .stepper-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 3px solid #CBD5E1;
+      margin: 0 auto;
+      transition: all var(--transition-fast);
+    }
+    .stepper-dot.completed {
+      background: #059669;
+      border-color: #059669;
+    }
+    .stepper-dot.active {
+      background: #FFFFFF;
+      border: 4px solid #059669;
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.2);
+    }
+    .stepper-label {
+      font-size: 0.72rem;
+      color: #64748B;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .stepper-label.active {
+      color: #065F46;
+      font-weight: 700;
+    }
+    .action-circle-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      transition: all var(--transition-fast);
+    }
+    .action-circle-btn:hover {
+      color: #059669;
+    }
+    .action-circle-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #EFF6FF;
+      color: #2563EB;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      transition: all var(--transition-fast);
+    }
+    .action-circle-btn:hover .action-circle-icon {
+      background: #D1FAE5;
+      color: #059669;
+      transform: translateY(-2px);
+    }
+    .sticky-bottom-actions {
+      position: sticky;
+      bottom: 0;
+      background: #FFFFFF;
+      border-top: 1px solid var(--color-border);
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 100;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Enterprise Dark Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <div class="brand-icon"><i class="bi bi-activity"></i></div>
+          <div class="brand-title">ClientFlow <span class="brand-badge">CRM</span></div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main</div>
+        <a href="dashboard.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-grid nav-item-icon"></i> <span>Overview</span></span></a>
+        <a href="contacts.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-people nav-item-icon"></i> <span>Contacts</span></span><span class="nav-item-badge">1,428</span></a>
+        <a href="deals.html" class="sidebar-nav-item active"><span class="nav-item-left"><i class="bi bi-kanban nav-item-icon"></i> <span>Sales Pipeline</span></span><span class="nav-item-badge">38</span></a>
+        <a href="tasks.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-check2-circle nav-item-icon"></i> <span>Tasks</span></span><span class="nav-item-badge" style="background: rgba(220, 38, 38, 0.4);">18</span></a>
+
+        <div class="nav-section-title">Insights</div>
+        <a href="reports.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-graph-up-arrow nav-item-icon"></i> <span>Reports & Analytics</span></span></a>
+        <a href="calendar.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-calendar3 nav-item-icon"></i> <span>Calendar</span></span></a>
+
+        <div class="nav-section-title">Organization</div>
+        <a href="team.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person-badge nav-item-icon"></i> <span>Team Members</span></span></a>
+        <a href="notifications.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-bell nav-item-icon"></i> <span>Notifications</span></span></a>
+
+        <div class="nav-section-title">System & Security</div>
+        <a href="profile.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person nav-item-icon"></i> <span>User Profile</span></span></a>
+        <a href="settings.html"><span class="nav-item-left"><i class="bi bi-gear nav-item-icon"></i> <span>Settings</span></span></a>
+        <a href="audit-log.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-shield-check nav-item-icon"></i> <span>SIEM Audit Log</span></span></a>
+        <a href="help.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-question-circle nav-item-icon"></i> <span>Help & FAQ</span></span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar avatar-sm user-avatar-initials">SJ</div>
+        <div class="sidebar-footer-user">
+          <div class="sidebar-footer-name">Sarah Jenkins</div>
+          <div class="sidebar-footer-role">Lead Enterprise AE</div>
+        </div>
+        <a href="login.html" title="Sign out" style="color: #9CA3AF; padding: 4px;"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Canvas Area -->
+    <div class="app-main">
+      
+      <!-- Sticky Header (Matching Screenshot 2) -->
+      <header class="app-header">
+        <div class="header-left">
+          <a href="deals.html" class="btn btn-ghost btn-sm btn-icon" title="Return to Pipeline">
+            <i class="bi bi-arrow-left" style="font-size: 1.15rem;"></i>
+          </a>
+          <div class="flex items-center gap-xs">
+            <div style="width: 22px; height: 22px; background: #064E3B; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #34D399; font-size: 0.75rem;">
+              <i class="bi bi-kanban"></i>
+            </div>
+            <span class="current" style="font-weight: 800; font-size: 1.05rem; color: var(--color-text-primary);">Deal Details</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="header-search-trigger" onclick="openGlobalSearch()">
+            <div class="flex items-center gap-sm"><i class="bi bi-search"></i><span>Search in deal dossier...</span></div>
+            <span class="search-shortcut-badge">/</span>
+          </div>
+        </div>
+
+        <div class="header-right flex items-center gap-xs">
+          <a href="notifications.html" class="header-icon-btn"><i class="bi bi-bell"></i><span class="notification-indicator"></span></a>
+          <a href="profile.html" class="avatar avatar-sm user-avatar-initials" style="text-decoration: none;">SJ</a>
+        </div>
+      </header>
+
+      <!-- Viewport Canvas (Matching Screenshot 2) -->
+      <main class="content-canvas" style="max-width: 640px; margin: 0 auto; padding-bottom: 5rem;">
+        
+        <!-- Header Badges Bar (Matching Screenshot 2) -->
+        <div class="flex items-center justify-between" style="margin-bottom: 0.75rem;">
+          <div class="flex items-center gap-xs">
+            <span class="badge badge-emerald" style="font-weight: 700;">
+              <span class="badge-dot"></span> Proposal Sent
+            </span>
+            <span class="badge badge-neutral" style="font-weight: 700;">Q2-Tier 1</span>
+          </div>
+          <div class="flex items-center gap-xs">
+            <button type="button" class="btn btn-ghost btn-sm btn-icon" title="Edit Deal" onclick="showToast('Edit Deal', 'Opening deal attribute editor', 'info')">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button type="button" class="btn btn-ghost btn-sm btn-icon" title="More Options" onclick="showToast('Options', 'Deal audit, export & transfer actions', 'info')">
+              <i class="bi bi-three-dots-vertical"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Title & Organization -->
+        <div style="margin-bottom: 1.25rem;">
+          <div class="body-sm text-muted" style="font-weight: 600; margin-bottom: 2px;">
+            <i class="bi bi-building"></i> Acme Global Corp &bull; <span class="text-emerald">Enterprise SaaS</span>
+          </div>
+          <div class="display-lg mono" style="font-size: 2.25rem; font-weight: 800; color: var(--color-text-primary); letter-spacing: -0.02em;">
+            $120,000
+          </div>
+          <h1 style="font-size: 1.25rem; font-weight: 800; color: #1F2937; margin: 0 0 0.5rem 0;">
+            Enterprise Cloud Migration
+          </h1>
+          <div class="flex items-center gap-xs">
+            <span class="text-muted" style="font-size: 0.8125rem;">Deal Owner:</span>
+            <div class="flex items-center gap-xs">
+              <span class="avatar avatar-sm user-avatar-initials" style="width:22px; height:22px; font-size:0.65rem; background:#059669; color:#FFF;">SJ</span>
+              <strong style="font-size: 0.8125rem;">Sarah Jenkins</strong>
+            </div>
+            <span class="badge badge-emerald" style="font-size: 0.65rem; font-weight: 700;">
+              <i class="bi bi-check2"></i> Top 5% ARR
+            </span>
+          </div>
+        </div>
+
+        <!-- Pipeline Stage Stepper (Matching Screenshot 2) -->
+        <div class="card" style="border-radius: var(--radius-xl); padding: 1.15rem 1rem; margin-bottom: 1.25rem;">
+          <div class="flex items-center justify-between" style="font-size: 0.75rem; font-weight: 700;">
+            <span class="text-muted" style="letter-spacing: 0.04em;">PIPELINE STAGE</span>
+            <span class="text-emerald">Stage 3 of 5</span>
+          </div>
+
+          <div class="stepper-pipeline">
+            <div class="stepper-track-bg"></div>
+            <div class="stepper-track-fill"></div>
+
+            <div class="stepper-node">
+              <div class="stepper-dot completed"></div>
+              <div class="stepper-label">Discovery</div>
+            </div>
+            <div class="stepper-node">
+              <div class="stepper-dot completed"></div>
+              <div class="stepper-label">Qualified</div>
+            </div>
+            <div class="stepper-node">
+              <div class="stepper-dot active"></div>
+              <div class="stepper-label active">Proposal</div>
+            </div>
+            <div class="stepper-node">
+              <div class="stepper-dot"></div>
+              <div class="stepper-label">Negotiation</div>
+            </div>
+            <div class="stepper-node">
+              <div class="stepper-dot"></div>
+              <div class="stepper-label">Won</div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-muted" style="font-size: 0.75rem; margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px dashed #E2E8F0;">
+            <span><i class="bi bi-clock"></i> In stage for 4 days</span>
+            <span class="text-emerald font-semibold"><i class="bi bi-graph-up-arrow"></i> Healthy Velocity</span>
+          </div>
+        </div>
+
+        <!-- 2x2 Metric Grid (Matching Screenshot 2) -->
+        <div class="grid grid-cols-2 gap-sm" style="margin-bottom: 1.25rem;">
+          
+          <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-xl); padding: 0.85rem 1rem;">
+            <div class="flex items-center justify-between text-muted" style="font-size: 0.75rem; font-weight: 700;">
+              <span>Deal Value</span>
+              <i class="bi bi-cash text-emerald"></i>
+            </div>
+            <div class="mono" style="font-size: 1.35rem; font-weight: 800; color: var(--color-text-primary); margin-top: 3px;">
+              $120,000
+            </div>
+            <div class="body-sm text-muted" style="font-size: 0.7rem; margin-top: 2px;">Annual Recurring (ARR)</div>
+          </div>
+
+          <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-xl); padding: 0.85rem 1rem;">
+            <div class="flex items-center justify-between text-muted" style="font-size: 0.75rem; font-weight: 700;">
+              <span>Win Probability</span>
+              <i class="bi bi-bar-chart-fill text-emerald"></i>
+            </div>
+            <div class="flex items-center gap-xs" style="margin-top: 3px;">
+              <span class="mono" style="font-size: 1.35rem; font-weight: 800; color: var(--color-text-primary);">75%</span>
+              <span class="text-emerald font-semibold" style="font-size: 0.72rem;">+15% vs avg</span>
+            </div>
+            <div class="progress-bar-wrap" style="height: 4px; margin-top: 6px;">
+              <div class="progress-bar-fill" style="width: 75%; background-color: #059669;"></div>
+            </div>
+          </div>
+
+          <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-xl); padding: 0.85rem 1rem;">
+            <div class="flex items-center justify-between text-muted" style="font-size: 0.75rem; font-weight: 700;">
+              <span>Expected Close</span>
+              <i class="bi bi-calendar3 text-muted"></i>
+            </div>
+            <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-primary); margin-top: 3px;">
+              Jun 30, 2024
+            </div>
+            <div class="body-sm text-emerald font-semibold" style="font-size: 0.7rem; margin-top: 2px;">18 days remaining</div>
+          </div>
+
+          <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-xl); padding: 0.85rem 1rem;">
+            <div class="flex items-center justify-between text-muted" style="font-size: 0.75rem; font-weight: 700;">
+              <span>Pipeline Track</span>
+              <i class="bi bi-diagram-2 text-muted"></i>
+            </div>
+            <div style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-primary); margin-top: 3px;">
+              Enterprise SaaS
+            </div>
+            <div class="body-sm text-muted" style="font-size: 0.7rem; margin-top: 2px;">Custom Security SLA</div>
+          </div>
+
+        </div>
+
+        <!-- 4 Quick Actions Row (Matching Screenshot 2) -->
+        <div class="flex items-center justify-around" style="background:#FFF; border:1px solid #E2E8F0; border-radius:var(--radius-xl); padding: 1rem 0.5rem; margin-bottom: 1.25rem;">
+          <button type="button" class="action-circle-btn" onclick="showToast('Log Call', 'Call dialog opened for Acme stakeholders', 'info')">
+            <div class="action-circle-icon"><i class="bi bi-telephone"></i></div>
+            <span>Log Call</span>
+          </button>
+          <button type="button" class="action-circle-btn" onclick="showToast('Send Email', 'Composer loaded with proposal attachments', 'info')">
+            <div class="action-circle-icon"><i class="bi bi-envelope"></i></div>
+            <span>Send Email</span>
+          </button>
+          <button type="button" class="action-circle-btn" onclick="showToast('Add Note', 'Internal deal note drafted', 'info')">
+            <div class="action-circle-icon"><i class="bi bi-file-text"></i></div>
+            <span>Add Note</span>
+          </button>
+          <button type="button" class="action-circle-btn" onclick="showToast('New Task', 'Follow-up task created', 'success')">
+            <div class="action-circle-icon"><i class="bi bi-check2-square"></i></div>
+            <span>New Task</span>
+          </button>
+        </div>
+
+        <!-- Associated Contacts Section (Matching Screenshot 2) -->
+        <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+          <div class="card-header">
+            <div class="flex items-center gap-xs">
+              <i class="bi bi-people text-emerald"></i>
+              <span style="font-weight: 700; font-size: 0.95rem;">Associated Contacts</span>
+            </div>
+            <span class="badge badge-neutral" style="font-size: 0.7rem; font-weight: 700;">2 Stakeholders</span>
+          </div>
+          <div class="card-body flex flex-col gap-sm">
+            
+            <!-- Contact 1: Sarah Chen -->
+            <div class="flex items-center justify-between" style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 0.85rem;">
+              <div class="flex items-center gap-sm">
+                <div class="avatar avatar-md user-avatar-initials" style="background:#065F46; color:#FFF;">SC</div>
+                <div>
+                  <div class="flex items-center gap-xs">
+                    <strong style="font-size: 0.875rem;">Sarah Chen</strong>
+                    <span class="badge badge-emerald" style="font-size: 0.65rem; padding: 1px 5px;">Decision Maker</span>
+                  </div>
+                  <div class="body-sm text-muted" style="font-size: 0.75rem;">VP Infrastructure &bull; Acme Global</div>
+                  <div class="mono text-muted" style="font-size: 0.72rem; margin-top: 2px;">
+                    sarah.chen@acmeglobal.com &bull; (555) 019-2831
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-xs">
+                <button type="button" class="btn btn-ghost btn-sm btn-icon" title="Call Sarah" onclick="showToast('Calling', 'Connecting via VoIP...', 'info')">
+                  <i class="bi bi-telephone"></i>
+                </button>
+                <button type="button" class="btn btn-ghost btn-sm btn-icon" title="Email Sarah" onclick="showToast('Email', 'Composing email...', 'info')">
+                  <i class="bi bi-envelope"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Contact 2: David Miller -->
+            <div class="flex items-center justify-between" style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 0.85rem;">
+              <div class="flex items-center gap-sm">
+                <div class="avatar avatar-md user-avatar-initials" style="background:#1E40AF; color:#FFF;">DM</div>
+                <div>
+                  <div class="flex items-center gap-xs">
+                    <strong style="font-size: 0.875rem;">David Miller</strong>
+                    <span class="badge badge-neutral" style="font-size: 0.65rem; padding: 1px 5px;">Technical Approver</span>
+                  </div>
+                  <div class="body-sm text-muted" style="font-size: 0.75rem;">CTO &bull; Acme Global</div>
+                  <div class="mono text-muted" style="font-size: 0.72rem; margin-top: 2px;">
+                    d.miller@acmeglobal.com &bull; (555) 019-2840
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-xs">
+                <button type="button" class="btn btn-ghost btn-sm btn-icon" title="Call David" onclick="showToast('Calling', 'Connecting via VoIP...', 'info')">
+                  <i class="bi bi-telephone"></i>
+                </button>
+                <button type="button" class="btn btn-ghost btn-sm btn-icon" title="Email David" onclick="showToast('Email', 'Composing email...', 'info')">
+                  <i class="bi bi-envelope"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Upcoming Task Section (Matching Screenshot 2) -->
+        <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+          <div class="card-header">
+            <div class="flex items-center gap-xs">
+              <i class="bi bi-calendar-event text-emerald"></i>
+              <span style="font-weight: 700; font-size: 0.95rem;">Upcoming Task</span>
+            </div>
+            <span class="badge badge-danger" style="font-size: 0.7rem; font-weight: 700;">Priority</span>
+          </div>
+          <div class="card-body">
+            
+            <div style="background-color: #EFF6FF; border: 1px solid #DBEAFE; border-radius: var(--radius-lg); padding: 0.75rem 1rem;">
+              <div class="flex items-start gap-sm">
+                <input type="checkbox" id="deal-upcoming-task-check" style="accent-color: #059669; margin-top: 3px; width: 16px; height: 16px;" onchange="showToast('Task Done', 'Follow-up on revised SLA terms marked completed', 'success')">
+                <label for="deal-upcoming-task-check" style="cursor: pointer; flex: 1;">
+                  <strong style="font-size: 0.875rem; color: #1E3A8A;">Follow-up on revised SLA terms</strong>
+                  <div class="text-muted" style="font-size: 0.75rem; margin-top: 2px;">
+                    <i class="bi bi-clock-history text-danger"></i> Due tomorrow, 2:00 PM &bull; <i class="bi bi-person"></i> Alex Rivera
+                  </div>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Activity Timeline Section (Matching Screenshot 2) -->
+        <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 2rem;">
+          <div class="card-header">
+            <div class="flex items-center gap-xs">
+              <i class="bi bi-clock-history text-emerald"></i>
+              <span style="font-weight: 700; font-size: 0.95rem;">Activity Timeline</span>
+            </div>
+            <a href="javascript:void(0)" class="text-emerald font-semibold" style="font-size: 0.75rem; text-decoration: none;">View All (14)</a>
+          </div>
+          <div class="card-body">
+            
+            <!-- Item 1: Proposal PDF viewed 4 times -->
+            <div style="padding-bottom: 1rem; border-bottom: 1px solid #E2E8F0; margin-bottom: 1rem;">
+              <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                <div class="flex items-center gap-xs">
+                  <i class="bi bi-eye-fill text-emerald"></i>
+                  <strong style="font-size: 0.875rem;">Proposal PDF viewed 4 times</strong>
+                </div>
+                <span class="mono text-muted" style="font-size: 0.72rem;">2h ago</span>
+              </div>
+              <div class="body-sm text-muted" style="font-size: 0.78rem; line-height: 1.45; margin-bottom: 6px;">
+                Sarah Chen spent 6m 40s on slide 8 (Cost Comparison & Multi-Region Failover Architecture).
+              </div>
+              <span class="badge badge-emerald" style="font-size: 0.6875rem; font-weight: 700;">
+                <i class="bi bi-lightning-charge-fill"></i> High Buyer Intent Signal
+              </span>
+            </div>
+
+            <!-- Item 2: Proposal Sent -->
+            <div style="padding-bottom: 1rem; border-bottom: 1px solid #E2E8F0; margin-bottom: 1rem;">
+              <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                <div class="flex items-center gap-xs">
+                  <i class="bi bi-send-fill text-primary"></i>
+                  <strong style="font-size: 0.875rem;">Proposal Sent</strong>
+                </div>
+                <span class="mono text-muted" style="font-size: 0.72rem;">Yesterday, 4:15 PM</span>
+              </div>
+              <div class="body-sm text-muted" style="font-size: 0.78rem; line-height: 1.45;">
+                Version 2.3 sent to Sarah Chen and cc'd David Miller via DocuSign integration.
+              </div>
+            </div>
+
+            <!-- Item 3: Technical Scoping Call -->
+            <div>
+              <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                <div class="flex items-center gap-xs">
+                  <i class="bi bi-headset text-muted"></i>
+                  <strong style="font-size: 0.875rem;">Technical Scoping Call</strong>
+                </div>
+                <span class="mono text-muted" style="font-size: 0.72rem;">Jun 10, 2024</span>
+              </div>
+              <div class="body-sm text-muted" style="font-size: 0.78rem; line-height: 1.45; margin-bottom: 6px;">
+                Technical scoping call completed with architecture review. Validated hybrid Kubernetes setup requirements and zero-downtime cutover timeline.
+              </div>
+              <span class="badge badge-neutral mono" style="font-size: 0.7rem;">
+                <i class="bi bi-paperclip"></i> notes_scoping_v1.docx
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+
+      <!-- Sticky Bottom Action Bar (Matching Screenshot 2) -->
+      <div class="sticky-bottom-actions">
+        <button type="button" class="btn btn-secondary btn-lg" style="background:#F1F5F9; border-color:#E2E8F0; padding: 0.75rem 1rem;" onclick="showToast('Options', 'Deal options menu opened', 'info')">
+          Options <i class="bi bi-chevron-up"></i>
+        </button>
+        <button type="button" class="btn btn-primary flex-1 btn-lg" onclick="showToast('Stage Advanced', 'Deal moved to Stage 4: Negotiation', 'success')">
+          <i class="bi bi-arrow-right"></i> Move to Negotiation
+        </button>
+        <button type="button" class="btn btn-secondary btn-lg btn-icon" style="background:#ECFDF5; border-color:#A7F3D0; color:#047857;" title="Mark as Won" onclick="showToast('Deal Won!', 'Congratulations! Acme Cloud Migration closed won for $120,000 ARR', 'success')">
+          <i class="bi bi-trophy-fill"></i>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/navigation.js"></script>
+</body>
+</html>

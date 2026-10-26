@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIEM Audit Log — Security & Governance — ClientFlow CRM</title>
+  <meta name="description" content="Immutable cryptographic SIEM audit trail and live telemetry records in ClientFlow CRM.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .audit-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1.15rem 1.25rem;
+      margin-bottom: 1rem;
+      transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+      position: relative;
+    }
+    .audit-card:hover {
+      box-shadow: var(--shadow-tier-2);
+      border-color: #CBD5E1;
+    }
+    .audit-card.border-accent-green {
+      border-left: 5px solid #059669;
+    }
+    .audit-card.border-accent-red {
+      border-left: 5px solid #DC2626;
+    }
+    .pill-filter {
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      color: var(--color-text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+    .pill-filter:hover {
+      background: #F1F5F9;
+      color: var(--color-text-primary);
+    }
+    .pill-filter.active {
+      background: #059669;
+      color: #FFFFFF;
+      border-color: #059669;
+    }
+    .pill-severity {
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-md);
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+    }
+    .json-code-box {
+      background: #0F172A;
+      color: #38BDF8;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      padding: 1rem;
+      border-radius: var(--radius-lg);
+      overflow-x: auto;
+      max-height: 280px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Enterprise Dark Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <div class="brand-icon"><i class="bi bi-activity"></i></div>
+          <div class="brand-title">ClientFlow <span class="brand-badge">CRM</span></div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main</div>
+        <a href="dashboard.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-grid nav-item-icon"></i> <span>Overview</span></span></a>
+        <a href="contacts.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-people nav-item-icon"></i> <span>Contacts</span></span><span class="nav-item-badge">1,428</span></a>
+        <a href="deals.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-kanban nav-item-icon"></i> <span>Sales Pipeline</span></span><span class="nav-item-badge">38</span></a>
+        <a href="tasks.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-check2-circle nav-item-icon"></i> <span>Tasks</span></span><span class="nav-item-badge" style="background: rgba(220, 38, 38, 0.4);">18</span></a>
+
+        <div class="nav-section-title">Insights</div>
+        <a href="reports.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-graph-up-arrow nav-item-icon"></i> <span>Reports & Analytics</span></span></a>
+        <a href="calendar.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-calendar3 nav-item-icon"></i> <span>Calendar</span></span></a>
+
+        <div class="nav-section-title">Organization</div>
+        <a href="team.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person-badge nav-item-icon"></i> <span>Team Members</span></span></a>
+        <a href="notifications.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-bell nav-item-icon"></i> <span>Notifications</span></span></a>
+
+        <div class="nav-section-title">System & Security</div>
+        <a href="profile.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person nav-item-icon"></i> <span>User Profile</span></span></a>
+        <a href="settings.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-gear nav-item-icon"></i> <span>Settings</span></span></a>
+        <a href="audit-log.html" class="sidebar-nav-item active"><span class="nav-item-left"><i class="bi bi-shield-check nav-item-icon"></i> <span>SIEM Audit Log</span></span></a>
+        <a href="help.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-question-circle nav-item-icon"></i> <span>Help & FAQ</span></span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar avatar-sm user-avatar-initials">SJ</div>
+        <div class="sidebar-footer-user">
+          <div class="sidebar-footer-name">Sarah Jenkins</div>
+          <div class="sidebar-footer-role">SecAdmin • Enterprise AE</div>
+        </div>
+        <a href="login.html" title="Sign out" style="color: #9CA3AF; padding: 4px;"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Canvas Area -->
+    <div class="app-main">
+      
+      <!-- Sticky Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <a href="settings.html?tab=security" class="btn btn-ghost btn-sm btn-icon" title="Return to Security Settings">
+            <i class="bi bi-arrow-left" style="font-size: 1.15rem;"></i>
+          </a>
+          <div class="header-breadcrumb">
+            <span style="font-size: 0.75rem; letter-spacing: 0.05em; color: var(--color-text-secondary); font-weight: 700;">SECURITY & GOVERNANCE</span>
+            <i class="bi bi-chevron-right text-muted" style="font-size: 0.75rem;"></i>
+            <span class="current" style="font-weight: 800; color: var(--color-text-primary);">Siem Audit Log</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="header-search-trigger" onclick="openGlobalSearch()">
+            <div class="flex items-center gap-sm"><i class="bi bi-search"></i><span>Search audit telemetry...</span></div>
+            <span class="search-shortcut-badge">/</span>
+          </div>
+        </div>
+
+        <div class="header-right flex items-center gap-xs">
+          <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="openFilterModal()" title="Filter Audit Stream">
+            <i class="bi bi-sliders" style="font-size: 1.1rem;"></i>
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="exportAuditLog()" title="Export Audit Log">
+            <i class="bi bi-box-arrow-up" style="font-size: 1.1rem;"></i>
+          </button>
+          <a href="profile.html" class="avatar avatar-sm user-avatar-initials" style="text-decoration: none;">SJ</a>
+        </div>
+      </header>
+
+      <!-- Viewport Canvas (Matching Screenshot 3) -->
+      <main class="content-canvas" style="max-width: 680px; margin: 0 auto; padding-bottom: 5rem;">
+        
+        <!-- Top Ingest Status Card (Matching Screenshot) -->
+        <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1rem; border: 1px solid var(--color-border);">
+          <div class="card-body" style="padding: 1.15rem 1.25rem;">
+            <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+              <div class="flex items-center gap-xs">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: #059669; display: inline-block;"></span>
+                <strong style="font-size: 0.95rem; color: var(--color-text-primary);">Splunk / Datadog SIEM</strong>
+              </div>
+              <div class="flex items-center gap-xs">
+                <span class="badge" style="background:#D1FAE5; color:#065F46; font-size:0.6875rem; font-weight:800; padding:2px 8px; border-radius:9999px;">
+                  LIVE PIPELINE
+                </span>
+                <span class="text-muted flex items-center gap-xs" style="font-size: 0.75rem; font-weight: 700;">
+                  <i class="bi bi-shield-check text-emerald"></i> TLS 1.3 Strict
+                </span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-sm">
+              <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.65rem 0.85rem;">
+                <div class="flex items-center gap-xs text-muted" style="font-size: 0.72rem; font-weight: 600;">
+                  <i class="bi bi-cloud text-emerald"></i> Ingest Latency
+                </div>
+                <div class="flex items-center gap-xs" style="margin-top: 3px;">
+                  <span class="mono" style="font-size: 1.05rem; font-weight: 800; color: var(--color-text-primary);">38ms</span>
+                  <span class="text-emerald mono" style="font-size: 0.72rem; font-weight: 700;">&bull; 0 drop</span>
+                </div>
+              </div>
+
+              <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.65rem 0.85rem;">
+                <div class="flex items-center gap-xs text-muted" style="font-size: 0.72rem; font-weight: 600;">
+                  <i class="bi bi-lock text-primary"></i> WORM Retention
+                </div>
+                <div class="flex items-center gap-xs" style="margin-top: 3px;">
+                  <span class="mono" style="font-size: 1.05rem; font-weight: 800; color: #059669;">365-Day</span>
+                  <span class="badge badge-neutral" style="font-size: 0.65rem; font-weight: 700;">SOC2</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Matching Header Card (Matching Screenshot) -->
+        <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem; border: 1px solid var(--color-border);">
+          <div class="card-body" style="padding: 1rem 1.25rem;">
+            
+            <div class="flex items-center justify-between" style="margin-bottom: 0.75rem;">
+              <div class="flex items-center gap-xs">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: #059669; display: inline-block;"></span>
+                <strong style="font-size: 0.95rem; color: var(--color-text-primary);"><span class="mono">246</span> of 1,248 security events matching</strong>
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm text-emerald flex items-center gap-xs" style="font-size: 0.8125rem; font-weight: 700; padding: 2px 6px;" onclick="resetAllFilters()">
+                Clear All <i class="bi bi-arrow-counterclockwise"></i>
+              </button>
+            </div>
+
+            <!-- Active Tag Chips -->
+            <div class="flex items-center gap-xs flex-wrap" style="margin-bottom: 0.85rem;">
+              <span class="pill-filter" style="background:#EEF2FF; border-color:#E0E7FF; color:#3730A3; font-size:0.75rem; padding: 3px 10px;">
+                <i class="bi bi-clock-history"></i> Last 24 Hours <i class="bi bi-x" style="cursor:pointer;" onclick="this.parentElement.remove()"></i>
+              </span>
+              <span class="pill-filter" style="background:#FEF2F2; border-color:#FECACA; color:#991B1B; font-size:0.75rem; padding: 3px 10px;">
+                <span style="color:#DC2626;">&bull; Critical</span> + Policy Enforced <i class="bi bi-x" style="cursor:pointer;" onclick="this.parentElement.remove()"></i>
+              </span>
+            </div>
+
+            <!-- Pre-populated Search Query Bar -->
+            <div class="input-clean-box" style="background:#F8FAFC; border: 1px solid #E2E8F0;">
+              <div class="flex items-center gap-sm flex-1">
+                <i class="bi bi-search text-muted" style="font-size: 0.9rem;"></i>
+                <input type="text" id="audit-search-input" value="actor:sarah_jenkins severity:0" class="mono" style="border: none; background: transparent; width: 100%; outline: none; font-size: 0.8125rem; color: var(--color-text-primary);" oninput="filterAuditCards(this.value)">
+              </div>
+              <span class="badge badge-neutral mono" style="font-size: 0.7rem; font-weight: 700;">246 HITS</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Filtered Stream Subheading -->
+        <div class="flex items-center justify-between" style="margin-bottom: 0.85rem;">
+          <div class="flex items-center gap-xs">
+            <span class="mono" style="font-size: 0.8125rem; font-weight: 800; color: #374151; letter-spacing: 0.05em;">FILTERED SECURITY STREAM</span>
+            <span class="badge badge-neutral mono" style="font-size: 0.65rem; padding: 2px 6px;">CHRONOLOGICAL</span>
+          </div>
+          <span class="text-muted mono" style="font-size: 0.72rem; font-weight: 600;">Auto-refresh 5s</span>
+        </div>
+
+        <!-- ===================================================================
+             AUDIT EVENTS FEED (Matching Screenshot)
+             =================================================================== -->
+        <div id="audit-feed-container">
+          
+          <!-- Event 1: Critical Revocation (Matches Screenshot) -->
+          <div class="audit-card border-accent-red" data-category="auth">
+            <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+              <div class="flex items-center gap-xs">
+                <span class="badge" style="background:#FEF2F2; color:#B91C1C; font-weight:800; font-size:0.65rem; border:1px solid #FECACA; padding:2px 8px; border-radius:9999px;">
+                  &bull; CRITICAL AUDIT
+                </span>
+                <span class="mono" style="font-weight: 800; font-size: 0.72rem; background: #EEF2FF; color: #3730A3; padding: 2px 6px; border-radius: var(--radius-sm);">
+                  #SEC-8921-REV
+                </span>
+              </div>
+              <div class="flex items-center gap-xs text-muted" style="font-size: 0.72rem;">
+                <i class="bi bi-lock text-muted"></i>
+                <span style="color: #111827; font-weight: 700;">Just now</span>
+                <span>&bull;</span>
+                <span class="mono">14:32:08 UTC</span>
+              </div>
+            </div>
+
+            <h3 style="font-size: 1.05rem; font-weight: 800; margin: 0 0 0.4rem 0; color: var(--color-text-primary);">
+              Session Revocation Enforced
+            </h3>
+
+            <div class="body-sm text-muted" style="font-size: 0.8rem; line-height: 1.45; margin-bottom: 0.75rem;">
+              Okta SSO session tokens invalidated; forced zero-trust disconnect; multi-factor re-verification flagged for next login.
+            </div>
+
+            <!-- Target Identity & Workstation Box -->
+            <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
+              <div class="flex items-center gap-xs" style="margin-bottom: 4px;">
+                <i class="bi bi-laptop text-muted"></i>
+                <span>MacBook Pro 16" &bull; Chr.. <strong class="text-muted">Target Device</strong></span>
+              </div>
+              <div class="flex items-center gap-xs text-muted mono" style="margin-bottom: 4px;">
+                <i class="bi bi-hdd-network text-emerald"></i>
+                <span>198.51.100.12 (New York, NY &bull; HQ Network)</span>
+              </div>
+              <div class="flex items-center gap-xs text-muted">
+                <i class="bi bi-shield-person text-emerald"></i>
+                <span>Actor: <strong>Sarah Jenkins</strong> (SecAdmin) &bull; via iPhone 15 Pro &bull; 192.0.2.45</span>
+              </div>
+            </div>
+
+            <!-- Footer: splunk-hec + View Raw JSON -->
+            <div class="flex items-center justify-between" style="padding-top: 0.35rem;">
+              <div class="text-muted mono flex items-center gap-xs" style="font-size: 0.72rem;">
+                <i class="bi bi-cloud text-muted"></i> splunk-hec-77a89b
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm" style="color: #059669; font-weight: 700; font-size: 0.78rem; padding: 2px 0;" onclick="openJsonModal()">
+                View Raw JSON <i class="bi bi-chevron-down"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Event 2: MFA Challenge Passed (Matches Screenshot) -->
+          <div class="audit-card border-accent-green" data-category="auth">
+            <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+              <div class="flex items-center gap-xs">
+                <span class="badge" style="background:#ECFDF5; color:#065F46; font-weight:800; font-size:0.65rem; border:1px solid #A7F3D0; padding:2px 8px; border-radius:9999px;">
+                  &bull; POLICY ENFORCED
+                </span>
+                <span class="mono" style="font-weight: 800; font-size: 0.72rem; background: #EEF2FF; color: #3730A3; padding: 2px 6px; border-radius: var(--radius-sm);">
+                  #AUTH-9042-MFA
+                </span>
+              </div>
+              <div class="flex items-center gap-xs text-muted" style="font-size: 0.72rem;">
+                <span>24m ago</span>
+                <span>&bull;</span>
+                <span class="mono">14:08:15 UTC</span>
+              </div>
+            </div>
+
+            <h3 style="font-size: 1.05rem; font-weight: 800; margin: 0 0 0.4rem 0; color: var(--color-text-primary);">
+              Biometric MFA Challenge Passed
+            </h3>
+
+            <div class="body-sm text-muted" style="font-size: 0.8rem; line-height: 1.45; margin-bottom: 0.75rem;">
+              Enforcement Rule: ZT-MFA-STEPUP evaluated and confirmed during privileged session revocation attempt.
+            </div>
+
+            <!-- Device Box -->
+            <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
+              <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                <div class="flex items-center gap-xs text-emerald font-semibold">
+                  <i class="bi bi-shield-check"></i> Hardware Key Validated
+                </div>
+                <span class="badge badge-emerald" style="font-size: 0.6875rem; font-weight: 700;">FaceID Secure Enclave</span>
+              </div>
+              <div class="flex items-center gap-xs text-muted">
+                <i class="bi bi-phone"></i> iPhone 15 Pro &bull; Actor: <strong>Sarah Jenkins</strong>
+              </div>
+            </div>
+
+            <!-- Footer: TLS 1.3 Strict + Telemetry -->
+            <div class="flex items-center justify-between" style="padding-top: 0.35rem;">
+              <div class="text-muted flex items-center gap-xs" style="font-size: 0.72rem; font-weight: 600;">
+                <i class="bi bi-lock-fill text-muted"></i> TLS 1.3 Strict Auth Handshake
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm text-muted" style="font-size: 0.78rem; font-weight: 600; padding: 2px 0;" onclick="showToast('Telemetry', 'Mutual TLS certificate chain verified OK', 'info')">
+                Telemetry <i class="bi bi-chevron-down"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Event 3: Step-Up Verification Required (Matches Screenshot) -->
+          <div class="audit-card border-accent-green" data-category="auth">
+            <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+              <div class="flex items-center gap-xs">
+                <span class="badge" style="background:#ECFDF5; color:#065F46; font-weight:800; font-size:0.65rem; border:1px solid #A7F3D0; padding:2px 8px; border-radius:9999px;">
+                  &bull; POLICY ENFORCED
+                </span>
+                <span class="mono" style="font-weight: 800; font-size: 0.72rem; background: #EEF2FF; color: #3730A3; padding: 2px 6px; border-radius: var(--radius-sm);">
+                  #AUTH-8819-GEO
+                </span>
+              </div>
+              <div class="flex items-center gap-xs text-muted" style="font-size: 0.72rem;">
+                <span>1h ago</span>
+                <span>&bull;</span>
+                <span class="mono">13:30:12 UTC</span>
+              </div>
+            </div>
+
+            <h3 style="font-size: 1.05rem; font-weight: 800; margin: 0 0 0.4rem 0; color: var(--color-text-primary);">
+              Step-Up Verification Required
+            </h3>
+
+            <div class="body-sm text-muted" style="font-size: 0.8rem; line-height: 1.45; margin-bottom: 0.75rem;">
+              Trigger: Remote access attempt from unrecognized ASN network range. Hardware WebAuthn token prompted and passed.
+            </div>
+
+            <!-- ASN Box -->
+            <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-xs">
+                  <i class="bi bi-crosshair text-primary"></i>
+                  <span class="mono font-semibold">IP 198.51.100.12 &bull; ASN 396982 &bull; Google Cloud Gateway</span>
+                </div>
+                <span class="badge badge-neutral" style="font-size: 0.6875rem; font-weight: 700; background:#EEF2FF; color:#3730A3;">Step-Up Cleared</span>
+              </div>
+            </div>
+
+            <!-- Footer: Actor + Telemetry -->
+            <div class="flex items-center justify-between" style="padding-top: 0.35rem;">
+              <div class="text-muted flex items-center gap-xs" style="font-size: 0.72rem;">
+                <i class="bi bi-person"></i> Actor: <strong>Sarah Jenkins</strong>
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm text-muted" style="font-size: 0.78rem; font-weight: 600; padding: 2px 0;" onclick="showToast('Telemetry', 'FIDO2 WebAuthn credential public signature verified', 'info')">
+                Telemetry <i class="bi bi-chevron-down"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Event 4: API Token Lease Expired (Matches Screenshot) -->
+          <div class="audit-card border-accent-red" data-category="threats">
+            <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+              <div class="flex items-center gap-xs">
+                <span class="badge" style="background:#FEF2F2; color:#B91C1C; font-weight:800; font-size:0.65rem; border:1px solid #FECACA; padding:2px 8px; border-radius:9999px;">
+                  &bull; CRITICAL AUDIT
+                </span>
+                <span class="mono" style="font-weight: 800; font-size: 0.72rem; background: #EEF2FF; color: #3730A3; padding: 2px 6px; border-radius: var(--radius-sm);">
+                  #REV-7102-SYS
+                </span>
+              </div>
+              <div class="flex items-center gap-xs text-muted" style="font-size: 0.72rem;">
+                <span>3h ago</span>
+                <span>&bull;</span>
+                <span class="mono">11:15:40 UTC</span>
+              </div>
+            </div>
+
+            <h3 style="font-size: 1.05rem; font-weight: 800; margin: 0 0 0.4rem 0; color: var(--color-text-primary);">
+              API Token Lease Expired & Invalidated
+            </h3>
+
+            <div class="body-sm text-muted" style="font-size: 0.8rem; line-height: 1.45; margin-bottom: 0.75rem;">
+              Scope: Stale third-party integration token auto-terminated strictly per 30-day zero-trust rotation compliance policy.
+            </div>
+
+            <!-- Daemon Box -->
+            <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 0.85rem; margin-bottom: 0.75rem; font-size: 0.78rem;">
+              <div class="flex items-center justify-between">
+                <div class="flex items-start gap-xs">
+                  <i class="bi bi-robot text-muted" style="margin-top:2px;"></i>
+                  <div>
+                    <strong>SecOps Automated Policy Daemon</strong>
+                    <div class="mono text-muted" style="font-size: 0.72rem;">Engine ID: policy-worker-cron-04</div>
+                  </div>
+                </div>
+                <span class="badge badge-danger" style="font-size: 0.6875rem; font-weight: 700; background:#FEE2E2; color:#991B1B;">Hard Terminated</span>
+              </div>
+            </div>
+
+            <!-- Footer: Policy + Telemetry -->
+            <div class="flex items-center justify-between" style="padding-top: 0.35rem;">
+              <div class="text-muted mono flex items-center gap-xs" style="font-size: 0.72rem;">
+                <i class="bi bi-shield text-muted"></i> Policy: <strong>ZT-KEY-ROT-30D</strong>
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm text-muted" style="font-size: 0.78rem; font-weight: 600; padding: 2px 0;" onclick="showToast('Telemetry', 'Token revocation receipt written to immutable ledger', 'info')">
+                Telemetry <i class="bi bi-chevron-down"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Stream Footer Counts (Matching Screenshot) -->
+        <div style="margin-top: 1.5rem; margin-bottom: 1rem;">
+          <div class="flex items-center justify-between text-muted" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 0.65rem;">
+            <span>Displaying <strong>4</strong> of <strong>246</strong> filtered events</span>
+            <span class="mono text-emerald font-bold">1.6% loaded</span>
+          </div>
+          <button type="button" class="btn btn-secondary btn-block" style="background:#FFF; border-color:#E2E8F0; font-size:0.8125rem; font-weight: 600;" onclick="showToast('Audit Ingest', 'Loaded next batch of SIEM records', 'info')">
+            <i class="bi bi-chevron-down"></i> Load More Filtered Events (242 remaining)
+          </button>
+        </div>
+
+        <!-- Export Action Button (Matching Screenshot) -->
+        <button type="button" class="btn btn-primary btn-block btn-lg" style="margin-bottom: 1.25rem; background: #065F46; border-color: #065F46; font-weight: 700;" onclick="exportAuditLog()">
+          <i class="bi bi-download"></i> Export Filtered Log (246 Events &bull; Signed CSV / JSON)
+        </button>
+
+        <!-- Compliance Cryptographic Card (Matching Screenshot) -->
+        <div style="background-color: #EFF6FF; border: 1px solid #DBEAFE; border-radius: var(--radius-xl); padding: 0.85rem 1rem; margin-bottom: 2rem;">
+          <div class="flex items-start gap-sm">
+            <i class="bi bi-shield-check text-emerald" style="font-size: 1.25rem; margin-top: 1px;"></i>
+            <div style="font-size: 0.72rem; color: #1E3A8A; line-height: 1.45;">
+              <span class="mono font-bold" style="color: #1E40AF;">SHA-256 HMAC: 7f8c9b3e104a...9a12e6bf80</span><br>
+              Cryptographically verified SOC2 Type II audit slice. Tamper-evident immutable ledger backed by WORM compliance storage.
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- ===================================================================
+       RAW JSON TELEMETRY MODAL (Matching Screenshot 4)
+       =================================================================== -->
+  <div class="modal-overlay" id="json-telemetry-modal">
+    <div class="modal-bottom-sheet">
+      
+      <!-- Drag handle -->
+      <div class="modal-drag-handle"></div>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+        <div class="flex items-center gap-xs">
+          <span class="mono font-bold" style="background: #ECFDF5; color: #065F46; padding: 2px 6px; border-radius: var(--radius-sm); font-size: 0.8125rem;">
+            #SEC-8921-REV
+          </span>
+          <span class="badge badge-emerald" style="font-size: 0.7rem; font-weight: 700;">
+            <i class="bi bi-check2-circle"></i> SHA-256 Validated
+          </span>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="closeJsonModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0 0 0.85rem 0; color: var(--color-text-primary);">
+        Raw JSON Telemetry
+      </h2>
+
+      <!-- Stream summary box -->
+      <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 1rem; margin-bottom: 1rem;">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-xs mono" style="font-size: 0.8125rem; font-weight: 700; color: var(--color-text-primary);">
+            <i class="bi bi-shield-lock text-emerald"></i> auth.session.revocation.enforced
+          </div>
+          <span class="mono text-muted" style="font-size: 0.75rem;">14:32:08 UTC</span>
+        </div>
+        <div class="flex items-center justify-between text-muted" style="font-size: 0.75rem; margin-top: 4px;">
+          <span>&bull; Splunk HEC Ingest</span>
+          <span class="badge badge-emerald" style="font-size: 0.65rem;">ACK 200 OK (38ms)</span>
+        </div>
+      </div>
+
+      <!-- Tab bar & Actions -->
+      <div class="flex items-center justify-between flex-wrap gap-xs" style="margin-bottom: 0.75rem;">
+        <div class="flex items-center gap-xs">
+          <button type="button" class="btn btn-primary btn-sm" onclick="copyJsonPayload()">
+            <i class="bi bi-clipboard"></i> Copy JSON
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="downloadSingleJson()">
+            <i class="bi bi-download"></i> .json
+          </button>
+        </div>
+        <div class="flex items-center gap-xs">
+          <button type="button" class="btn btn-secondary btn-sm" style="background:#FFF; font-weight:700;">Formatted</button>
+          <button type="button" class="btn btn-ghost btn-sm text-muted">Raw Stream</button>
+        </div>
+      </div>
+
+      <!-- JSON Code Window -->
+      <div class="json-code-box" id="raw-json-display">
+{
+  "event_id": "SEC-8921-REV",
+  "event_type": "auth.session.revocation.enforced",
+  "timestamp": "2024-05-18T14:32:08.412Z",
+  "severity": "CRITICAL",
+  "actor": {
+    "user_id": "usr_sarah_jenkins_901",
+    "email": "sarah.jenkins@clientflow.io",
+    "role": "SecAdmin",
+    "device": "iPhone 15 Pro",
+    "client_ip": "192.0.2.45"
+  },
+  "target": {
+    "session_id": "sess_mbp16_9941a8",
+    "device": "MacBook Pro 16\"",
+    "os": "macOS Sonoma 14.4",
+    "browser": "Chrome 124.0.6367.201",
+    "ip": "198.51.100.12",
+    "location": "New York, NY, USA",
+    "network": "Corporate HQ Direct"
+  },
+  "policy": {
+    "zero_trust_action": "FORCE_REVOCATION",
+    "tokens_invalidated": [
+      "access_token",
+      "refresh_token",
+      "okta_saml_assertion"
+    ],
+    "flag_next_login_mfa": true
+  },
+  "siem": {
+    "collector": "Splunk HEC",
+    "endpoint": "splunk-hec-77a89b.sec.corp",
+    "latency_ms": 38,
+    "ack_status": 200,
+    "immutable_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}</div>
+
+      <!-- Immutable Hash Box (Matching Screenshot 4) -->
+      <div style="background-color: #EEF2FF; border: 1px solid #E0E7FF; border-radius: var(--radius-lg); padding: 0.75rem 1rem; margin-top: 1rem; margin-bottom: 1.25rem;">
+        <div class="flex items-center justify-between" style="font-size: 0.78rem;">
+          <div class="flex items-center gap-xs">
+            <i class="bi bi-shield-lock text-emerald"></i>
+            <strong style="color: #3730A3;">Immutable Audit Trail &bull; SOC2 Type II</strong>
+          </div>
+          <i class="bi bi-lock text-muted"></i>
+        </div>
+        <div class="mono text-muted" style="font-size: 0.7rem; margin-top: 3px;">
+          Hash: e3b0c442...991b7852b855
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-sm">
+        <button type="button" class="btn btn-secondary flex-1 btn-lg" style="background:#EEF2FF; border-color:#E0E7FF; color:#3730A3;" onclick="exportAuditLog()">
+          <i class="bi bi-share"></i> Export Bundle
+        </button>
+        <button type="button" class="btn btn-primary flex-1 btn-lg" onclick="closeJsonModal()">
+          <i class="bi bi-check-lg"></i> Done
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       FILTER AUDIT EVENTS MODAL (Matching Screenshot 5)
+       =================================================================== -->
+  <div class="modal-overlay" id="filter-audit-modal">
+    <div class="modal-bottom-sheet">
+      
+      <!-- Drag handle -->
+      <div class="modal-drag-handle"></div>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+        <h2 style="font-size: 1.25rem; font-weight: 800; margin: 0; color: var(--color-text-primary);">
+          Filter Audit Events
+        </h2>
+        <div class="flex items-center gap-md">
+          <button type="button" class="btn btn-ghost btn-sm text-emerald font-semibold" onclick="resetFilters()">
+            Reset to Default
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="closeFilterModal()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Stream Indicator (Matching Screenshot 5) -->
+      <div class="flex items-center justify-between" style="background-color: #ECFDF5; border: 1px solid #A7F3D0; border-radius: var(--radius-lg); padding: 0.65rem 0.85rem; margin-bottom: 1.25rem;">
+        <div class="flex items-center gap-xs" style="font-size: 0.8125rem; color: #065F46;">
+          <span style="width: 8px; height: 8px; border-radius: 50%; background: #059669; display: inline-block;"></span>
+          <span>Live Log Stream: <strong>1,248</strong> telemetry records</span>
+        </div>
+        <span class="badge badge-emerald" style="font-size: 0.65rem; font-weight: 800;">REAL-TIME</span>
+      </div>
+
+      <!-- Section 1: Time Horizon -->
+      <div style="margin-bottom: 1.25rem;">
+        <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+          <span class="label-sm text-muted" style="font-weight: 700; font-size: 0.75rem;">TIME HORIZON</span>
+          <span class="text-emerald mono" style="font-size: 0.75rem;"><i class="bi bi-clock"></i> UTC Synced</span>
+        </div>
+        <div class="flex items-center gap-xs flex-wrap" style="margin-bottom: 0.65rem;">
+          <button type="button" class="pill-filter" onclick="setHorizon(this)">Last 1h</button>
+          <button type="button" class="pill-filter active" onclick="setHorizon(this)"><i class="bi bi-check"></i> Last 24 Hours</button>
+          <button type="button" class="pill-filter" onclick="setHorizon(this)">7 Days</button>
+          <button type="button" class="pill-filter" onclick="setHorizon(this)">30 Days</button>
+        </div>
+        <div class="input-clean-box">
+          <div class="flex items-center gap-sm">
+            <i class="bi bi-calendar3 text-muted"></i>
+            <span class="mono" style="font-size: 0.8125rem;">May 17, 2024, 14:32 &mdash; May 18, 2024, 14:32</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Severity & Risk Impact -->
+      <div style="margin-bottom: 1.25rem;">
+        <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+          <span class="label-sm text-muted" style="font-weight: 700; font-size: 0.75rem;">SEVERITY & RISK IMPACT</span>
+          <span class="text-muted" style="font-size: 0.75rem;">5 Levels Available</span>
+        </div>
+        <div class="flex items-center gap-xs flex-wrap">
+          <span class="pill-severity" style="background:#FEE2E2; color:#991B1B;"><i class="bi bi-circle-fill" style="font-size:0.5rem;"></i> Critical / Revocation <span class="badge" style="background:#FFF; color:#991B1B;">14</span></span>
+          <span class="pill-severity" style="background:#FCE7F3; color:#9D174D;"><i class="bi bi-shield-x"></i> Blocked Threats <span class="badge" style="background:#FFF; color:#9D174D;">44</span></span>
+          <span class="pill-severity" style="background:#ECFDF5; color:#065F46;"><i class="bi bi-check-lg"></i> Policy Enforced <span class="badge" style="background:#FFF; color:#065F46;">188</span></span>
+          <span class="pill-severity" style="background:#FEF3C7; color:#92400E;"><i class="bi bi-exclamation-triangle"></i> Security Warning <span class="badge" style="background:#FFF; color:#92400E;">42</span></span>
+          <span class="pill-severity" style="background:#EFF6FF; color:#1E40AF;"><i class="bi bi-info-circle"></i> Informational / SSO <span class="badge" style="background:#FFF; color:#1E40AF;">960</span></span>
+        </div>
+      </div>
+
+      <!-- Section 3: Event Categories -->
+      <div style="margin-bottom: 1.25rem;">
+        <div class="label-sm text-muted" style="font-weight: 700; font-size: 0.75rem; margin-bottom: 0.5rem;">EVENT CATEGORIES</div>
+        
+        <div class="flex flex-col gap-xs">
+          <label class="flex items-start justify-between" style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:var(--radius-md); padding:0.65rem 0.85rem; cursor:pointer;">
+            <div class="flex items-start gap-sm">
+              <input type="checkbox" checked style="accent-color:#059669; margin-top:3px;">
+              <div>
+                <strong style="font-size:0.875rem;">Auth & Session Lifecycle</strong>
+                <div class="text-muted" style="font-size:0.75rem;">Session revocations, token invalidations, SSO renewals</div>
+              </div>
+            </div>
+            <span class="badge badge-emerald" style="font-weight:700;">128</span>
+          </label>
+
+          <label class="flex items-start justify-between" style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:var(--radius-md); padding:0.65rem 0.85rem; cursor:pointer;">
+            <div class="flex items-start gap-sm">
+              <input type="checkbox" checked style="accent-color:#059669; margin-top:3px;">
+              <div>
+                <strong style="font-size:0.875rem;">Zero-Trust Policy Enforcements</strong>
+                <div class="text-muted" style="font-size:0.75rem;">Geofence blocks, step-up MFA challenges, Tor node drops</div>
+              </div>
+            </div>
+            <span class="badge badge-emerald" style="font-weight:700;">74</span>
+          </label>
+
+          <label class="flex items-start justify-between" style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:var(--radius-md); padding:0.65rem 0.85rem; cursor:pointer;">
+            <div class="flex items-start gap-sm">
+              <input type="checkbox" style="accent-color:#059669; margin-top:3px;">
+              <div>
+                <strong style="font-size:0.875rem;">Data & Export Actions</strong>
+                <div class="text-muted" style="font-size:0.75rem;">Bulk contact exports, sync dumps, report backups</div>
+              </div>
+            </div>
+            <span class="badge badge-neutral" style="font-weight:700;">19</span>
+          </label>
+
+          <label class="flex items-start justify-between" style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:var(--radius-md); padding:0.65rem 0.85rem; cursor:pointer;">
+            <div class="flex items-start gap-sm">
+              <input type="checkbox" style="accent-color:#059669; margin-top:3px;">
+              <div>
+                <strong style="font-size:0.875rem;">Administrative Privileges</strong>
+                <div class="text-muted" style="font-size:0.75rem;">Role updates, API token genesis, billing elevation</div>
+              </div>
+            </div>
+            <span class="badge badge-neutral" style="font-weight:700;">25</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Section 4: Actor & Origin Scope -->
+      <div style="margin-bottom: 1.25rem;">
+        <div class="label-sm text-muted" style="font-weight: 700; font-size: 0.75rem; margin-bottom: 0.5rem;">ACTOR & ORIGIN SCOPE</div>
+        <div class="flex items-center gap-xs flex-wrap">
+          <span style="background:#EEF2FF; color:#3730A3; border-radius:var(--radius-full); padding:4px 10px; font-size:0.8125rem; font-weight:600; display:inline-flex; align-items:center; gap:6px;">
+            <span class="avatar avatar-sm" style="width:20px; height:20px; font-size:0.65rem; background:#3730A3; color:#FFF;">SJ</span>
+            Sarah Jenkins (SecAdmin)
+            <i class="bi bi-x" style="cursor:pointer;" onclick="this.parentElement.remove()"></i>
+          </span>
+          <button type="button" class="btn btn-secondary btn-sm" style="border-radius:var(--radius-full);" onclick="showToast('Add Actor Filter', 'Filter by rep email or UUID', 'info')">
+            <i class="bi bi-person-plus"></i> Add Actor
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer & Apply -->
+      <div class="flex items-center justify-between" style="background:#F8FAFC; border-radius:var(--radius-lg); padding:0.75rem 1rem; margin-bottom:1rem;">
+        <div class="flex items-center gap-xs" style="font-size:0.8125rem;">
+          <i class="bi bi-sliders text-emerald"></i>
+          <span>Matching Query Stream: <strong>246</strong> / 1,248</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-xs">
+        <button type="button" class="btn btn-secondary btn-lg btn-icon" style="background:#EEF2FF; border-color:#E0E7FF; color:#3730A3;" title="Save filter view" onclick="showToast('Filter Bookmark', 'Filter preset saved to security workspace', 'success')">
+          <i class="bi bi-bookmark"></i>
+        </button>
+        <button type="button" class="btn btn-primary flex-1 btn-lg" onclick="applyFilters()">
+          Apply Filters (246 Events) &rarr;
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="dashboard.html" class="mobile-nav-item"><i class="bi bi-grid"></i><span>Overview</span></a>
+    <a href="contacts.html" class="mobile-nav-item"><i class="bi bi-people"></i><span>Contacts</span></a>
+    <a href="deals.html" class="mobile-nav-item"><i class="bi bi-kanban"></i><span>Pipeline</span></a>
+    <a href="tasks.html" class="mobile-nav-item"><i class="bi bi-check2-circle"></i><span>Tasks</span></a>
+    <a href="reports.html" class="mobile-nav-item"><i class="bi bi-graph-up-arrow"></i><span>Reports</span></a>
+    <a href="settings.html?tab=security" class="mobile-nav-item active"><i class="bi bi-three-dots"></i><span>More</span></a>
+  </nav>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/audit.js"></script>
+  <script>
+    function openJsonModal() {
+      document.getElementById('json-telemetry-modal').classList.add('active');
+    }
+    function closeJsonModal() {
+      document.getElementById('json-telemetry-modal').classList.remove('active');
+    }
+
+    function openFilterModal() {
+      document.getElementById('filter-audit-modal').classList.add('active');
+    }
+    function closeFilterModal() {
+      document.getElementById('filter-audit-modal').classList.remove('active');
+    }
+
+    function setHorizon(btn) {
+      document.querySelectorAll('#filter-audit-modal .pill-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function resetFilters() {
+      showToast('Filters Reset', 'Default 24h auth stream restored', 'info');
+      closeFilterModal();
+    }
+
+    function applyFilters() {
+      closeFilterModal();
+      showToast('Filters Applied', 'Displaying 246 matched SIEM events', 'success');
+    }
+
+    function setRangeFilter(btn, range) {
+      btn.parentElement.querySelectorAll('.pill-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      showToast('Time Range', `Filtered audit stream to ${range}`, 'info');
+    }
+
+    function setCategoryFilter(btn, cat) {
+      btn.parentElement.querySelectorAll('.pill-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cards = document.querySelectorAll('#audit-feed-container .audit-card');
+      cards.forEach(c => {
+        if (cat === 'all' || c.getAttribute('data-category') === cat) {
+          c.style.display = 'block';
+        } else {
+          c.style.display = 'none';
+        }
+      });
+    }
+
+    function filterAuditCards(q) {
+      const query = (q || '').toLowerCase();
+      const cards = document.querySelectorAll('#audit-feed-container .audit-card');
+      cards.forEach(c => {
+        const text = c.textContent.toLowerCase();
+        c.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    }
+
+    function copyJsonPayload() {
+      const code = document.getElementById('raw-json-display').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        showToast('JSON Copied', 'Raw telemetry copied to system clipboard', 'success');
+      });
+    }
+
+    function downloadSingleJson() {
+      const code = document.getElementById('raw-json-display').innerText;
+      const blob = new Blob([code], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `siem_telemetry_SEC-8921-REV_${Date.now()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Downloaded', 'SEC-8921-REV JSON payload saved.', 'success');
+    }
+
+    function exportAuditLog() {
+      const csv = [
+        "Audit_ID,Event_Type,Timestamp_UTC,Severity,Actor,Target,IP_Address,Status",
+        "SEC-8921-REV,auth.session.revocation.enforced,2024-05-18T14:32:08.412Z,CRITICAL,Sarah Jenkins (usr_901),MacBook Pro 16\",198.51.100.12,SIEM_INGESTED_200_OK",
+        "AUTH-9042-MFA,auth.mfa.biometric.success,2024-05-18T14:08:15.118Z,SECURE,Sarah Jenkins (usr_901),iPhone 15 Pro,192.0.2.45,ENCLAVE_VERIFIED",
+        "SSO-4410-OKTA,auth.sso.token.refresh,2024-05-18T12:30:00.000Z,INFO,Okta IdP,All CRM Resources,198.51.100.12,LEASE_EXTENDED_8H",
+        "ANOM-1029-BLK,threat.geofence.tor_blocked,2024-05-17T21:15:44.891Z,BLOCKED,Threat Actor,Bypass Endpoint,185.220.101.5,RULE_ZT09_DROPPED"
+      ].join("\n");
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `clientflow_siem_signed_audit_log_${Date.now()}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Export Generated', 'Signed SIEM CSV audit log downloaded.', 'success');
+    }
+
+    function refreshAuditStream() {
+      showToast('Stream Synced', 'SIEM pipeline synchronized (0 dropped packets)', 'success');
+    }
+  </script>
+</body>
+</html>

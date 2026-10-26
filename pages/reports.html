@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reports & Analytics — ClientFlow CRM</title>
+  <meta name="description" content="Executive sales intelligence, revenue velocity, conversion funnels, and leaderboard rankings.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    .reports-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .donut-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+    }
+    .donut-center-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Enterprise Dark Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <div class="brand-icon"><i class="bi bi-activity"></i></div>
+          <div class="brand-title">ClientFlow <span class="brand-badge">CRM</span></div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main</div>
+        <a href="dashboard.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-grid nav-item-icon"></i> <span>Overview</span></span></a>
+        <a href="contacts.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-people nav-item-icon"></i> <span>Contacts</span></span><span class="nav-item-badge">1,428</span></a>
+        <a href="deals.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-kanban nav-item-icon"></i> <span>Sales Pipeline</span></span><span class="nav-item-badge">38</span></a>
+        <a href="tasks.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-check2-circle nav-item-icon"></i> <span>Tasks</span></span><span class="nav-item-badge" style="background: rgba(220, 38, 38, 0.4);">18</span></a>
+
+        <div class="nav-section-title">Insights</div>
+        <a href="reports.html" class="sidebar-nav-item active"><span class="nav-item-left"><i class="bi bi-graph-up-arrow nav-item-icon"></i> <span>Reports & Analytics</span></span></a>
+        <a href="calendar.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-calendar3 nav-item-icon"></i> <span>Calendar</span></span></a>
+
+        <div class="nav-section-title">Organization</div>
+        <a href="team.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person-badge nav-item-icon"></i> <span>Team Members</span></span></a>
+        <a href="notifications.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-bell nav-item-icon"></i> <span>Notifications</span></span></a>
+
+        <div class="nav-section-title">System</div>
+        <a href="profile.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person nav-item-icon"></i> <span>User Profile</span></span></a>
+        <a href="settings.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-gear nav-item-icon"></i> <span>Settings</span></span></a>
+        <a href="help.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-question-circle nav-item-icon"></i> <span>Help & FAQ</span></span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar avatar-sm user-avatar-initials">SJ</div>
+        <div class="sidebar-footer-user">
+          <div class="sidebar-footer-name">Sarah Jenkins</div>
+          <div class="sidebar-footer-role">Senior Enterprise AE</div>
+        </div>
+        <a href="login.html" title="Sign out" style="color: #9CA3AF; padding: 4px;"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Canvas Area -->
+    <div class="app-main">
+      
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" aria-label="Toggle menu"><i class="bi bi-list"></i></button>
+          <div class="header-breadcrumb">
+            <span>CLIENTFLOW</span>
+            <i class="bi bi-chevron-right text-muted" style="font-size: 0.75rem;"></i>
+            <span class="current">Reports & Analytics</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="header-search-trigger" onclick="openGlobalSearch()">
+            <div class="flex items-center gap-sm"><i class="bi bi-search"></i><span>Search report metrics...</span></div>
+            <span class="search-shortcut-badge">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="notifications.html" class="header-icon-btn"><i class="bi bi-bell"></i><span class="notification-indicator"></span></a>
+          <a href="profile.html" class="avatar avatar-sm user-avatar-initials" style="text-decoration: none;">SJ</a>
+        </div>
+      </header>
+
+      <!-- Viewport Canvas (Matching Screenshot 2) -->
+      <main class="content-canvas" style="max-width: 960px; margin: 0 auto;">
+        
+        <!-- Top Executive Bar -->
+        <div class="flex items-center justify-between flex-wrap gap-sm" style="margin-bottom: 0.85rem;">
+          <div style="font-size: 0.6875rem; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 4px;">
+            <span class="badge-dot" style="background-color: var(--color-primary);"></span> LIVE EXECUTIVE METRIC FEED
+          </div>
+
+          <button class="btn btn-secondary btn-sm" onclick="showToast('Export Report', 'Exporting executive metric deck (PDF/CSV)...', 'info')">
+            <i class="bi bi-download"></i> Export <i class="bi bi-chevron-down" style="font-size: 0.7rem;"></i>
+          </button>
+        </div>
+
+        <!-- Date Range Filter Pills (Matching Screenshot 2) -->
+        <div class="filter-chips" style="margin-bottom: 1.25rem;">
+          <button class="chip-btn report-date-pill">This Month</button>
+          <button class="chip-btn report-date-pill active-emerald">Q4 2024 ✓</button>
+          <button class="chip-btn report-date-pill">YTD</button>
+          <button class="chip-btn report-date-pill"><i class="bi bi-calendar"></i> Custom</button>
+        </div>
+
+        <!-- 4 KPI Cards (2x2 Grid Matching Screenshot 2) -->
+        <div class="reports-kpi-grid">
+          
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Revenue Closed</span>
+              <div class="metric-icon-wrap" style="background-color: #D1FAE5; color: #047857;">
+                <i class="bi bi-cash-stack"></i>
+              </div>
+            </div>
+            <div class="metric-value mono" style="font-size: 1.65rem;">$328,400</div>
+            <div class="metric-footer">
+              <span class="metric-badge positive"><i class="bi bi-arrow-up-short"></i> +24.2%</span>
+              <span>vs last Q</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Win Rate</span>
+              <div class="metric-icon-wrap" style="background-color: #D1FAE5; color: #047857;">
+                <i class="bi bi-bullseye"></i>
+              </div>
+            </div>
+            <div class="metric-value" style="font-size: 1.65rem;">68.4%</div>
+            <div class="metric-footer">
+              <span class="metric-badge positive"><i class="bi bi-arrow-up-short"></i> +4.1%</span>
+              <span>efficiency</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Avg. Cycle</span>
+              <div class="metric-icon-wrap" style="background-color: #DBEAFE; color: #1E40AF;">
+                <i class="bi bi-clock-history"></i>
+              </div>
+            </div>
+            <div class="metric-value mono" style="font-size: 1.65rem;">18.5d</div>
+            <div class="metric-footer">
+              <span class="metric-badge positive" style="background-color: #D1FAE5; color: #065F46;">-8.2d</span>
+              <span>faster</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Active Pipeline</span>
+              <div class="metric-icon-wrap" style="background-color: #EDE9FE; color: #6D28D9;">
+                <i class="bi bi-funnel"></i>
+              </div>
+            </div>
+            <div class="metric-value mono" style="font-size: 1.65rem;">$642,000</div>
+            <div class="metric-footer">
+              <span class="mono" style="font-size: 0.8125rem;">28 enterprise deals</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Card 1: Revenue Velocity (Matching Screenshot 2) -->
+        <div class="card" style="margin-bottom: 1.25rem;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Revenue Velocity</div>
+              <div class="body-sm">Closed revenue trajectory vs targets</div>
+            </div>
+            <span class="badge badge-emerald" style="font-weight: 700;">
+              <span class="badge-dot"></span> Target Exceeded
+            </span>
+          </div>
+          <div class="card-body">
+            <div style="position: relative; height: 190px;">
+              <canvas id="revVelocityCanvas"></canvas>
+            </div>
+
+            <div class="flex items-center justify-between flex-wrap gap-sm pt-sm" style="border-top: 1px solid var(--color-border); margin-top: 0.75rem; font-size: 0.75rem;">
+              <div class="flex items-center gap-md">
+                <span class="flex items-center gap-xs"><span style="width: 10px; height: 10px; background-color: #059669; border-radius: 2px;"></span> Actual Closed</span>
+                <span class="flex items-center gap-xs text-muted"><span style="width: 12px; height: 2px; border-top: 2px dashed #6B7280;"></span> Target Pace</span>
+              </div>
+              <span class="mono" style="font-weight: 700; color: #047857;">+18.9% Over Plan</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Deal Outcomes (Matching Screenshot 2) -->
+        <div class="card" style="margin-bottom: 1.25rem;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Deal Outcomes</div>
+              <div class="body-sm">Distribution across 124 evaluated deals</div>
+            </div>
+            <i class="bi bi-info-circle text-muted"></i>
+          </div>
+          <div class="card-body">
+            <div class="flex items-center justify-between gap-lg flex-wrap">
+              
+              <!-- Donut with Center Text Overlay -->
+              <div class="donut-container">
+                <canvas id="dealOutcomesDonutCanvas"></canvas>
+                <div class="donut-center-label">
+                  <div class="mono" style="font-size: 1.15rem; font-weight: 800; color: #111827; line-height: 1;">68%</div>
+                  <div style="font-size: 0.58rem; font-weight: 700; color: #6B7280; text-transform: uppercase;">Won Ratio</div>
+                </div>
+              </div>
+
+              <!-- Outcomes Legend -->
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between" style="font-size: 0.8125rem; margin-bottom: 0.4rem;">
+                  <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #047857;"></span> Closed Won</span>
+                  <span class="mono"><strong>68%</strong> <span class="text-muted">(84)</span></span>
+                </div>
+                <div class="flex items-center justify-between" style="font-size: 0.8125rem; margin-bottom: 0.4rem;">
+                  <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #374151;"></span> Closed Lost</span>
+                  <span class="mono"><strong>22%</strong> <span class="text-muted">(28)</span></span>
+                </div>
+                <div class="flex items-center justify-between" style="font-size: 0.8125rem;">
+                  <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #F59E0B;"></span> Stalled</span>
+                  <span class="mono"><strong>10%</strong> <span class="text-muted">(12)</span></span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Primary Lost Drivers Horizontal Bars (Matching Screenshot 2) -->
+            <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--color-border);">
+              <div class="flex items-center justify-between" style="margin-bottom: 0.65rem;">
+                <span class="label-sm" style="color: var(--color-text-secondary);">PRIMARY LOST DRIVERS</span>
+                <span class="label-sm text-muted">28 Opps</span>
+              </div>
+
+              <div style="margin-bottom: 0.6rem;">
+                <div class="flex items-center justify-between" style="font-size: 0.75rem; margin-bottom: 2px;">
+                  <span>Price / Budget limits</span>
+                  <span class="mono font-semibold">45%</span>
+                </div>
+                <div class="progress-bar-wrap" style="height: 6px;">
+                  <div class="progress-bar-fill" style="width: 45%; background-color: #374151;"></div>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 0.6rem;">
+                <div class="flex items-center justify-between" style="font-size: 0.75rem; margin-bottom: 2px;">
+                  <span>Incumbent lock-in</span>
+                  <span class="mono font-semibold">35%</span>
+                </div>
+                <div class="progress-bar-wrap" style="height: 6px;">
+                  <div class="progress-bar-fill" style="width: 35%; background-color: #374151;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between" style="font-size: 0.75rem; margin-bottom: 2px;">
+                  <span>Timeline deferred to 2025</span>
+                  <span class="mono font-semibold">20%</span>
+                </div>
+                <div class="progress-bar-wrap" style="height: 6px;">
+                  <div class="progress-bar-fill" style="width: 20%; background-color: #374151;"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Card 3: Funnel Velocity (Matching Screenshot 2) -->
+        <div class="card" style="margin-bottom: 1.25rem;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Funnel Velocity</div>
+              <div class="body-sm">Stage-by-stage pipeline throughput</div>
+            </div>
+            <span class="badge badge-info" style="font-weight: 700;">5.88% Net</span>
+          </div>
+          <div class="card-body">
+            
+            <!-- Step 1: New Leads -->
+            <div class="funnel-step-row">
+              <div class="flex items-center justify-between" style="font-size: 0.8125rem;">
+                <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #059669;"></span> 1. New Leads</span>
+                <span class="mono"><strong>1,428</strong> <span class="text-muted">100%</span></span>
+              </div>
+              <div class="funnel-step-bar-wrap">
+                <div class="funnel-step-bar-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <!-- Dropoff 1 -->
+            <div class="funnel-dropoff-indicator">
+              <i class="bi bi-arrow-down"></i> -31.4% dropoff
+            </div>
+
+            <!-- Step 2: Contacted -->
+            <div class="funnel-step-row">
+              <div class="flex items-center justify-between" style="font-size: 0.8125rem;">
+                <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #059669;"></span> 2. Contacted</span>
+                <span class="mono"><strong>980</strong> <span class="text-muted">68.6%</span></span>
+              </div>
+              <div class="funnel-step-bar-wrap">
+                <div class="funnel-step-bar-fill" style="width: 68.6%;"></div>
+              </div>
+            </div>
+
+            <!-- Dropoff 2 -->
+            <div class="funnel-dropoff-indicator">
+              <i class="bi bi-arrow-down"></i> -58.0% dropoff
+            </div>
+
+            <!-- Step 3: Qualified Opportunity -->
+            <div class="funnel-step-row">
+              <div class="flex items-center justify-between" style="font-size: 0.8125rem;">
+                <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #059669;"></span> 3. Qualified Opportunity</span>
+                <span class="mono"><strong>412</strong> <span class="text-muted">42.0%</span></span>
+              </div>
+              <div class="funnel-step-bar-wrap">
+                <div class="funnel-step-bar-fill" style="width: 42%;"></div>
+              </div>
+            </div>
+
+            <!-- Dropoff 3 -->
+            <div class="funnel-dropoff-indicator">
+              <i class="bi bi-arrow-down"></i> -64.1% dropoff
+            </div>
+
+            <!-- Step 4: Proposal Sent -->
+            <div class="funnel-step-row">
+              <div class="flex items-center justify-between" style="font-size: 0.8125rem;">
+                <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #059669;"></span> 4. Proposal Sent</span>
+                <span class="mono"><strong>148</strong> <span class="text-muted">35.0%</span></span>
+              </div>
+              <div class="funnel-step-bar-wrap">
+                <div class="funnel-step-bar-fill" style="width: 35%;"></div>
+              </div>
+            </div>
+
+            <!-- Step 5: Won Enterprise Deals -->
+            <div class="funnel-step-row" style="margin-top: 1rem; background-color: #ECFDF5; border: 1px solid #A7F3D0; border-radius: var(--radius-md); padding: 0.65rem 0.85rem;">
+              <div class="flex items-center justify-between" style="font-size: 0.8125rem;">
+                <span class="flex items-center gap-xs" style="color: #065F46; font-weight: 700;">
+                  <i class="bi bi-check-circle-fill"></i> 5. Won Enterprise Deals
+                </span>
+                <span class="mono" style="color: #065F46;">
+                  <strong>84 Deals</strong> <span class="badge badge-emerald" style="margin-left: 4px;">56.7% win</span>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Card 4: Quota Performance (Matching Screenshot 2) -->
+        <div class="card" style="margin-bottom: 1.25rem;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Quota Performance</div>
+              <div class="body-sm">Q4 AE Leaderboard Rankings</div>
+            </div>
+            <a href="team.html" class="body-sm" style="color: var(--color-primary); font-weight: 600;">View All (8)</a>
+          </div>
+          <div class="card-body flex flex-col gap-sm">
+            
+            <!-- Rep 1: Sarah Jenkins -->
+            <div class="card" style="padding: 0.75rem 0.85rem; background-color: #F0FDF4; border-color: #BBF7D0;">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-sm">
+                  <div class="avatar avatar-md" style="background-color: #047857; color: #FFF; font-weight: 700;">
+                    SJ
+                    <span style="position: absolute; top: -4px; right: -4px; background: #064E3B; color: #FFF; font-size: 0.6rem; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;">1</span>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-xs">
+                      <span style="font-weight: 700; font-size: 0.9rem;">Sarah Jenkins</span>
+                      <span class="badge badge-emerald" style="font-size: 0.65rem;">Top AE</span>
+                    </div>
+                    <div class="body-sm" style="color: var(--color-text-secondary); font-size: 0.75rem;">
+                      18 closed deals • Enterprise
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div class="mono" style="font-size: 0.95rem; font-weight: 800; color: #047857;">$142,000</div>
+                  <span class="badge badge-emerald" style="font-size: 0.68rem; font-weight: 700;">118% Quota</span>
+                </div>
+              </div>
+              <div class="progress-bar-wrap" style="height: 5px; margin-top: 0.5rem;">
+                <div class="progress-bar-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+
+            <!-- Rep 2: Alex Rivera -->
+            <div class="card" style="padding: 0.75rem 0.85rem; border-color: var(--color-border);">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-sm">
+                  <div class="avatar avatar-md" style="background-color: #1F2937; color: #FFF; font-weight: 700;">
+                    AR
+                    <span style="position: absolute; top: -4px; right: -4px; background: #4B5563; color: #FFF; font-size: 0.6rem; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;">2</span>
+                  </div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.9rem;">Alex Rivera</div>
+                    <div class="body-sm" style="color: var(--color-text-secondary); font-size: 0.75rem;">
+                      14 closed deals • Mid-Market
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div class="mono" style="font-size: 0.95rem; font-weight: 800; color: var(--color-text-primary);">$112,000</div>
+                  <span class="badge badge-info" style="font-size: 0.68rem; font-weight: 700;">96% Quota</span>
+                </div>
+              </div>
+              <div class="progress-bar-wrap" style="height: 5px; margin-top: 0.5rem;">
+                <div class="progress-bar-fill" style="width: 96%; background-color: var(--color-info);"></div>
+              </div>
+            </div>
+
+            <!-- Rep 3: Marcus Vance -->
+            <div class="card" style="padding: 0.75rem 0.85rem; border-color: var(--color-border);">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-sm">
+                  <div class="avatar avatar-md" style="background-color: #1F2937; color: #FFF; font-weight: 700;">
+                    MV
+                    <span style="position: absolute; top: -4px; right: -4px; background: #6B7280; color: #FFF; font-size: 0.6rem; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center;">3</span>
+                  </div>
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.9rem;">Marcus Vance</div>
+                    <div class="body-sm" style="color: var(--color-text-secondary); font-size: 0.75rem;">
+                      9 closed deals • Growth
+                    </div>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <div class="mono" style="font-size: 0.95rem; font-weight: 800; color: var(--color-text-primary);">$74,400</div>
+                  <span class="badge badge-neutral" style="font-size: 0.68rem; font-weight: 700;">84% Quota</span>
+                </div>
+              </div>
+              <div class="progress-bar-wrap" style="height: 5px; margin-top: 0.5rem;">
+                <div class="progress-bar-fill" style="width: 84%; background-color: #6B7280;"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- AI Pipeline Forecast Ready Banner (Matching Screenshot 2) -->
+        <div class="card" style="background-color: #F0FDF4; border-color: #86EFAC; padding: 1rem 1.25rem;">
+          <div class="flex items-center justify-between gap-md flex-wrap">
+            <div class="flex items-center gap-sm">
+              <div class="avatar avatar-md" style="background-color: #059669; color: #FFFFFF; font-size: 1.15rem;">
+                <i class="bi bi-robot"></i>
+              </div>
+              <div>
+                <div style="font-weight: 700; color: #065F46; font-size: 0.9rem;">AI Pipeline Forecast Ready</div>
+                <div class="body-sm" style="color: #047857;">Target projected at $410k for Nov (+14%)</div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="showToast('AI Intelligence', 'Forecast confidence score: 94.2% based on pipeline velocity.', 'info')">
+              Review
+            </button>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Mobile Bottom Nav (6 icons matching Screenshot 2) -->
+  <nav class="mobile-bottom-nav">
+    <a href="dashboard.html" class="mobile-nav-item">
+      <i class="bi bi-grid"></i>
+      <span>Overview</span>
+    </a>
+    <a href="contacts.html" class="mobile-nav-item">
+      <i class="bi bi-people"></i>
+      <span>Contacts</span>
+    </a>
+    <a href="deals.html" class="mobile-nav-item">
+      <i class="bi bi-kanban"></i>
+      <span>Pipeline</span>
+    </a>
+    <a href="tasks.html" class="mobile-nav-item">
+      <i class="bi bi-check2-circle"></i>
+      <span>Tasks</span>
+    </a>
+    <a href="reports.html" class="mobile-nav-item active">
+      <i class="bi bi-graph-up-arrow"></i>
+      <span>Reports</span>
+    </a>
+    <a href="settings.html" class="mobile-nav-item">
+      <i class="bi bi-three-dots"></i>
+      <span>More</span>
+    </a>
+  </nav>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/reports.js"></script>
+</body>
+</html>

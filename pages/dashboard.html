@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Overview — ClientFlow CRM</title>
+  <meta name="description" content="ClientFlow CRM dashboard overview with real-time revenue velocity, active deals, and sales metrics.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <!-- Chart.js for smooth interactive data visualisations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Enterprise Dark Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <div class="brand-icon">
+            <i class="bi bi-activity"></i>
+          </div>
+          <div class="brand-title">
+            ClientFlow <span class="brand-badge">CRM</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main</div>
+        <a href="dashboard.html" class="sidebar-nav-item active">
+          <span class="nav-item-left">
+            <i class="bi bi-grid nav-item-icon"></i>
+            <span>Overview</span>
+          </span>
+        </a>
+        <a href="contacts.html" class="sidebar-nav-item">
+          <span class="nav-item-left">
+            <i class="bi bi-people nav-item-icon"></i>
+            <span>Contacts</span>
+          </span>
+          <span class="nav-item-badge">1,428</span>
+        </a>
+        <a href="deals.html" class="sidebar-nav-item">
+          <span class="nav-item-left">
+            <i class="bi bi-kanban nav-item-icon"></i>
+            <span>Sales Pipeline</span>
+          </span>
+          <span class="nav-item-badge">38</span>
+        </a>
+        <a href="tasks.html" class="sidebar-nav-item">
+          <span class="nav-item-left">
+            <i class="bi bi-check2-circle nav-item-icon"></i>
+            <span>Tasks</span>
+          </span>
+          <span class="nav-item-badge" style="background: rgba(220, 38, 38, 0.4);">14</span>
+        </a>
+
+        <div class="nav-section-title">Insights</div>
+        <a href="reports.html" class="sidebar-nav-item">
+          <span class="nav-item-left">
+            <i class="bi bi-graph-up-arrow nav-item-icon"></i>
+            <span>Reports & Analytics</span>
+          </span>
+        </a>
+        <a href="calendar.html" class="sidebar-nav-item">
+          <span class="nav-item-left">
+            <i class="bi bi-calendar3 nav-item-icon"></i>
+            <span>Calendar</span>
+          </span>
+        </a>
+
+        <div class="nav-section-title">Organization</div>
+        <a href="team.html" class="sidebar-nav-item">
+          <span class="nav-item-left">
+            <i class="bi bi-person-badge nav-item-icon"></i>
+            <span>Team Members</span>
+          </span>
+        </a>
+        <a href="notifications.html" class="sidebar-nav-item">
+          <span class="nav-item-left">
+            <i class="bi bi-bell nav-item-icon"></i>
+            <span>Notifications</span>
+          </span>
+          <span class="nav-item-badge" style="background: var(--color-primary);">3</span>
+        </a>
+
+        <div class="nav-section-title">System</div>
+        <a href="profile.html" class="sidebar-nav-item">
+          <span class="nav-item-left">
+            <i class="bi bi-person nav-item-icon"></i>
+            <span>User Profile</span>
+          </span>
+        </a>
+        <a href="settings.html" class="sidebar-nav-item">
+          <span class="nav-item-left">
+            <i class="bi bi-gear nav-item-icon"></i>
+            <span>Settings</span>
+          </span>
+        </a>
+        <a href="help.html" class="sidebar-nav-item">
+          <span class="nav-item-left">
+            <i class="bi bi-question-circle nav-item-icon"></i>
+            <span>Help & FAQ</span>
+          </span>
+        </a>
+      </nav>
+
+      <!-- Sidebar Footer User Profile -->
+      <div class="sidebar-footer">
+        <div class="avatar avatar-sm user-avatar-initials">SJ</div>
+        <div class="sidebar-footer-user">
+          <div class="sidebar-footer-name">Sarah Jenkins</div>
+          <div class="sidebar-footer-role">Senior Enterprise AE</div>
+        </div>
+        <a href="login.html" title="Sign out" style="color: #9CA3AF; padding: 4px;">
+          <i class="bi bi-box-arrow-right"></i>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Canvas Area -->
+    <div class="app-main">
+      
+      <!-- Top Sticky Navigation Bar -->
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" aria-label="Toggle navigation menu">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="header-breadcrumb">
+            <span>ClientFlow</span>
+            <i class="bi bi-chevron-right text-muted" style="font-size: 0.75rem;"></i>
+            <span class="current">Dashboard</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="header-search-trigger" onclick="openGlobalSearch()">
+            <div class="flex items-center gap-sm">
+              <i class="bi bi-search"></i>
+              <span>Search deals, accounts, contacts...</span>
+            </div>
+            <span class="search-shortcut-badge">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="notifications.html" class="header-icon-btn" title="Notifications">
+            <i class="bi bi-bell"></i>
+            <span class="notification-indicator"></span>
+          </a>
+          <a href="profile.html" class="avatar avatar-sm user-avatar-initials" style="text-decoration: none;">
+            SJ
+          </a>
+        </div>
+      </header>
+
+      <!-- Scrollable Main Viewport Canvas -->
+      <main class="content-canvas">
+        
+        <!-- Welcome Greeting & Date Range Bar -->
+        <div class="page-header">
+          <div class="page-header-title">
+            <div class="flex items-center gap-sm">
+              <h1 class="display-lg" style="font-size: 1.5rem;">Good morning, Sarah ✨</h1>
+              <button id="dashboard-refresh-btn" class="btn btn-ghost btn-sm btn-icon" title="Refresh metrics">
+                <i class="bi bi-arrow-repeat" style="font-size: 1.15rem;"></i>
+              </button>
+            </div>
+            <div class="page-subtitle">
+              <span>Thursday, Oct 24, 2024</span>
+              <span>•</span>
+              <span class="badge badge-emerald" style="font-size: 0.75rem;">Target pacing +14%</span>
+            </div>
+          </div>
+
+          <!-- Date Range Filter Chips -->
+          <div class="filter-chips">
+            <button class="chip-btn period-filter-pill">Today</button>
+            <button class="chip-btn period-filter-pill">This Week</button>
+            <button class="chip-btn period-filter-pill active-emerald">This Quarter ●</button>
+            <button class="chip-btn period-filter-pill">Year to Date</button>
+          </div>
+        </div>
+
+        <!-- 4 Top KPI Metric Cards (Matching Screenshot 2) -->
+        <div class="metrics-row">
+          
+          <!-- Contacts Card -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Contacts</span>
+              <div class="metric-icon-wrap">
+                <i class="bi bi-person-vcard"></i>
+              </div>
+            </div>
+            <div class="metric-value" id="metric-contacts-val">1,428</div>
+            <div class="metric-footer">
+              <span class="metric-badge positive"><i class="bi bi-arrow-up-short"></i> 12%</span>
+              <span>vs last mo</span>
+            </div>
+          </div>
+
+          <!-- Active Deals Card -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Active Deals</span>
+              <div class="metric-icon-wrap">
+                <i class="bi bi-kanban"></i>
+              </div>
+            </div>
+            <div class="metric-value" id="metric-active-deals-val">38</div>
+            <div class="metric-footer">
+              <span class="mono" id="metric-deals-value-sub" style="font-weight: 600; color: var(--color-text-primary);">$482.5k</span>
+              <span class="metric-badge positive" style="margin-left: auto;">+8%</span>
+            </div>
+          </div>
+
+          <!-- Revenue Q4 Card -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Revenue Q4</span>
+              <span class="badge badge-emerald">74%</span>
+            </div>
+            <div class="metric-value" id="metric-revenue-val">$184.2k</div>
+            <div class="metric-footer flex-col items-start gap-xs">
+              <div class="flex items-center justify-between w-full" style="font-size: 0.75rem;">
+                <span>Goal $250k</span>
+                <span class="mono">$65.8k left</span>
+              </div>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" style="width: 74%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Tasks Card -->
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Pending</span>
+              <span class="badge badge-danger" id="metric-urgent-tasks-badge">3 High</span>
+            </div>
+            <div class="metric-value" id="metric-pending-tasks-val">14</div>
+            <div class="metric-footer">
+              <span class="badge-dot" style="background-color: var(--color-error); margin-right: 2px;"></span>
+              <span>Follow-ups due</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Dashboard Split Grid (Left: Charts & Feeds, Right: Action Items & Spotlight) -->
+        <div class="dashboard-split-grid">
+          
+          <!-- Left Column -->
+          <div class="flex flex-col gap-lg">
+            
+            <!-- Revenue & Velocity Chart Card -->
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">Revenue & Velocity</div>
+                  <div class="body-sm" style="font-size: 0.8125rem;">Monthly closed deal volume ($k)</div>
+                </div>
+                <div class="badge badge-emerald" style="font-weight: 600;">
+                  <i class="bi bi-graph-up-arrow"></i> +22.4%
+                </div>
+              </div>
+              <div class="card-body">
+                <div style="position: relative; height: 210px; width: 100%;">
+                  <canvas id="revenueChartCanvas"></canvas>
+                </div>
+
+                <!-- Pipeline Distribution Segmented Bar (Matching Screenshot 2) -->
+                <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border);">
+                  <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+                    <span class="label-md" style="color: var(--color-text-secondary);">Pipeline Distribution</span>
+                    <span class="mono" style="font-size: 0.8125rem; font-weight: 600; color: var(--color-text-primary);">$482,500 total</span>
+                  </div>
+                  
+                  <div class="segmented-bar" style="height: 10px;">
+                    <div class="segment-item" style="width: 25%; background-color: #059669;" title="New Lead: 25%"></div>
+                    <div class="segment-item" style="width: 45%; background-color: #00855D;" title="In Progress: 45%"></div>
+                    <div class="segment-item" style="width: 20%; background-color: #2563EB;" title="Proposal: 20%"></div>
+                    <div class="segment-item" style="width: 10%; background-color: #374151;" title="Close/Won: 10%"></div>
+                  </div>
+
+                  <div class="flex items-center justify-between flex-wrap gap-sm" style="margin-top: 0.65rem; font-size: 0.75rem; color: var(--color-text-secondary);">
+                    <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #059669;"></span> New 25%</span>
+                    <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #00855D;"></span> Prog 45%</span>
+                    <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #2563EB;"></span> Prop 20%</span>
+                    <span class="flex items-center gap-xs"><span class="badge-dot" style="background-color: #374151;"></span> Close 10%</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Recent Activity Card -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="bi bi-lightning-charge text-emerald"></i> Recent Activity
+                </div>
+                <a href="deals.html" class="body-sm" style="color: var(--color-primary); font-weight: 600;">View All</a>
+              </div>
+              <div class="card-body">
+                <div class="activity-feed-list" id="recent-activity-container">
+                  <!-- Populated dynamically by dashboard.js -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column -->
+          <div class="flex flex-col gap-lg">
+            
+            <!-- Quick Action Buttons -->
+            <div class="flex gap-sm">
+              <button class="btn btn-primary flex-1 btn-lg" onclick="openModal('quick-add-deal-modal')">
+                <i class="bi bi-plus-circle"></i> Add Deal
+              </button>
+              <button class="btn btn-secondary flex-1 btn-lg" style="background-color: #374151; color: #FFFFFF; border-color: #374151;" onclick="openModal('quick-log-activity-modal')">
+                <i class="bi bi-calendar-plus"></i> Log Activity
+              </button>
+            </div>
+
+            <!-- Action Required Checklist (Matching Screenshot 2) -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="bi bi-check2-all text-emerald"></i> Action Required
+                </div>
+                <span class="label-md" style="color: var(--color-text-secondary);">3 of 14</span>
+              </div>
+              <div class="card-body">
+                <div class="action-checklist" id="dashboard-tasks-container">
+                  <!-- Populated dynamically by dashboard.js with interactive checkboxes -->
+                </div>
+                <div style="margin-top: 1rem; text-align: center;">
+                  <a href="tasks.html" class="btn btn-ghost btn-sm w-full">
+                    View all 14 pending tasks <i class="bi bi-chevron-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Account of the Week Spotlight Card (Matching Screenshot 2) -->
+            <div class="account-spotlight-card">
+              <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+                <div class="flex items-center gap-sm">
+                  <div class="avatar avatar-md" style="background-color: #E2E8F0; color: #334155; font-size: 1.1rem;">
+                    <i class="bi bi-buildings"></i>
+                  </div>
+                  <div>
+                    <div style="font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.05em; color: var(--color-primary-soft-text); text-transform: uppercase;">
+                      Account of the Week
+                    </div>
+                    <div style="font-size: 0.9375rem; font-weight: 700; color: var(--color-text-primary);">
+                      Apex Global Industries
+                    </div>
+                  </div>
+                </div>
+                <div class="badge badge-emerald" style="font-weight: 700;">$125,000 Exp.</div>
+              </div>
+
+              <p class="body-sm" style="color: #374151; margin: 0.75rem 0 1rem 0; line-height: 1.45;">
+                Procurement approval reached stage 4. Legal requested minor indemnification adjustments before final sign-off.
+              </p>
+
+              <div class="flex items-center justify-between pt-sm" style="border-top: 1px solid rgba(5, 150, 105, 0.15);">
+                <div class="avatar-group">
+                  <div class="avatar avatar-sm" style="background-color: #059669; color: #FFFFFF;">SJ</div>
+                  <div class="avatar avatar-sm" style="background-color: #2563EB; color: #FFFFFF;">AR</div>
+                  <div class="avatar avatar-sm" style="background-color: #E5E7EB; color: #374151; font-size: 0.65rem;">+3</div>
+                </div>
+                <a href="contact-details.html?id=cnt-1" class="body-sm" style="color: var(--color-primary); font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                  Open Account <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar (Matching Screenshots 1 & 2) -->
+  <nav class="mobile-bottom-nav">
+    <a href="dashboard.html" class="mobile-nav-item active">
+      <i class="bi bi-grid"></i>
+      <span>Overview</span>
+    </a>
+    <a href="contacts.html" class="mobile-nav-item">
+      <i class="bi bi-people"></i>
+      <span>Contacts</span>
+    </a>
+    <a href="deals.html" class="mobile-nav-item">
+      <i class="bi bi-kanban"></i>
+      <span>Pipeline</span>
+    </a>
+    <a href="tasks.html" class="mobile-nav-item">
+      <i class="bi bi-check2-circle"></i>
+      <span>Tasks</span>
+    </a>
+    <a href="reports.html" class="mobile-nav-item">
+      <i class="bi bi-graph-up-arrow"></i>
+      <span>Reports</span>
+    </a>
+    <a href="settings.html" class="mobile-nav-item">
+      <i class="bi bi-three-dots"></i>
+      <span>More</span>
+    </a>
+  </nav>
+
+  <!-- Quick Add Deal Modal -->
+  <div class="modal-backdrop" id="quick-add-deal-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">Create Sales Deal</div>
+        <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="closeModal('quick-add-deal-modal')">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <form id="quick-add-deal-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="deal-title-input" class="form-label">Deal Name <span class="required">*</span></label>
+            <input type="text" id="deal-title-input" class="form-control" placeholder="e.g. Enterprise Cloud License" required>
+          </div>
+          <div class="form-group">
+            <label for="deal-company-input" class="form-label">Account / Company <span class="required">*</span></label>
+            <input type="text" id="deal-company-input" class="form-control" placeholder="e.g. Apex Global Solutions" required>
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="deal-value-input" class="form-label">Deal Value ($) <span class="required">*</span></label>
+              <input type="number" id="deal-value-input" class="form-control" placeholder="75000" min="1000" step="500" required>
+            </div>
+            <div class="form-group">
+              <label for="deal-stage-select" class="form-label">Pipeline Stage</label>
+              <select id="deal-stage-select" class="form-control">
+                <option value="New Lead">New Lead</option>
+                <option value="Contacted">Contacted</option>
+                <option value="Qualified">Qualified</option>
+                <option value="Proposal Sent" selected>Proposal Sent</option>
+                <option value="Won">Won</option>
+                <option value="Lost">Lost</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('quick-add-deal-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Deal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Quick Log Activity Modal -->
+  <div class="modal-backdrop" id="quick-log-activity-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">Log Sales Activity</div>
+        <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="closeModal('quick-log-activity-modal')">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+      <form id="quick-log-activity-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="act-title-input" class="form-label">Activity Summary <span class="required">*</span></label>
+            <input type="text" id="act-title-input" class="form-control" placeholder="e.g. Client Demo call with VP Operations" required>
+          </div>
+          <div class="form-group">
+            <label for="act-type-select" class="form-label">Activity Type</label>
+            <select id="act-type-select" class="form-control">
+              <option value="call">Phone Call</option>
+              <option value="meeting">Video Meeting / Demo</option>
+              <option value="contract">Contract Sent</option>
+              <option value="email">Email Interaction</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="act-notes-input" class="form-label">Notes & Next Actions</label>
+            <textarea id="act-notes-input" class="form-control" placeholder="Discussed SLA, key timelines, and procurement steps..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('quick-log-activity-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Activity</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

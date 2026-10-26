@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help & FAQ — ClientFlow CRM</title>
+  <meta name="description" content="ClientFlow CRM knowledge base, FAQ, and keyboard shortcuts guide.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .faq-item {
+      border-bottom: 1px solid var(--color-border);
+      padding: 1rem 0;
+    }
+    .faq-question {
+      font-weight: 600;
+      color: var(--color-text-primary);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-answer {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Enterprise Dark Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <div class="brand-icon"><i class="bi bi-activity"></i></div>
+          <div class="brand-title">ClientFlow <span class="brand-badge">CRM</span></div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main</div>
+        <a href="dashboard.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-grid nav-item-icon"></i> <span>Overview</span></span></a>
+        <a href="contacts.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-people nav-item-icon"></i> <span>Contacts</span></span><span class="nav-item-badge">1,428</span></a>
+        <a href="deals.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-kanban nav-item-icon"></i> <span>Sales Pipeline</span></span><span class="nav-item-badge">38</span></a>
+        <a href="tasks.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-check2-circle nav-item-icon"></i> <span>Tasks</span></span><span class="nav-item-badge" style="background: rgba(220, 38, 38, 0.4);">14</span></a>
+
+        <div class="nav-section-title">Insights</div>
+        <a href="reports.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-graph-up-arrow nav-item-icon"></i> <span>Reports & Analytics</span></span></a>
+        <a href="calendar.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-calendar3 nav-item-icon"></i> <span>Calendar</span></span></a>
+
+        <div class="nav-section-title">Organization</div>
+        <a href="team.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person-badge nav-item-icon"></i> <span>Team Members</span></span></a>
+        <a href="notifications.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-bell nav-item-icon"></i> <span>Notifications</span></span></a>
+
+        <div class="nav-section-title">System</div>
+        <a href="profile.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person nav-item-icon"></i> <span>User Profile</span></span></a>
+        <a href="settings.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-gear nav-item-icon"></i> <span>Settings</span></span></a>
+        <a href="help.html" class="sidebar-nav-item active"><span class="nav-item-left"><i class="bi bi-question-circle nav-item-icon"></i> <span>Help & FAQ</span></span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar avatar-sm user-avatar-initials">SJ</div>
+        <div class="sidebar-footer-user">
+          <div class="sidebar-footer-name">Sarah Jenkins</div>
+          <div class="sidebar-footer-role">Senior Enterprise AE</div>
+        </div>
+        <a href="login.html" title="Sign out" style="color: #9CA3AF; padding: 4px;"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Canvas Area -->
+    <div class="app-main">
+      
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" aria-label="Toggle menu"><i class="bi bi-list"></i></button>
+          <div class="header-breadcrumb">
+            <span>ClientFlow</span>
+            <i class="bi bi-chevron-right text-muted" style="font-size: 0.75rem;"></i>
+            <span class="current">Help & FAQ</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="header-search-trigger" onclick="openGlobalSearch()">
+            <div class="flex items-center gap-sm"><i class="bi bi-search"></i><span>Search knowledge base...</span></div>
+            <span class="search-shortcut-badge">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="notifications.html" class="header-icon-btn"><i class="bi bi-bell"></i><span class="notification-indicator"></span></a>
+          <a href="profile.html" class="avatar avatar-sm user-avatar-initials" style="text-decoration: none;">SJ</a>
+        </div>
+      </header>
+
+      <!-- Viewport Canvas -->
+      <main class="content-canvas">
+        
+        <div class="page-header">
+          <div class="page-header-title">
+            <h1 class="display-lg" style="font-size: 1.5rem;">Help Center & Shortcuts</h1>
+            <div class="page-subtitle">Learn the CRM workflow, keyboard productivity triggers, and platform capabilities</div>
+          </div>
+
+          <div class="page-header-actions">
+            <button class="btn btn-primary" onclick="showToast('Support Ticket', 'Support portal ticket submission will activate in Phase 2.', 'info')">
+              <i class="bi bi-headset"></i> Contact Support
+            </button>
+          </div>
+        </div>
+
+        <div class="dashboard-split-grid">
+          
+          <!-- Left Column: FAQ Accordion -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="bi bi-patch-question text-emerald"></i> Frequently Asked Questions</div>
+            </div>
+            <div class="card-body">
+              
+              <div class="faq-item">
+                <div class="faq-question">
+                  <span>How does Phase 1 work without a backend?</span>
+                  <i class="bi bi-chevron-down text-muted"></i>
+                </div>
+                <div class="faq-answer">
+                  ClientFlow uses the approved Vanilla JavaScript interface with a centralized repository that calls the NestJS REST API. Contacts, deals, tasks, and activities are persisted in the configured MongoDB workspace.
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <span>Can I drag and drop deals across pipeline stages?</span>
+                  <i class="bi bi-chevron-down text-muted"></i>
+                </div>
+                <div class="faq-answer">
+                  Yes! In the Sales Pipeline page (deals.html), each deal card supports native HTML5 drag-and-drop between any of the 6 stages. You can also click the "Advance →" button for 1-click stage advancement.
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <span>How can I reset demo data if I make changes?</span>
+                  <i class="bi bi-chevron-down text-muted"></i>
+                </div>
+                <div class="faq-answer">
+                  Development sample data is added safely with the documented API seed command. Production business data is never reset from the browser.
+                </div>
+              </div>
+
+              <div class="faq-item">
+                <div class="faq-question">
+                  <span>Where is data persisted?</span>
+                  <i class="bi bi-chevron-down text-muted"></i>
+                </div>
+                <div class="faq-answer">
+                  Business data is stored by the API in MongoDB Atlas. The browser retains only an access token, a session summary, and harmless UI preferences; passwords and database credentials never reach browser JavaScript.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Column: Keyboard Shortcuts -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title"><i class="bi bi-keyboard text-emerald"></i> Productivity Shortcuts</div>
+            </div>
+            <div class="card-body flex flex-col gap-sm">
+              <div class="checklist-item">
+                <span class="checklist-title">Open Quick Global Search</span>
+                <span class="search-shortcut-badge">/</span>
+              </div>
+              <div class="checklist-item">
+                <span class="checklist-title">Close Modals / Overlays</span>
+                <span class="search-shortcut-badge">ESC</span>
+              </div>
+              <div class="checklist-item">
+                <span class="checklist-title">Copy Email or Phone</span>
+                <span class="search-shortcut-badge">Click Copy Icon</span>
+              </div>
+              <div class="checklist-item">
+                <span class="checklist-title">Advance Deal to Next Stage</span>
+                <span class="search-shortcut-badge">Advance Button</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="dashboard.html" class="mobile-nav-item"><i class="bi bi-grid"></i><span>Overview</span></a>
+    <a href="contacts.html" class="mobile-nav-item"><i class="bi bi-people"></i><span>Contacts</span></a>
+    <a href="deals.html" class="mobile-nav-item"><i class="bi bi-kanban"></i><span>Pipeline</span></a>
+    <a href="tasks.html" class="mobile-nav-item"><i class="bi bi-check2-circle"></i><span>Tasks</span></a>
+    <a href="reports.html" class="mobile-nav-item"><i class="bi bi-graph-up-arrow"></i><span>Reports</span></a>
+    <a href="settings.html" class="mobile-nav-item active"><i class="bi bi-three-dots"></i><span>More</span></a>
+  </nav>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/navigation.js"></script>
+</body>
+</html>

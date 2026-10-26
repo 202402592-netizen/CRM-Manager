@@ -1,0 +1,194 @@
+/**
+ * ClientFlow CRM - Responsive Styles & Mobile Navigation
+ * Full adaptation for Desktop, Tablet, and Mobile devices
+ */
+
+/* Mobile Bottom Navigation Bar (Hidden on desktop) */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--mobile-bottom-nav-height);
+  background-color: var(--color-surface-white);
+  border-top: 1px solid var(--color-border);
+  z-index: 95;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 0.25rem;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: var(--color-text-secondary);
+  font-size: 0.625rem;
+  font-weight: 500;
+  text-decoration: none;
+  flex: 1;
+  height: 100%;
+  transition: color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.mobile-nav-item i {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.mobile-nav-item.active {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* Sidebar Drawer Backdrop for Mobile */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 99;
+}
+
+.sidebar-backdrop.active {
+  display: block;
+}
+
+/* ==========================================================================
+   Breakpoints: Large Desktop & Laptops (< 1200px)
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .metrics-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .dashboard-split-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Breakpoints: Tablets (< 992px)
+   ========================================================================== */
+@media (max-width: 992px) {
+  .contact-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   Breakpoints: Mobile & Small Tablets (< 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Show Mobile Header controls */
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .header-center {
+    display: none;
+  }
+
+  /* Off-canvas sidebar */
+  .app-sidebar {
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-tier-3);
+  }
+
+  .app-sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .app-main {
+    margin-left: 0 !important;
+    padding-bottom: calc(var(--mobile-bottom-nav-height) + 1.5rem);
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+  }
+
+  .content-canvas {
+    padding: 1rem;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .page-header-actions {
+    width: 100%;
+  }
+
+  .page-header-actions .btn {
+    flex: 1;
+  }
+
+  .metrics-row {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .contact-dossier-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contact-quick-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-quick-actions .btn {
+    justify-content: center;
+  }
+
+  .kanban-lane {
+    width: 290px;
+    min-width: 290px;
+  }
+
+  .modal-dialog {
+    margin: 0.5rem;
+    max-height: 95vh;
+  }
+
+  #toast-container {
+    left: 1rem;
+    right: 1rem;
+    bottom: calc(var(--mobile-bottom-nav-height) + 1rem);
+  }
+
+  .toast {
+    min-width: 100%;
+  }
+}
+
+/* Print Stylesheet */
+@media print {
+  .app-sidebar,
+  .app-header,
+  .mobile-bottom-nav,
+  .btn,
+  .page-header-actions {
+    display: none !important;
+  }
+
+  .app-main {
+    margin: 0 !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #000 !important;
+    break-inside: avoid;
+  }
+}

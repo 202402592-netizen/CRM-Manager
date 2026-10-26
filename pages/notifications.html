@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications — ClientFlow CRM</title>
+  <meta name="description" content="Manage real-time notifications, prospect engagements, task reminders, and security alerts.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .notif-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: 1rem 1.15rem;
+      margin-bottom: 0.85rem;
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+    .notif-card:hover {
+      box-shadow: var(--shadow-tier-2);
+      border-color: #CBD5E1;
+    }
+    .notif-card.border-accent-green {
+      border-left: 4px solid #059669;
+    }
+    .notif-card.border-accent-blue {
+      border-left: 4px solid #2563EB;
+    }
+    .pill-filter {
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      color: var(--color-text-secondary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+    .pill-filter:hover {
+      background: #F1F5F9;
+      color: var(--color-text-primary);
+    }
+    .pill-filter.active {
+      background: #059669;
+      color: #FFFFFF;
+      border-color: #059669;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Enterprise Dark Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <div class="brand-icon"><i class="bi bi-activity"></i></div>
+          <div class="brand-title">ClientFlow <span class="brand-badge">CRM</span></div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main</div>
+        <a href="dashboard.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-grid nav-item-icon"></i> <span>Overview</span></span></a>
+        <a href="contacts.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-people nav-item-icon"></i> <span>Contacts</span></span><span class="nav-item-badge">1,428</span></a>
+        <a href="deals.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-kanban nav-item-icon"></i> <span>Sales Pipeline</span></span><span class="nav-item-badge">38</span></a>
+        <a href="tasks.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-check2-circle nav-item-icon"></i> <span>Tasks</span></span><span class="nav-item-badge" style="background: rgba(220, 38, 38, 0.4);">18</span></a>
+
+        <div class="nav-section-title">Insights</div>
+        <a href="reports.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-graph-up-arrow nav-item-icon"></i> <span>Reports & Analytics</span></span></a>
+        <a href="calendar.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-calendar3 nav-item-icon"></i> <span>Calendar</span></span></a>
+
+        <div class="nav-section-title">Organization</div>
+        <a href="team.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person-badge nav-item-icon"></i> <span>Team Members</span></span></a>
+        <a href="notifications.html" class="sidebar-nav-item active"><span class="nav-item-left"><i class="bi bi-bell nav-item-icon"></i> <span>Notifications</span></span><span class="nav-item-badge" style="background: #059669;">5</span></a>
+
+        <div class="nav-section-title">System & Security</div>
+        <a href="profile.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person nav-item-icon"></i> <span>User Profile</span></span></a>
+        <a href="settings.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-gear nav-item-icon"></i> <span>Settings</span></span></a>
+        <a href="audit-log.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-shield-check nav-item-icon"></i> <span>SIEM Audit Log</span></span></a>
+        <a href="help.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-question-circle nav-item-icon"></i> <span>Help & FAQ</span></span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar avatar-sm user-avatar-initials">SJ</div>
+        <div class="sidebar-footer-user">
+          <div class="sidebar-footer-name">Sarah Jenkins</div>
+          <div class="sidebar-footer-role">Lead Enterprise AE</div>
+        </div>
+        <a href="login.html" title="Sign out" style="color: #9CA3AF; padding: 4px;"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Canvas Area -->
+    <div class="app-main">
+      
+      <!-- Sticky Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <a href="dashboard.html" class="btn btn-ghost btn-sm btn-icon" title="Return to Dashboard">
+            <i class="bi bi-arrow-left" style="font-size: 1.15rem;"></i>
+          </a>
+          <div class="flex items-center gap-xs">
+            <div style="width: 22px; height: 22px; background: #064E3B; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #34D399; font-size: 0.75rem;">
+              <i class="bi bi-activity"></i>
+            </div>
+            <span class="current" style="font-weight: 800; font-size: 1.05rem; color: var(--color-text-primary);">Notifications</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="header-search-trigger" onclick="openGlobalSearch()">
+            <div class="flex items-center gap-sm"><i class="bi bi-search"></i><span>Search notifications...</span></div>
+            <span class="search-shortcut-badge">/</span>
+          </div>
+        </div>
+
+        <div class="header-right flex items-center gap-xs">
+          <a href="notifications.html" class="header-icon-btn"><i class="bi bi-bell"></i><span class="notification-indicator"></span></a>
+          <a href="profile.html" class="avatar avatar-sm user-avatar-initials" style="text-decoration: none;">SJ</a>
+        </div>
+      </header>
+
+      <!-- Viewport Canvas (Matching Screenshot 5) -->
+      <main class="content-canvas" style="max-width: 640px; margin: 0 auto; padding-bottom: 5rem;">
+        
+        <!-- Action Subheader (Matching Screenshot 5) -->
+        <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+          <div class="flex items-center gap-sm">
+            <button type="button" class="btn btn-ghost btn-sm btn-icon" style="background:#F1F5F9; border-radius:50%; width:32px; height:32px;" onclick="history.back()">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+            <div>
+              <h1 style="font-size: 1.25rem; font-weight: 800; margin: 0; color: var(--color-text-primary);">Notifications</h1>
+              <div class="body-sm text-muted" style="font-size: 0.78rem;">5 unread updates today</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-xs">
+            <button type="button" class="btn btn-secondary btn-sm" style="border-radius: var(--radius-full); font-size: 0.78rem; font-weight: 600; background:#EEF2FF; border-color:#E0E7FF; color:#3730A3;" onclick="markAllRead()">
+              Mark all read
+            </button>
+            <button type="button" class="btn btn-ghost btn-sm btn-icon" style="border: 1px solid #E2E8F0; border-radius: var(--radius-md);" onclick="showToast('Notification Filter', 'Filter channels: Deals, Tasks, Security', 'info')">
+              <i class="bi bi-sliders"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Pills Bar (Matching Screenshot 5) -->
+        <div class="flex items-center gap-xs flex-wrap" style="margin-bottom: 1.25rem;">
+          <button type="button" class="pill-filter active" onclick="filterNotifs(this, 'all')">All <span class="badge" style="background:rgba(255,255,255,0.25); color:#FFF; padding:1px 5px; border-radius:9999px;">18</span></button>
+          <button type="button" class="pill-filter" onclick="filterNotifs(this, 'unread')">Unread <span class="badge badge-emerald" style="padding:1px 5px; border-radius:9999px;">5</span></button>
+          <button type="button" class="pill-filter" onclick="filterNotifs(this, 'deal')">Deals</button>
+          <button type="button" class="pill-filter" onclick="filterNotifs(this, 'task')">Tasks</button>
+          <button type="button" class="pill-filter" onclick="filterNotifs(this, 'mention')">Mentions</button>
+        </div>
+
+        <!-- Section: TODAY (Matching Screenshot 5) -->
+        <div style="margin-bottom: 1.25rem;">
+          <div class="flex items-center justify-between" style="margin-bottom: 0.65rem;">
+            <div class="flex items-center gap-xs">
+              <span class="mono" style="font-weight: 800; font-size: 0.75rem; color: #475569; letter-spacing: 0.05em;">TODAY</span>
+              <span style="width: 7px; height: 7px; border-radius: 50%; background: #059669; display: inline-block;"></span>
+            </div>
+            <span class="mono text-muted" style="font-size: 0.75rem; font-weight: 700;">3 new</span>
+          </div>
+
+          <!-- Card 1: Deal Stage Advance (Matching Screenshot 5) -->
+          <div class="notif-card border-accent-green" data-type="deal" data-unread="true">
+            <div class="flex items-start justify-between" style="margin-bottom: 0.5rem;">
+              <div class="flex items-center gap-sm">
+                <div class="avatar avatar-sm user-avatar-initials" style="background:#059669; color:#FFF; font-size:0.75rem;">SJ</div>
+                <div>
+                  <div class="flex items-center gap-xs">
+                    <strong style="font-size: 0.875rem;">Sarah Jenkins</strong>
+                    <span class="badge badge-emerald" style="font-size: 0.65rem; padding: 1px 5px;">Deal Stage</span>
+                  </div>
+                </div>
+              </div>
+              <span class="mono text-muted" style="font-size: 0.72rem;">14m ago</span>
+            </div>
+
+            <div style="font-size: 0.8125rem; color: var(--color-text-primary); line-height: 1.45; margin-bottom: 0.65rem;">
+              Moved <strong>Acme Cloud Migration</strong> to <span class="text-emerald font-semibold">Proposal Sent</span>. Expected ACV: <strong>$145,000</strong>.
+            </div>
+
+            <div class="flex items-center gap-xs">
+              <a href="deal-details.html" class="btn btn-primary btn-sm" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; text-decoration: none;">
+                View Deal &rarr;
+              </a>
+              <button type="button" class="btn btn-secondary btn-sm btn-icon" style="background:#F1F5F9; border-color:#E2E8F0;" title="Acknowledge" onclick="this.closest('.notif-card').style.opacity='0.6'; showToast('Marked Read', 'Notification acknowledged', 'info');">
+                <i class="bi bi-check2"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 2: Due Reminder (Matching Screenshot 5) -->
+          <div class="notif-card border-accent-blue" data-type="task" data-unread="true">
+            <div class="flex items-start justify-between" style="margin-bottom: 0.5rem;">
+              <div class="flex items-center gap-sm">
+                <div style="width: 32px; height: 32px; border-radius: var(--radius-sm); background: #EFF6FF; color: #1D4ED8; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
+                  <i class="bi bi-megaphone"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-xs">
+                    <strong style="font-size: 0.875rem;">Due Reminder</strong>
+                    <span class="badge badge-neutral" style="font-size: 0.65rem; padding: 1px 5px;">In 2 hours</span>
+                  </div>
+                </div>
+              </div>
+              <span class="mono text-muted" style="font-size: 0.72rem;">42m ago</span>
+            </div>
+
+            <div style="font-size: 0.8125rem; color: var(--color-text-primary); line-height: 1.45; margin-bottom: 0.65rem;">
+              Follow-up with <strong>Marcus Vance</strong> on SLA terms and contract redlines before executive committee.
+            </div>
+
+            <div class="flex items-center gap-xs">
+              <button type="button" class="btn btn-primary btn-sm" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;" onclick="showToast('Task Completed', 'SLA redline task checked off', 'success'); this.closest('.notif-card').style.opacity='0.6';">
+                <i class="bi bi-check-circle"></i> Complete Task
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; background:#F1F5F9; border-color:#E2E8F0;" onclick="showToast('Snoozed', 'Follow-up snoozed for 1 hour', 'info')">
+                <i class="bi bi-alarm"></i> Snooze
+              </button>
+            </div>
+          </div>
+
+          <!-- Card 3: Mention (Matching Screenshot 5) -->
+          <div class="notif-card" data-type="mention" data-unread="true">
+            <div class="flex items-start justify-between" style="margin-bottom: 0.5rem;">
+              <div class="flex items-center gap-sm">
+                <div class="avatar avatar-sm user-avatar-initials" style="background:#4338CA; color:#FFF; font-size:0.75rem;">DM</div>
+                <div>
+                  <div class="flex items-center gap-xs">
+                    <strong style="font-size: 0.875rem;">David Miller</strong>
+                    <span class="text-muted" style="font-size: 0.75rem;">tagged you</span>
+                  </div>
+                </div>
+              </div>
+              <span class="mono text-muted" style="font-size: 0.72rem;">3h ago</span>
+            </div>
+
+            <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.65rem 0.85rem; font-size: 0.8rem; color: #1E293B; margin-bottom: 0.65rem; line-height: 1.4;">
+              "<strong class="text-primary">@Alex</strong> could you review page 4 of the architecture diagram for the TechCorp renewal?"
+            </div>
+
+            <div class="flex items-center gap-xs">
+              <button type="button" class="btn btn-secondary btn-sm" style="padding: 0.35rem 0.75rem; font-size: 0.75rem; background:#EEF2FF; border-color:#E0E7FF; color:#3730A3;" onclick="showToast('Reply Note', 'Opening quick reply drawer', 'info')">
+                <i class="bi bi-reply"></i> Reply in Note
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm btn-icon" style="background:#F1F5F9; border-color:#E2E8F0;" onclick="this.closest('.notif-card').style.opacity='0.6'; showToast('Acknowledged', 'Mention marked as read', 'info');">
+                <i class="bi bi-check2"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Section: EARLIER THIS WEEK (Matching Screenshot 5) -->
+        <div style="margin-bottom: 1.5rem;">
+          <div class="flex items-center justify-between" style="margin-bottom: 0.65rem;">
+            <span class="mono" style="font-weight: 800; font-size: 0.75rem; color: #475569; letter-spacing: 0.05em;">EARLIER THIS WEEK</span>
+            <span class="mono text-muted" style="font-size: 0.75rem; font-weight: 700;">2 updates</span>
+          </div>
+
+          <!-- Card 4: Security Alert (Matching Screenshot 5) -->
+          <div class="notif-card" data-type="security" data-unread="false">
+            <div class="flex items-start justify-between" style="margin-bottom: 0.5rem;">
+              <div class="flex items-center gap-sm">
+                <div style="width: 32px; height: 32px; border-radius: var(--radius-sm); background: #FEF2F2; color: #DC2626; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
+                  <i class="bi bi-shield-exclamation"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-xs">
+                    <strong style="font-size: 0.875rem;">Security Alert</strong>
+                    <span class="badge badge-danger" style="font-size: 0.65rem; padding: 1px 5px;">New Device</span>
+                  </div>
+                </div>
+              </div>
+              <span class="mono text-muted" style="font-size: 0.72rem;">2d ago</span>
+            </div>
+
+            <div style="font-size: 0.8125rem; color: var(--color-text-primary); line-height: 1.45; margin-bottom: 0.65rem;">
+              New session logged in from <strong>New York, NY</strong> via MacBook Pro 16" (IP: 198.51.100.44).
+            </div>
+
+            <div class="flex items-center justify-between">
+              <a href="audit-log.html" class="text-emerald font-semibold flex items-center gap-xs" style="font-size: 0.75rem; text-decoration: none;">
+                <span>Review in Security Audit</span> <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+              <span class="mono text-muted" style="font-size: 0.72rem;">Resolved</span>
+            </div>
+          </div>
+
+          <!-- Card 5: Closed Expansion (Matching Screenshot 5) -->
+          <div class="notif-card" data-type="deal" data-unread="false">
+            <div class="flex items-start justify-between" style="margin-bottom: 0.5rem;">
+              <div class="flex items-center gap-sm">
+                <div class="avatar avatar-sm user-avatar-initials" style="background:#047857; color:#FFF; font-size:0.75rem;">ER</div>
+                <div>
+                  <strong style="font-size: 0.875rem;">Elena Rostova</strong>
+                </div>
+              </div>
+              <span class="mono text-muted" style="font-size: 0.72rem;">3d ago</span>
+            </div>
+
+            <div style="font-size: 0.8125rem; color: var(--color-text-primary); line-height: 1.45; margin-bottom: 0.35rem;">
+              Final signatures attached to <strong>Global Logistics Q3 Addendum</strong>.
+            </div>
+
+            <div class="mono text-emerald" style="font-weight: 800; font-size: 0.875rem;">
+              $38,000 expansion closed
+            </div>
+          </div>
+
+        </div>
+
+        <!-- "You're all caught up!" Card (Matching Screenshot 5) -->
+        <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-2xl); padding: 1.75rem 1.25rem; text-align: center; margin-bottom: 2rem;">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: #A7F3D0; color: #065F46; display: inline-flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 0.75rem;">
+            <i class="bi bi-check-lg"></i>
+          </div>
+
+          <h2 style="font-size: 1.2rem; font-weight: 800; margin: 0 0 0.35rem 0; color: var(--color-text-primary);">
+            You're all caught up!
+          </h2>
+
+          <div class="body-sm text-muted" style="font-size: 0.8rem; max-width: 380px; margin: 0 auto 1.25rem auto; line-height: 1.45;">
+            Zero outstanding high-priority approvals or blocking SLA alerts. Pipeline health is optimal.
+          </div>
+
+          <div class="flex items-center justify-center gap-sm">
+            <div class="flex -space-x-2" style="display: flex;">
+              <span class="avatar avatar-sm" style="background:#059669; color:#FFF; margin-right:-8px; border:2px solid #FFF;">SJ</span>
+              <span class="avatar avatar-sm" style="background:#2563EB; color:#FFF; margin-right:-8px; border:2px solid #FFF;">DM</span>
+              <span class="avatar avatar-sm" style="background:#475569; color:#FFF; border:2px solid #FFF;">ER</span>
+            </div>
+            <span class="text-muted" style="font-size: 0.75rem; font-weight: 600;">3 team leads actively updating</span>
+          </div>
+        </div>
+
+        <!-- Footer Links (Matching Screenshot 5) -->
+        <div class="flex items-center justify-between" style="padding-top: 1rem; border-top: 1px solid #E2E8F0;">
+          <a href="settings.html?tab=notifications" class="text-muted flex items-center gap-xs font-semibold" style="font-size: 0.8125rem; text-decoration: none;">
+            <i class="bi bi-sliders"></i> Notification Settings
+          </a>
+          <button type="button" class="btn btn-ghost btn-sm text-muted" style="font-size: 0.8125rem;" onclick="clearReadNotifs()">
+            <i class="bi bi-check2-all"></i> Clear read
+          </button>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="dashboard.html" class="mobile-nav-item"><i class="bi bi-grid"></i><span>Overview</span></a>
+    <a href="contacts.html" class="mobile-nav-item"><i class="bi bi-people"></i><span>Contacts</span></a>
+    <a href="deals.html" class="mobile-nav-item"><i class="bi bi-kanban"></i><span>Pipeline</span></a>
+    <a href="tasks.html" class="mobile-nav-item"><i class="bi bi-check2-circle"></i><span>Tasks</span></a>
+    <a href="reports.html" class="mobile-nav-item"><i class="bi bi-graph-up-arrow"></i><span>Reports</span></a>
+    <a href="notifications.html" class="mobile-nav-item active"><i class="bi bi-bell"></i><span>More</span></a>
+  </nav>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/notifications.js"></script>
+  <script>
+    function markAllRead() {
+      window.CRMStorage.markAllNotificationsRead();
+      renderLiveNotifications();
+      showToast('All Caught Up', 'All live notifications marked as read', 'success');
+    }
+
+    function clearReadNotifs() {
+      document.querySelectorAll('.notif-card[data-unread="false"]').forEach(c => {
+        c.style.display = 'none';
+      });
+      showToast('Cleaned Up', 'Read notifications cleared from stream', 'info');
+    }
+
+    function filterNotifs(btn, type) {
+      document.querySelectorAll('.pill-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.notif-card');
+      cards.forEach(c => {
+        if (type === 'all') {
+          c.style.display = 'block';
+        } else if (type === 'unread') {
+          c.style.display = c.getAttribute('data-unread') === 'true' ? 'block' : 'none';
+        } else {
+          c.style.display = c.getAttribute('data-type') === type ? 'block' : 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — ClientFlow CRM</title>
+  <meta name="description" content="Sign in to your ClientFlow CRM sales workspace.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, #F9FAFB 0%, #E6F4EA 100%);
+      padding: 1.5rem;
+    }
+    .auth-container {
+      width: 100%;
+      max-width: 440px;
+    }
+    .auth-card {
+      background-color: var(--color-surface-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-2xl);
+      padding: 2.25rem 2rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    }
+    .auth-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1.75rem;
+      text-align: center;
+    }
+    .auth-brand-icon {
+      width: 48px;
+      height: 48px;
+      background-color: #047857;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 4px 12px rgba(4, 120, 87, 0.25);
+    }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      margin: 1.25rem 0;
+      color: var(--color-text-secondary);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background-color: var(--color-border);
+    }
+    .auth-divider span {
+      padding: 0 0.75rem;
+    }
+    .security-badge-box {
+      background-color: #F0F4FF;
+      border-radius: var(--radius-lg);
+      padding: 0.85rem 1rem;
+      text-align: center;
+      margin-top: 1.25rem;
+    }
+    .cloud-node-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      font-size: 0.8125rem;
+      color: var(--color-text-secondary);
+      margin-top: 1.25rem;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      
+      <!-- Brand & Heading -->
+      <div class="auth-brand">
+        <div class="auth-brand-icon">
+          <i class="bi bi-activity"></i>
+        </div>
+        <div class="brand-title" style="color: var(--color-text-primary); font-size: 1.35rem; justify-content: center;">
+          ClientFlow <span class="brand-badge">CRM</span>
+        </div>
+        <p class="body-sm" style="margin-top: 0.25rem;">Enterprise client relationship management</p>
+      </div>
+
+      <div style="margin-bottom: 1.5rem;">
+        <h1 class="headline-md" style="font-size: 1.35rem;">Welcome back</h1>
+        <p class="body-sm">Sign in to access your sales workspace</p>
+      </div>
+
+      <!-- Quick Demo Credentials Filler Helper -->
+      <div style="background-color: #ECFDF5; border: 1px dashed #A7F3D0; border-radius: var(--radius-md); padding: 0.6rem 0.85rem; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between;">
+        <div style="font-size: 0.75rem; color: #065F46;">
+          <i class="bi bi-person-check-fill" style="margin-right: 4px;"></i> Demo Account: <strong>Sarah Jenkins</strong>
+        </div>
+        <button type="button" id="fill-demo-btn" class="btn btn-sm btn-soft-primary" style="padding: 2px 8px; font-size: 0.72rem;">
+          Autofill
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" novalidate>
+        
+        <!-- Email Input -->
+        <div class="form-group">
+          <label for="email" class="form-label">Work Email</label>
+          <div class="input-with-icon">
+            <span class="input-icon-left"><i class="bi bi-envelope"></i></span>
+            <input type="email" id="email" class="form-control" placeholder="sarah.jenkins@acmecorp.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-with-icon has-right-icon">
+            <span class="input-icon-left"><i class="bi bi-lock"></i></span>
+            <input type="password" id="password" class="form-control" placeholder="••••••••••••" required autocomplete="current-password">
+            <button type="button" class="input-icon-right toggle-password-btn" data-target="password" aria-label="Toggle password visibility">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="flex items-center justify-between" style="margin: 0.5rem 0 1.25rem 0;">
+          <label class="form-check">
+            <input type="checkbox" id="remember-me" checked>
+            <span>Remember me</span>
+          </label>
+          <a href="forgot-password.html" class="body-sm" style="font-weight: 500;">Forgot password?</a>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary w-full btn-lg">
+          Sign In to Dashboard <i class="bi bi-arrow-right"></i>
+        </button>
+      </form>
+
+      <!-- SSO Divider -->
+      <div class="auth-divider">
+        <span>OR</span>
+      </div>
+
+      <!-- SSO SAML Button -->
+      <button type="button" id="sso-login-btn" class="btn btn-secondary w-full" style="background-color: #EEF2FF; border-color: #E0E7FF; color: #3730A3;">
+        <i class="bi bi-building" style="margin-right: 4px;"></i> Continue with Single Sign-On (SAML/Okta)
+      </button>
+
+      <!-- Enterprise Grade Security Box -->
+      <div class="security-badge-box">
+        <div style="font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #1E40AF; display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
+          <i class="bi bi-shield-check"></i> Enterprise Grade Security
+        </div>
+        <div class="mono" style="font-size: 0.72rem; color: #4B5563; margin-top: 3px;">
+          256-bit SSL encrypted • SOC2 Type II Certified
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Cloud Node Footer Indicator -->
+    <div class="cloud-node-status">
+      <span class="pulse-dot"></span> Cloud Node: us-east-prod-04 (Optimal)
+    </div>
+  </div>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+</html>

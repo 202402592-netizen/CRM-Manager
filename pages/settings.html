@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings & Preferences — ClientFlow CRM</title>
+  <meta name="description" content="Manage company details, notifications, security, billing, workspace defaults, and brand appearance in ClientFlow CRM.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .input-clean-box {
+      background-color: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 0.65rem 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background-color var(--transition-fast), border-color var(--transition-fast);
+    }
+    .input-clean-box:hover {
+      background-color: #F1F5F9;
+      border-color: #CBD5E1;
+    }
+    .tab-pill {
+      border-radius: var(--radius-md);
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+    .tab-pill.inactive {
+      background-color: #EEF2FF;
+      border-color: #E0E7FF;
+      color: #3730A3;
+    }
+    .tab-pill.inactive:hover {
+      background-color: #E0E7FF;
+      color: #312E81;
+    }
+    .tab-pill.active {
+      background-color: #059669;
+      border-color: #059669;
+      color: #FFFFFF;
+    }
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #F1F5F9;
+    }
+    .setting-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .setting-row:first-child {
+      padding-top: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Enterprise Dark Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <div class="brand-icon"><i class="bi bi-activity"></i></div>
+          <div class="brand-title">ClientFlow <span class="brand-badge">CRM</span></div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main</div>
+        <a href="dashboard.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-grid nav-item-icon"></i> <span>Overview</span></span></a>
+        <a href="contacts.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-people nav-item-icon"></i> <span>Contacts</span></span><span class="nav-item-badge">1,428</span></a>
+        <a href="deals.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-kanban nav-item-icon"></i> <span>Sales Pipeline</span></span><span class="nav-item-badge">38</span></a>
+        <a href="tasks.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-check2-circle nav-item-icon"></i> <span>Tasks</span></span><span class="nav-item-badge" style="background: rgba(220, 38, 38, 0.4);">18</span></a>
+
+        <div class="nav-section-title">Insights</div>
+        <a href="reports.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-graph-up-arrow nav-item-icon"></i> <span>Reports & Analytics</span></span></a>
+        <a href="calendar.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-calendar3 nav-item-icon"></i> <span>Calendar</span></span></a>
+
+        <div class="nav-section-title">Organization</div>
+        <a href="team.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person-badge nav-item-icon"></i> <span>Team Members</span></span></a>
+        <a href="notifications.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-bell nav-item-icon"></i> <span>Notifications</span></span></a>
+
+        <div class="nav-section-title">System</div>
+        <a href="profile.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person nav-item-icon"></i> <span>User Profile</span></span></a>
+        <a href="settings.html" class="sidebar-nav-item active"><span class="nav-item-left"><i class="bi bi-gear nav-item-icon"></i> <span>Settings</span></span></a>
+        <a href="help.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-question-circle nav-item-icon"></i> <span>Help & FAQ</span></span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar avatar-sm user-avatar-initials">SJ</div>
+        <div class="sidebar-footer-user">
+          <div class="sidebar-footer-name">Sarah Jenkins</div>
+          <div class="sidebar-footer-role">Senior Enterprise AE</div>
+        </div>
+        <a href="login.html" title="Sign out" style="color: #9CA3AF; padding: 4px;"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Canvas Area -->
+    <div class="app-main">
+      
+      <!-- Sticky Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" aria-label="Toggle menu"><i class="bi bi-list"></i></button>
+          <div class="header-breadcrumb">
+            <span>CLIENTFLOW</span>
+            <i class="bi bi-chevron-right text-muted" style="font-size: 0.75rem;"></i>
+            <span class="current">Team Management</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="header-search-trigger" onclick="openGlobalSearch()">
+            <div class="flex items-center gap-sm"><i class="bi bi-search"></i><span>Search workspace settings...</span></div>
+            <span class="search-shortcut-badge">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="notifications.html" class="header-icon-btn"><i class="bi bi-bell"></i><span class="notification-indicator"></span></a>
+          <a href="profile.html" class="avatar avatar-sm user-avatar-initials" style="text-decoration: none;">SJ</a>
+        </div>
+      </header>
+
+      <!-- Viewport Canvas -->
+      <main class="content-canvas" style="max-width: 640px; margin: 0 auto;">
+        
+        <!-- Top Workspace Tag Bar -->
+        <div class="flex items-center justify-between flex-wrap gap-xs" style="margin-bottom: 0.5rem;">
+          <span class="badge badge-emerald" style="font-weight: 700;">
+            <span class="badge-dot"></span> Pro Workspace • Active
+          </span>
+          <span class="mono text-muted" style="font-size: 0.8125rem;">v2.14.0</span>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <h1 class="display-lg" id="settings-page-title" style="font-size: 1.5rem;">Settings & Preferences</h1>
+          <div class="body-sm" id="settings-page-desc" style="color: var(--color-text-secondary); margin-top: 2px;">
+            Manage company details, billing, workspace defaults, and brand appearance.
+          </div>
+        </div>
+
+        <!-- 4 Tab Pills (Matching Screenshots 1, 2, 4, 5) -->
+        <div class="flex items-center gap-xs flex-wrap" style="margin-bottom: 1.25rem;">
+          <a href="profile.html" class="tab-pill inactive">
+            <i class="bi bi-person"></i> Profile
+          </a>
+          <button type="button" id="tab-btn-company" class="tab-pill active" onclick="switchSettingsTab('company')">
+            <i class="bi bi-building"></i> Company
+          </button>
+          <button type="button" id="tab-btn-notifications" class="tab-pill inactive" onclick="switchSettingsTab('notifications')">
+            <i class="bi bi-bell"></i> Notifications
+          </button>
+          <button type="button" id="tab-btn-security" class="tab-pill inactive" onclick="switchSettingsTab('security')">
+            <i class="bi bi-shield-lock"></i> Security
+          </button>
+        </div>
+
+        <!-- ===================================================================
+             TAB 1: COMPANY SETTINGS (Matching Screenshot 5 / 10)
+             =================================================================== -->
+        <div id="tab-content-company">
+          
+          <!-- Card 1: Company Profile & Identity -->
+          <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+            <div class="card-header">
+              <div>
+                <div class="card-title">
+                  <i class="bi bi-building text-emerald"></i> Company Profile & Identity
+                </div>
+                <div class="body-sm text-muted">Public branding and official enterprise details</div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              
+              <!-- Brand Assets Box -->
+              <div class="flex items-center justify-between" style="background-color: #EEF2FF; border-radius: var(--radius-lg); padding: 0.85rem 1rem; margin-bottom: 1.15rem;">
+                <div class="flex items-center gap-md">
+                  <div style="width: 44px; height: 44px; background-color: #064E3B; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: #FFF; font-weight: 800; font-size: 0.85rem; letter-spacing: -0.02em;">
+                    ACME
+                  </div>
+                  <div>
+                    <div style="font-weight: 700; color: #1E293B; font-size: 0.9rem;">Acme Brand Assets</div>
+                    <div class="body-sm text-muted" style="font-size: 0.75rem;">PNG, SVG or WEBP (Max 2MB)</div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="showToast('Upload Asset', 'Select enterprise brand asset vector or PNG', 'info')">
+                  <i class="bi bi-pencil"></i> Change
+                </button>
+              </div>
+
+              <!-- Legal Entity Name -->
+              <div class="form-group">
+                <label for="company-legal-name" class="label-md text-muted">Legal Entity Name</label>
+                <div class="input-clean-box">
+                  <div class="flex items-center gap-sm flex-1">
+                    <i class="bi bi-building text-muted"></i>
+                    <input type="text" id="company-legal-name" value="Acme Global Technologies Inc." style="border: none; background: transparent; width: 100%; outline: none; font-weight: 500; color: var(--color-text-primary);">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Industry Vertical -->
+              <div class="form-group">
+                <label for="company-industry" class="label-md text-muted">Industry Vertical</label>
+                <div class="input-clean-box">
+                  <div class="flex items-center gap-sm flex-1">
+                    <i class="bi bi-diagram-3 text-muted"></i>
+                    <select id="company-industry" style="border: none; background: transparent; width: 100%; outline: none; font-weight: 500; color: var(--color-text-primary);">
+                      <option value="B2B Enterprise Software / SaaS" selected>B2B Enterprise Software / SaaS</option>
+                      <option value="FinTech & Banking Solutions">FinTech & Banking Solutions</option>
+                      <option value="Healthcare Technology">Healthcare Technology</option>
+                      <option value="Supply Chain & Logistics">Supply Chain & Logistics</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Corporate Website -->
+              <div class="form-group">
+                <label for="company-website" class="label-md text-muted">Corporate Website</label>
+                <div class="input-clean-box">
+                  <div class="flex items-center gap-sm flex-1">
+                    <i class="bi bi-globe text-muted"></i>
+                    <input type="text" id="company-website" value="https://acme-global.com" style="border: none; background: transparent; width: 100%; outline: none; font-weight: 500; color: var(--color-text-primary);">
+                  </div>
+                  <a href="https://acme-global.com" target="_blank" class="text-muted"><i class="bi bi-box-arrow-up-right"></i></a>
+                </div>
+              </div>
+
+              <!-- Tax ID / VAT Registration -->
+              <div class="form-group">
+                <label for="company-taxid" class="label-md text-muted">Tax ID / VAT Registration</label>
+                <div class="input-clean-box">
+                  <div class="flex items-center gap-sm flex-1">
+                    <i class="bi bi-shield-check text-muted"></i>
+                    <input type="text" id="company-taxid" class="mono" value="US-849201948" style="border: none; background: transparent; width: 100%; outline: none; font-weight: 600; color: var(--color-text-primary);">
+                  </div>
+                  <span class="badge badge-emerald" style="font-size: 0.7rem; font-weight: 700;">
+                    <i class="bi bi-check-lg"></i> Verified
+                  </span>
+                </div>
+              </div>
+
+              <!-- Headquarters Address -->
+              <div class="form-group">
+                <label for="company-address" class="label-md text-muted">Headquarters Address</label>
+                <div class="input-clean-box">
+                  <div class="flex items-center gap-sm flex-1">
+                    <i class="bi bi-geo-alt text-muted"></i>
+                    <input type="text" id="company-address" value="452 Enterprise Blvd, Suite 800, Austin, TX 78701" style="border: none; background: transparent; width: 100%; outline: none; font-weight: 500; color: var(--color-text-primary);">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Card 2: Workspace Defaults & Localization -->
+          <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+            <div class="card-header">
+              <div>
+                <div class="card-title">
+                  <i class="bi bi-sliders text-emerald"></i> Workspace Defaults & Localization
+                </div>
+                <div class="body-sm text-muted">Financial cycles, metrics, and data governance</div>
+              </div>
+            </div>
+            <div class="card-body flex flex-col gap-sm">
+              
+              <div class="input-clean-box" style="cursor: pointer;" onclick="showToast('Currency Setting', 'Base currency locked to USD for Q4', 'info')">
+                <div class="flex items-center gap-sm">
+                  <i class="bi bi-cash text-muted"></i>
+                  <div>
+                    <div class="label-sm text-muted">Primary Currency</div>
+                    <div style="font-weight: 600; font-size: 0.875rem;">USD ($ - United States Dollar)</div>
+                  </div>
+                </div>
+                <i class="bi bi-chevron-right text-muted"></i>
+              </div>
+
+              <div class="input-clean-box" style="cursor: pointer;" onclick="showToast('Fiscal Calendar', 'Fiscal standard: Q1 Jan - Mar', 'info')">
+                <div class="flex items-center gap-sm">
+                  <i class="bi bi-calendar3 text-muted"></i>
+                  <div>
+                    <div class="label-sm text-muted">Fiscal Year Start</div>
+                    <div style="font-weight: 600; font-size: 0.875rem;">January (Q1 Standard)</div>
+                  </div>
+                </div>
+                <i class="bi bi-chevron-right text-muted"></i>
+              </div>
+
+              <div class="input-clean-box">
+                <div class="flex items-center gap-sm">
+                  <i class="bi bi-speedometer2 text-muted"></i>
+                  <div>
+                    <div class="label-sm text-muted">Default Pipeline Stage Velocity</div>
+                    <div style="font-weight: 600; font-size: 0.875rem;">30 Days</div>
+                  </div>
+                </div>
+                <span class="badge badge-neutral" style="font-weight: 700;">30d target</span>
+              </div>
+
+              <div class="input-clean-box">
+                <div class="flex items-center gap-sm">
+                  <i class="bi bi-shield-lock text-muted"></i>
+                  <div>
+                    <div class="label-sm text-muted">Data Retention Policy</div>
+                    <div style="font-weight: 600; font-size: 0.875rem;">7 Years (Enterprise Standard)</div>
+                  </div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" checked id="retention-toggle">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Card 3: Subscription & Billing -->
+          <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.5rem;">
+            <div class="card-header">
+              <div>
+                <div class="card-title">
+                  <i class="bi bi-credit-card text-emerald"></i> Subscription & Billing
+                </div>
+                <div class="body-sm text-muted">Current tier and active payment profile</div>
+              </div>
+              <span class="badge badge-emerald" style="font-weight: 700;">Active • Oct 2025</span>
+            </div>
+            <div class="card-body">
+              
+              <div style="background-color: #F8FAFC; border-radius: var(--radius-lg); padding: 1rem 1.15rem; margin-bottom: 1rem;">
+                <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+                  <div>
+                    <div class="label-sm text-muted">CURRENT PLAN</div>
+                    <div style="font-size: 1.05rem; font-weight: 700; color: var(--color-text-primary);">Enterprise Annual Plan</div>
+                  </div>
+                  <div class="mono" style="font-size: 1.1rem; font-weight: 800; color: #047857;">$1,440/mo</div>
+                </div>
+
+                <div style="margin-top: 0.75rem;">
+                  <div class="flex items-center justify-between" style="font-size: 0.78rem; margin-bottom: 3px;">
+                    <span>Team Seat Utilization</span>
+                    <strong class="mono">12 / 15 Seats (80%)</strong>
+                  </div>
+                  <div class="progress-bar-wrap" style="height: 6px;">
+                    <div class="progress-bar-fill" style="width: 80%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-sm">
+                <div class="input-clean-box">
+                  <div class="flex items-center gap-sm">
+                    <i class="bi bi-envelope text-muted"></i>
+                    <div>
+                      <div class="label-sm text-muted">Primary Billing Contact</div>
+                      <div class="mono" style="font-size: 0.8125rem; font-weight: 600;">billing@acme-global.com</div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="showToast('Edit Contact', 'Update billing invoice recipient', 'info')">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                </div>
+
+                <div class="input-clean-box">
+                  <div class="flex items-center gap-sm">
+                    <i class="bi bi-credit-card-2-front text-muted"></i>
+                    <div>
+                      <div class="label-sm text-muted">Default Card</div>
+                      <div style="font-size: 0.8125rem; font-weight: 600;">Mastercard ending in 4092</div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="showToast('Card Management', 'Stripe customer portal standby', 'info')">
+                    Manage
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex items-center gap-sm" style="margin-bottom: 1.25rem;">
+            <button type="button" class="btn btn-primary flex-1 btn-lg" onclick="saveCompanySettings()">
+              <i class="bi bi-check-lg"></i> Save Changes
+            </button>
+            <button type="button" class="btn btn-secondary flex-1 btn-lg" style="background-color: #EEF2FF; border-color: #E0E7FF; color: #3730A3;" onclick="showToast('Discarded', 'Reverted company profile changes.', 'info')">
+              Discard
+            </button>
+          </div>
+
+          <!-- Export Link -->
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <button type="button" class="btn btn-ghost btn-sm" style="color: var(--color-text-secondary);" onclick="exportCompanyData()">
+              <i class="bi bi-download"></i> Export Workspace Company Data (CSV/JSON)
+            </button>
+          </div>
+
+        </div>
+
+
+        <!-- ===================================================================
+             TAB 2: NOTIFICATIONS PREFERENCES (Matching New Screenshot 1)
+             =================================================================== -->
+        <div id="tab-content-notifications" style="display: none;">
+
+          <!-- Card 1: Delivery Channels & Devices -->
+          <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+            <div class="card-header">
+              <div class="flex items-center gap-md">
+                <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: #D1FAE5; color: #065F46; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                  <i class="bi bi-broadcast"></i>
+                </div>
+                <div>
+                  <div class="card-title">Delivery Channels & Devices</div>
+                  <div class="body-sm text-muted">Control where your high-priority CRM triggers ring</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              
+              <div class="setting-row">
+                <div class="flex items-center gap-md">
+                  <i class="bi bi-phone text-muted" style="font-size: 1.25rem;"></i>
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-primary);">Push Notifications (Mobile & Tablet)</div>
+                    <div class="body-sm text-muted">Real-time alerts to this active device</div>
+                  </div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" checked id="notif-push">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div class="flex items-center gap-md">
+                  <i class="bi bi-at text-muted" style="font-size: 1.25rem;"></i>
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-primary);">Email Digests</div>
+                    <div class="body-sm text-muted">sarah.jenkins@clientflow.io</div>
+                  </div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" checked id="notif-email">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div class="flex items-center gap-md">
+                  <i class="bi bi-display text-muted" style="font-size: 1.25rem;"></i>
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-primary);">Desktop & Browser Push</div>
+                    <div class="body-sm text-muted">Permission prompt required in browser</div>
+                  </div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" id="notif-browser">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row" style="background-color: #EEF2FF; padding: 0.75rem 1rem; border-radius: var(--radius-lg); margin-top: 0.5rem; border: 1px solid #E0E7FF;">
+                <div class="flex items-center gap-md">
+                  <i class="bi bi-slack text-primary" style="font-size: 1.25rem; color: #4F46E5;"></i>
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.9rem; color: #1E1B4B;">Slack Integration Alerts</div>
+                    <div class="body-sm" style="color: #4F46E5;">Connected to <strong>#sales-pipeline</strong></div>
+                  </div>
+                </div>
+                <span class="badge badge-emerald" style="font-weight: 700;">
+                  <span class="badge-dot"></span> Syncing
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Card 2: Sales & Pipeline Alerts -->
+          <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+            <div class="card-header">
+              <div class="flex items-center gap-md">
+                <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: #EEF2FF; color: #3730A3; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                  <i class="bi bi-globe2"></i>
+                </div>
+                <div>
+                  <div class="card-title">Sales & Pipeline Alerts</div>
+                  <div class="body-sm text-muted">Never miss momentum on qualified opportunities</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-primary);">New Inbound Leads Assigned</div>
+                  <div class="body-sm text-muted">Immediate nudge when SDR routes deal to you</div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" checked id="notif-inbound-leads">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row" style="background-color: #ECFDF5; padding: 0.75rem 0.85rem; border-radius: var(--radius-md); border: 1px solid #A7F3D0; margin: 0.4rem 0;">
+                <div>
+                  <div class="flex items-center gap-xs">
+                    <span style="font-weight: 700; font-size: 0.9rem; color: #065F46;">Deal Stage Advanced or Won</span>
+                    <span class="badge-high-value">High Value</span>
+                  </div>
+                  <div class="body-sm" style="color: #047857;">Includes team celebrations & milestone triggers</div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" checked id="notif-stage-advance">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-primary);">High-Value Deal At Risk / Stalled (&gt; $50k)</div>
+                  <div class="body-sm text-muted">Dormant stage triggers after 5 business days</div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" checked id="notif-deal-risk">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-primary);">Contact Form Submissions</div>
+                  <div class="body-sm text-muted">General web inquiry alerts from landing pages</div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" id="notif-form-submissions">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Card 3: Tasks & Follow-up Reminders -->
+          <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+            <div class="card-header">
+              <div class="flex items-center gap-md">
+                <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: #EFF6FF; color: #1D4ED8; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                  <i class="bi bi-calendar-check"></i>
+                </div>
+                <div>
+                  <div class="card-title">Tasks & Follow-up Reminders</div>
+                  <div class="body-sm text-muted">Maintain SLA benchmarks and client commitments</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              
+              <div class="setting-row">
+                <div class="flex items-center gap-md">
+                  <i class="bi bi-exclamation-circle text-danger" style="font-size: 1.2rem;"></i>
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-primary);">Overdue Task Warnings</div>
+                    <div class="body-sm text-muted">Instant escalation banner on expired tasks</div>
+                  </div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" checked id="notif-overdue">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div class="flex items-center gap-md">
+                  <i class="bi bi-sun text-warning" style="font-size: 1.2rem;"></i>
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-primary);">Daily Morning Agenda Briefing (8:00 AM)</div>
+                    <div class="body-sm text-muted">Digest of open calls, demo meetings & deadlines</div>
+                  </div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" checked id="notif-morning-agenda">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div class="flex items-center gap-md">
+                  <i class="bi bi-chat-square-text text-muted" style="font-size: 1.2rem;"></i>
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-primary);">Meeting Follow-up Prompts</div>
+                    <div class="body-sm text-muted">Logged note prompt 15 mins post-calendar call</div>
+                  </div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" checked id="notif-meeting-prompt">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Card 4: Notification Frequency & Quiet Hours -->
+          <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.5rem;">
+            <div class="card-header">
+              <div class="flex items-center gap-md">
+                <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: #F1F5F9; color: #475569; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                  <i class="bi bi-clock"></i>
+                </div>
+                <div>
+                  <div class="card-title">Notification Frequency & Quiet Hours</div>
+                  <div class="body-sm text-muted">Pacing schedules and sleep-safe window rules</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              
+              <div class="form-group" style="margin-bottom: 1.15rem;">
+                <label for="digest-rollup" class="label-md text-muted">Digest Rollup Schedule</label>
+                <div class="input-clean-box">
+                  <select id="digest-rollup" style="border: none; background: transparent; width: 100%; outline: none; font-weight: 600; color: var(--color-text-primary);">
+                    <option selected>Daily Summary at 8:00 AM</option>
+                    <option>Twice Daily (8:00 AM & 5:00 PM)</option>
+                    <option>Real-Time Hourly Digest</option>
+                    <option>Weekly Executive Summary (Mondays)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="setting-row" style="margin-bottom: 1rem;">
+                <div class="flex items-center gap-md">
+                  <i class="bi bi-moon text-muted" style="font-size: 1.2rem;"></i>
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem; color: var(--color-text-primary);">Quiet Hours (Do Not Disturb)</div>
+                    <div class="body-sm text-muted">Mutes audio and non-critical push alerts</div>
+                  </div>
+                </div>
+                <label class="switch-control">
+                  <input type="checkbox" checked id="notif-quiet-hours">
+                  <span class="switch-slider"></span>
+                </label>
+              </div>
+
+              <!-- Active Range Box -->
+              <div class="flex items-center justify-between" style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 1rem;">
+                <div class="flex items-center gap-md">
+                  <span class="label-sm text-muted" style="font-weight: 700; letter-spacing: 0.04em;">ACTIVE RANGE</span>
+                  <div class="flex items-center gap-xs">
+                    <span class="mono" style="background: #EEF2FF; padding: 4px 8px; border-radius: var(--radius-sm); font-weight: 700; color: #3730A3; font-size: 0.8125rem;">10 : 00 PM</span>
+                    <span class="text-muted" style="font-size: 0.8125rem;">to</span>
+                    <span class="mono" style="background: #EEF2FF; padding: 4px 8px; border-radius: var(--radius-sm); font-weight: 700; color: #3730A3; font-size: 0.8125rem;">7 : 00 AM</span>
+                  </div>
+                </div>
+                <a href="javascript:void(0)" class="text-emerald font-semibold" style="font-size: 0.8125rem; text-decoration: none;" onclick="showToast('Quiet Hours', 'Schedule set: 10:00 PM - 7:00 AM EST', 'info')">Edit</a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div class="flex items-center gap-sm" style="margin-bottom: 2rem;">
+            <button type="button" class="btn btn-primary flex-1 btn-lg" onclick="saveNotificationPreferences()">
+              <i class="bi bi-check-lg"></i> Save Preferences
+            </button>
+            <button type="button" class="btn btn-secondary flex-1 btn-lg" style="background-color: #EEF2FF; border-color: #E0E7FF; color: #3730A3;" onclick="resetNotificationPreferences()">
+              Reset to Default
+            </button>
+          </div>
+
+        </div>
+
+
+        <!-- ===================================================================
+             TAB 3: SECURITY & AUDIT (Matching New Screenshots 2, 3, 4, 5)
+             =================================================================== -->
+        <div id="tab-content-security" style="display: none;">
+
+          <!-- DEFAULT SECURITY VIEW (Matching Screenshot 2) -->
+          <div id="security-default-view">
+
+            <!-- Green Session Revoked Alert Banner (Matching Screenshot 2) -->
+            <div id="session-revoked-banner" style="display: none; background-color: #ECFDF5; border: 1px solid #A7F3D0; border-radius: var(--radius-xl); padding: 0.85rem 1.15rem; margin-bottom: 1.25rem;">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start gap-sm">
+                  <div style="width: 28px; height: 28px; border-radius: 50%; background: #059669; color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; margin-top: 1px;">
+                    <i class="bi bi-check-lg"></i>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-xs">
+                      <strong style="font-size: 0.95rem; color: #064E3B;">Session Revoked</strong>
+                      <span class="mono" style="background: #A7F3D0; color: #065F46; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700;">#SEC-8921-REV</span>
+                    </div>
+                    <div class="body-sm" style="color: #047857; font-size: 0.8rem; margin-top: 2px;">
+                      MacBook Pro 16" session revoked successfully. Access token terminated and signed out immediately.
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-ghost btn-sm btn-icon" style="color: #065F46;" onclick="document.getElementById('session-revoked-banner').style.display='none'">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 1: Password & Auth -->
+            <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+              <div class="card-header">
+                <div class="flex items-center gap-md">
+                  <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: #ECFDF5; color: #047857; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                    <i class="bi bi-shield-lock"></i>
+                  </div>
+                  <div>
+                    <div class="card-title">Password & Auth</div>
+                    <div class="body-sm text-muted">Cryptographic credential vault</div>
+                  </div>
+                </div>
+                <span class="badge badge-emerald" style="font-weight: 700;">
+                  <i class="bi bi-check-circle"></i> 42d ago
+                </span>
+              </div>
+              <div class="card-body">
+                
+                <!-- Current Password -->
+                <div class="form-group">
+                  <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                    <label for="sec-current-pwd" class="label-md text-muted">Current Password</label>
+                    <a href="forgot-password.html" class="text-emerald" style="font-size: 0.75rem; text-decoration: none; font-weight: 600;">Forgot?</a>
+                  </div>
+                  <div class="input-clean-box">
+                    <input type="password" id="sec-current-pwd" value="••••••••••••••••" style="border: none; background: transparent; width: 100%; outline: none; font-weight: 600; letter-spacing: 0.15em; color: var(--color-text-primary);">
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="togglePasswordVisibility('sec-current-pwd', this)">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- New Password -->
+                <div class="form-group">
+                  <label for="sec-new-pwd" class="label-md text-muted">New Password</label>
+                  <div class="input-clean-box">
+                    <input type="password" id="sec-new-pwd" value="••••••••••••••••" style="border: none; background: transparent; width: 100%; outline: none; font-weight: 600; letter-spacing: 0.15em; color: var(--color-text-primary);">
+                    <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="togglePasswordVisibility('sec-new-pwd', this)">
+                      <i class="bi bi-eye-slash"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Strength Progress Bar -->
+                <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 1rem; margin-bottom: 1rem;">
+                  <div class="flex items-center justify-between" style="font-size: 0.8125rem; margin-bottom: 6px;">
+                    <span class="text-muted">Entropy / Strength:</span>
+                    <span class="text-emerald font-semibold"><i class="bi bi-shield-check"></i> Strong (85%)</span>
+                  </div>
+                  <div class="progress-bar-wrap" style="height: 5px; margin-bottom: 8px;">
+                    <div class="progress-bar-fill" style="width: 85%; background-color: #059669;"></div>
+                  </div>
+                  <div class="flex items-center gap-xs flex-wrap" style="font-size: 0.75rem;">
+                    <span class="badge badge-emerald" style="padding: 2px 6px;"><i class="bi bi-check"></i> 12+ chars</span>
+                    <span class="badge badge-emerald" style="padding: 2px 6px;"><i class="bi bi-check"></i> Special symbol</span>
+                    <span class="badge badge-emerald" style="padding: 2px 6px;"><i class="bi bi-check"></i> Numbers</span>
+                  </div>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group" style="margin-bottom: 1.25rem;">
+                  <label for="sec-confirm-pwd" class="label-md text-muted">Confirm New Password</label>
+                  <div class="input-clean-box">
+                    <input type="password" id="sec-confirm-pwd" value="••••••••••••••••" style="border: none; background: transparent; width: 100%; outline: none; font-weight: 600; letter-spacing: 0.15em; color: var(--color-text-primary);">
+                  </div>
+                </div>
+
+                <button type="button" class="btn btn-secondary btn-block" style="background-color: #EEF2FF; border-color: #E0E7FF; color: #3730A3; font-weight: 600;" onclick="showToast('Password Updated', 'Credential vault rotated with AES-256 simulation', 'success')">
+                  <i class="bi bi-key"></i> Update Password
+                </button>
+
+              </div>
+            </div>
+
+            <!-- Card 2: Multi-Factor Auth -->
+            <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+              <div class="card-header">
+                <div class="flex items-center gap-md">
+                  <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: #ECFDF5; color: #047857; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                    <i class="bi bi-shield-check"></i>
+                  </div>
+                  <div>
+                    <div class="card-title">Multi-Factor Auth</div>
+                    <div class="body-sm text-muted">Two-step perimeter protection</div>
+                  </div>
+                </div>
+                <span class="badge badge-emerald" style="font-weight: 700;">
+                  <span class="badge-dot"></span> Enabled
+                </span>
+              </div>
+              <div class="card-body">
+                
+                <div class="input-clean-box" style="margin-bottom: 0.75rem;">
+                  <div class="flex items-center gap-md">
+                    <i class="bi bi-phone text-muted" style="font-size: 1.25rem;"></i>
+                    <div>
+                      <div class="flex items-center gap-xs">
+                        <span style="font-weight: 600; font-size: 0.875rem;">Authenticator App</span>
+                        <span class="badge badge-emerald" style="font-size: 0.65rem; padding: 1px 5px;">Primary</span>
+                      </div>
+                      <div class="body-sm text-muted" style="font-size: 0.75rem;">Google Authenticator / 1Password active</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="setting-row" style="margin-bottom: 0.75rem;">
+                  <div class="flex items-center gap-md">
+                    <i class="bi bi-chat-dots text-muted" style="font-size: 1.25rem;"></i>
+                    <div>
+                      <div style="font-weight: 600; font-size: 0.875rem;">SMS Recovery Codes</div>
+                      <div class="mono text-muted" style="font-size: 0.8125rem;">+1 ••• ••• 2810</div>
+                    </div>
+                  </div>
+                  <label class="switch-control">
+                    <input type="checkbox" checked id="sms-2fa-toggle">
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+
+                <div style="text-align: center; padding-top: 0.25rem;">
+                  <a href="javascript:void(0)" class="text-emerald font-semibold" style="font-size: 0.8125rem; text-decoration: none;" onclick="downloadRecoveryCodes()">
+                    <i class="bi bi-download"></i> Download Recovery Codes (10 remaining)
+                  </a>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Card 3: Active Sessions (Matching Screenshot 2) -->
+            <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+              <div class="card-header">
+                <div class="flex items-center gap-md">
+                  <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: #EFF6FF; color: #1D4ED8; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                    <i class="bi bi-laptop"></i>
+                  </div>
+                  <div>
+                    <div class="card-title">Active Sessions</div>
+                    <div class="body-sm text-muted">Manage and revoke active sessions across your mobile, desktop, and web clients.</div>
+                  </div>
+                </div>
+                <span class="badge badge-neutral" id="active-sessions-count" style="font-weight: 700;">3 active</span>
+              </div>
+              <div class="card-body flex flex-col gap-sm">
+                
+                <!-- Session 1: iPhone 15 Pro (Current) -->
+                <div style="background-color: #ECFDF5; border: 1px solid #A7F3D0; border-radius: var(--radius-lg); padding: 0.85rem 1rem;">
+                  <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                    <div class="flex items-center gap-sm">
+                      <div style="width: 32px; height: 32px; background: #D1FAE5; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: #047857;">
+                        <i class="bi bi-phone"></i>
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-xs">
+                          <strong style="font-size: 0.9rem;">iPhone 15 Pro</strong>
+                          <span class="badge badge-emerald" style="font-size: 0.65rem; padding: 1px 5px;">This Device</span>
+                        </div>
+                        <div class="body-sm text-muted" style="font-size: 0.75rem;">Chrome on iOS • New York, USA</div>
+                      </div>
+                    </div>
+                    <span class="badge badge-emerald" style="font-weight: 700; font-size: 0.7rem;">
+                      <span class="badge-dot"></span> Active Now
+                    </span>
+                  </div>
+                  <div class="flex items-center justify-between text-muted mono" style="font-size: 0.75rem; padding-top: 4px; border-top: 1px dashed #A7F3D0; margin-top: 6px;">
+                    <span>IP: 192.0.2.45</span>
+                    <span>Certificate: TLS 1.3</span>
+                  </div>
+                </div>
+
+                <!-- Session 2: MacBook Pro 16" (Revokable) -->
+                <div class="input-clean-box" id="session-card-macbook">
+                  <div class="flex items-center gap-sm">
+                    <div style="width: 32px; height: 32px; background: #EFF6FF; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: #1D4ED8;">
+                      <i class="bi bi-display"></i>
+                    </div>
+                    <div>
+                      <div style="font-weight: 700; font-size: 0.875rem;">MacBook Pro 16"</div>
+                      <div class="body-sm text-muted" style="font-size: 0.75rem;">Chrome • New York, USA &bull; Active 2 hours ago</div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-outline-danger btn-sm" onclick="openRevokeModal('MacBook Pro 16&quot;')">
+                    Revoke
+                  </button>
+                </div>
+
+                <!-- Session 3: iPad Air (Revokable) -->
+                <div class="input-clean-box" id="session-card-ipad">
+                  <div class="flex items-center gap-sm">
+                    <div style="width: 32px; height: 32px; background: #EFF6FF; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: #1D4ED8;">
+                      <i class="bi bi-tablet"></i>
+                    </div>
+                    <div>
+                      <div style="font-weight: 700; font-size: 0.875rem;">iPad Air</div>
+                      <div class="body-sm text-muted" style="font-size: 0.75rem;">Safari • Austin, TX &bull; Active 3 days ago</div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-outline-danger btn-sm" onclick="openRevokeModal('iPad Air')">
+                    Revoke
+                  </button>
+                </div>
+
+                <!-- Revoke All Button -->
+                <button type="button" class="btn btn-outline-danger btn-block" style="margin-top: 0.5rem;" onclick="openRevokeModal('All Remote Sessions')">
+                  <i class="bi bi-box-arrow-right"></i> Revoke All Other Sessions
+                </button>
+
+                <!-- SIEM Audit Log Link (Matching Screenshot 2) -->
+                <a href="audit-log.html" class="flex items-center justify-center gap-xs font-semibold" style="color: #059669; font-size: 0.85rem; text-decoration: none; margin-top: 0.75rem; padding-top: 0.65rem; border-top: 1px dashed #E2E8F0;">
+                  <span>View Full Session Audit Log (SIEM Synced)</span> &rarr;
+                </a>
+
+              </div>
+            </div>
+
+            <!-- Card 4: Governance & API -->
+            <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.5rem;">
+              <div class="card-header">
+                <div class="flex items-center gap-md">
+                  <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: #F1F5F9; color: #334155; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                    <i class="bi bi-diagram-2"></i>
+                  </div>
+                  <div>
+                    <div class="card-title">Governance & API</div>
+                    <div class="body-sm text-muted">Organization policies & webhooks</div>
+                  </div>
+                </div>
+                <span class="badge badge-neutral" style="font-weight: 700;">Enterprise</span>
+              </div>
+              <div class="card-body flex flex-col gap-sm">
+                
+                <div style="background-color: #EEF2FF; border: 1px solid #E0E7FF; border-radius: var(--radius-lg); padding: 0.85rem 1rem;">
+                  <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                    <div class="flex items-center gap-xs">
+                      <i class="bi bi-lock-fill" style="color: #4338CA;"></i>
+                      <strong style="color: #312E81; font-size: 0.875rem;">Single Sign-On (SSO / SAML 2.0)</strong>
+                    </div>
+                    <span class="badge badge-neutral" style="font-weight: 700; font-size: 0.65rem;">Enforced</span>
+                  </div>
+                  <div class="body-sm" style="color: #4338CA; font-size: 0.75rem; line-height: 1.4;">
+                    Enforced by <strong>Acme Global Technologies</strong> admin via Okta Identity Cloud. Password updates defer to corporate IdP.
+                  </div>
+                </div>
+
+                <div class="input-clean-box">
+                  <div class="flex items-center gap-sm">
+                    <i class="bi bi-code-slash text-muted"></i>
+                    <div>
+                      <div style="font-weight: 600; font-size: 0.875rem;">API Tokens & Webhooks</div>
+                      <div class="body-sm text-muted" style="font-size: 0.75rem;">3 active developer keys registered</div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="showToast('API Governance', 'View developer keys in Acme Admin Portal', 'info')">
+                    Manage &rarr;
+                  </button>
+                </div>
+
+                <div class="input-clean-box">
+                  <div class="flex items-center gap-sm">
+                    <i class="bi bi-journal-text text-muted"></i>
+                    <div>
+                      <div style="font-weight: 600; font-size: 0.875rem;">Audit Log Export</div>
+                      <div class="body-sm text-muted" style="font-size: 0.75rem;">Recent security and login events</div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="downloadAuditLog()">
+                    <i class="bi bi-download"></i>
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="flex items-center gap-sm" style="margin-bottom: 2rem;">
+              <button type="button" class="btn btn-primary flex-1 btn-lg" onclick="saveSecuritySettings()">
+                <i class="bi bi-check-lg"></i> Save Security Settings
+              </button>
+              <button type="button" class="btn btn-secondary flex-1 btn-lg" style="background-color: #EEF2FF; border-color: #E0E7FF; color: #3730A3;" onclick="showToast('Cancelled', 'Security settings unchanged', 'info')">
+                Cancel
+              </button>
+            </div>
+
+          </div>
+
+
+          <!-- ===================================================================
+               POST-REVOCATION VIEW (Matching New Screenshot 3)
+               =================================================================== -->
+          <div id="security-revoked-view" style="display: none;">
+            
+            <!-- Green Alert Banner -->
+            <div style="background-color: #059669; color: #FFFFFF; border-radius: var(--radius-xl); padding: 1.15rem 1.25rem; margin-bottom: 1.25rem; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);">
+              <div class="flex items-start justify-between">
+                <div class="flex items-start gap-md">
+                  <i class="bi bi-shield-check" style="font-size: 1.5rem; line-height: 1.1;"></i>
+                  <div>
+                    <div style="font-size: 1.05rem; font-weight: 800; letter-spacing: -0.01em;">Session Successfully Revoked</div>
+                    <div style="font-size: 0.8125rem; opacity: 0.9; margin-top: 2px;">
+                      MacBook Pro 16" (Chrome 124.0 • New York, NY) was signed out. Access tokens invalidated.
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-ghost btn-sm btn-icon" style="color: #FFF; opacity: 0.8;" onclick="this.parentElement.parentElement.style.display='none'">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
+
+              <div class="flex items-center justify-between flex-wrap gap-xs" style="margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.25);">
+                <span class="badge-emerald-dark" style="padding: 3px 8px; border-radius: var(--radius-sm); font-size: 0.7rem; font-family: monospace;">
+                  <i class="bi bi-lock-fill"></i> Audit ID: #SEC-8921-REV • SOC2 Logged
+                </span>
+                <button type="button" class="btn btn-sm btn-ghost" style="color: #FFF; font-weight: 700; font-size: 0.75rem; padding: 2px 6px;" onclick="undoRevokeSession()">
+                  <i class="bi bi-arrow-counterclockwise"></i> <span id="undo-countdown-text">Undo (7s)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 3 Stat Metrics -->
+            <div class="grid grid-cols-3 gap-sm" style="margin-bottom: 1.25rem;">
+              <div class="metric-card" style="padding: 0.85rem; text-align: center;">
+                <div class="flex items-center justify-center gap-xs text-muted" style="font-size: 0.75rem; font-weight: 700;">
+                  <i class="bi bi-display text-emerald"></i> 2
+                </div>
+                <div style="font-weight: 800; font-size: 0.875rem; color: var(--color-text-primary); margin-top: 2px;">ACTIVE DEVICES</div>
+                <div class="body-sm text-emerald" style="font-size: 0.7rem; font-weight: 600;">Reduced from 3</div>
+              </div>
+
+              <div class="metric-card" style="padding: 0.85rem; text-align: center;">
+                <div class="flex items-center justify-center gap-xs text-danger" style="font-size: 0.75rem; font-weight: 700;">
+                  <i class="bi bi-slash-circle"></i> 1
+                </div>
+                <div style="font-weight: 800; font-size: 0.875rem; color: var(--color-text-primary); margin-top: 2px;">REVOKED TODAY</div>
+                <div class="body-sm text-muted" style="font-size: 0.7rem;">SecOps Verified</div>
+              </div>
+
+              <div class="metric-card" style="padding: 0.85rem; text-align: center;">
+                <div class="flex items-center justify-center gap-xs text-emerald" style="font-size: 0.75rem; font-weight: 700;">
+                  <i class="bi bi-shield"></i> 0
+                </div>
+                <div style="font-weight: 800; font-size: 0.875rem; color: var(--color-text-primary); margin-top: 2px;">SUSPICIOUS</div>
+                <div class="body-sm text-emerald" style="font-size: 0.7rem; font-weight: 600;">Safe Boundary</div>
+              </div>
+            </div>
+
+            <!-- Section: Active Authenticated Devices -->
+            <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+              <div class="card-header">
+                <div class="flex items-center gap-xs">
+                  <i class="bi bi-shield-check text-emerald"></i>
+                  <span style="font-weight: 700; font-size: 0.95rem;">Active Authenticated Devices</span>
+                </div>
+                <span class="badge badge-emerald" style="font-weight: 700; font-size: 0.7rem;">2 Verified</span>
+              </div>
+              <div class="card-body flex flex-col gap-sm">
+                
+                <!-- iPhone 15 Pro -->
+                <div style="background-color: #ECFDF5; border: 1px solid #A7F3D0; border-radius: var(--radius-lg); padding: 0.85rem 1rem;">
+                  <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                    <div class="flex items-center gap-sm">
+                      <div style="width: 32px; height: 32px; background: #D1FAE5; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: #047857;">
+                        <i class="bi bi-phone"></i>
+                      </div>
+                      <div>
+                        <div class="flex items-center gap-xs">
+                          <strong style="font-size: 0.9rem;">iPhone 15 Pro</strong>
+                          <span class="badge badge-emerald" style="font-size: 0.65rem; padding: 1px 5px;">This Device</span>
+                        </div>
+                        <div class="body-sm text-muted" style="font-size: 0.75rem;">Apple WebKit • iOS 17.4</div>
+                      </div>
+                    </div>
+                    <span class="badge badge-emerald" style="font-weight: 700; font-size: 0.7rem;">
+                      <span class="badge-dot"></span> Active Now
+                    </span>
+                  </div>
+                  <div class="flex items-center justify-between text-muted mono" style="font-size: 0.75rem; padding-top: 4px; border-top: 1px dashed #A7F3D0; margin-top: 6px;">
+                    <span><i class="bi bi-geo-alt"></i> New York, NY (192.0.2.45)</span>
+                    <span class="text-emerald font-semibold"><i class="bi bi-shield-lock"></i> TLS 1.3 Strict</span>
+                  </div>
+                </div>
+
+                <!-- iPad Air 5th Gen -->
+                <div class="input-clean-box">
+                  <div class="flex items-center gap-sm">
+                    <div style="width: 32px; height: 32px; background: #EFF6FF; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: #1D4ED8;">
+                      <i class="bi bi-tablet"></i>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-xs">
+                        <strong style="font-size: 0.875rem;">iPad Air 5th Gen</strong>
+                        <span class="badge badge-neutral" style="font-size: 0.65rem; padding: 1px 5px;">Remote Session</span>
+                      </div>
+                      <div class="body-sm text-muted" style="font-size: 0.75rem;">Safari 17.2 • iPadOS</div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-outline-danger btn-sm" onclick="showToast('Revoke Requested', 'iPad Air remote session queued for revocation', 'warning')">
+                    Revoke
+                  </button>
+                </div>
+                <div class="text-muted mono" style="font-size: 0.75rem; padding: 0 0.5rem;">
+                  <i class="bi bi-geo-alt"></i> Austin, TX (198.51.100.84) &bull; <i class="bi bi-clock-history"></i> Active 3 days ago
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section: Recently Terminated Sessions (Matching Screenshot 3) -->
+            <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+              <div class="card-header">
+                <div class="flex items-center gap-xs">
+                  <i class="bi bi-slash-circle text-danger"></i>
+                  <span style="font-weight: 700; font-size: 0.95rem;">Recently Terminated Sessions</span>
+                </div>
+                <span class="badge badge-neutral" style="font-weight: 700; font-size: 0.7rem;">1 Logged</span>
+              </div>
+              <div class="card-body">
+                
+                <div style="background-color: #FEF2F2; border: 1px solid #FECACA; border-radius: var(--radius-lg); padding: 0.85rem 1rem;">
+                  <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                    <div class="flex items-center gap-sm">
+                      <div style="width: 32px; height: 32px; background: #FEE2E2; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: #DC2626;">
+                        <i class="bi bi-laptop"></i>
+                      </div>
+                      <div>
+                        <strong style="font-size: 0.9rem; color: #991B1B;">MacBook Pro 16"</strong>
+                        <div class="body-sm text-muted" style="font-size: 0.75rem;">Chrome 124.0 • macOS Sonoma</div>
+                      </div>
+                    </div>
+                    <span class="badge badge-danger" style="font-weight: 700; font-size: 0.7rem;">
+                      <i class="bi bi-x-circle"></i> Terminated Just Now
+                    </span>
+                  </div>
+
+                  <div style="margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px dashed #FECACA; font-family: monospace; font-size: 0.75rem;">
+                    <div class="text-muted"><i class="bi bi-hdd-network"></i> IP: 198.51.100.12 (New York, NY)</div>
+                    <div style="color: #DC2626; font-weight: 700; margin-top: 2px;">
+                      <i class="bi bi-shield-x"></i> Invalidated • Okta Token Expired
+                    </div>
+                    <div class="text-muted" style="font-size: 0.7rem; margin-top: 3px;">
+                      Source: Revoked via MobileZero-Trust Force App Eject
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Section: Security Audit Log (Matching Screenshot 3) -->
+            <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.5rem;">
+              <div class="card-header">
+                <div class="flex items-center gap-xs">
+                  <i class="bi bi-card-checklist text-emerald"></i>
+                  <span style="font-weight: 700; font-size: 0.95rem;">Security Audit Log</span>
+                </div>
+                <span class="badge badge-emerald" style="font-weight: 700; font-size: 0.7rem;">
+                  <span class="badge-dot"></span> SIEM Synced
+                </span>
+              </div>
+              <div class="card-body">
+                
+                <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.75rem 1rem;">
+                  <div class="flex items-center justify-between" style="font-size: 0.8125rem;">
+                    <strong style="color: var(--color-text-primary);">
+                      <i class="bi bi-shield-fill-check text-emerald"></i> Session Revocation Enforced
+                    </strong>
+                    <span class="text-muted">Just now</span>
+                  </div>
+                  <div class="body-sm text-muted" style="font-size: 0.75rem; margin-top: 3px;">
+                    Target: <strong>MacBook Pro 16"</strong> &bull; Initiator: Sarah Jenkins (iPhone 15 Pro)
+                  </div>
+                  <div class="flex items-center justify-between text-muted mono" style="font-size: 0.7rem; margin-top: 5px; padding-top: 5px; border-top: 1px solid #E2E8F0;">
+                    <span class="text-emerald"><i class="bi bi-check-all"></i> Audit logged to SIEM</span>
+                    <span>TLS 1.3 Handshake Valid</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Done & Return Button -->
+            <button type="button" class="btn btn-primary btn-block btn-lg" style="margin-bottom: 0.75rem;" onclick="returnToSecuritySettings()">
+              <i class="bi bi-check-lg"></i> Done & Return to Security Settings
+            </button>
+
+            <!-- Download Audit Log Link -->
+            <div style="text-align: center; margin-bottom: 2rem;">
+              <button type="button" class="btn btn-ghost btn-sm" style="color: var(--color-text-secondary);" onclick="downloadAuditLog()">
+                <i class="bi bi-download"></i> Download Updated Audit Log (CSV)
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- ===================================================================
+       REVOCATION MODAL (Matching New Screenshots 4 & 5)
+       =================================================================== -->
+  <div class="modal-overlay" id="revoke-session-modal">
+    <div class="modal-bottom-sheet">
+      
+      <!-- Drag handle -->
+      <div class="modal-drag-handle"></div>
+
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+        <div class="flex items-center gap-xs">
+          <i class="bi bi-shield-check text-emerald" style="font-size: 1.25rem;"></i>
+          <h2 style="font-size: 1.15rem; font-weight: 800; margin: 0; color: var(--color-text-primary);">
+            Session Security & Audit Log
+          </h2>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="closeRevokeModal()">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="body-sm text-muted" style="margin-bottom: 0.85rem;">
+        Inspect authenticated access, IP telemetry, and active tokens across your devices.
+      </div>
+
+      <!-- Status Badges Bar -->
+      <div class="flex items-center gap-xs flex-wrap" style="margin-bottom: 1.15rem;">
+        <span class="badge badge-emerald" style="font-weight: 700;">
+          <span class="badge-dot"></span> 3 Active Sessions
+        </span>
+        <span class="badge badge-outline" style="font-weight: 600;">
+          <i class="bi bi-check-circle text-emerald"></i> Zero Suspicious Attempts
+        </span>
+        <span class="badge badge-outline" style="font-weight: 600;">
+          <i class="bi bi-lock text-muted"></i> TLS 1.3 Strict
+        </span>
+      </div>
+
+      <!-- Target Device Card -->
+      <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: var(--radius-lg); padding: 0.85rem 1rem; margin-bottom: 1rem;">
+        <div class="flex items-center gap-sm" style="margin-bottom: 4px;">
+          <div style="width: 32px; height: 32px; background: #EFF6FF; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: #1D4ED8;">
+            <i class="bi bi-display"></i>
+          </div>
+          <div>
+            <div style="font-weight: 700; font-size: 0.9rem;" id="target-revoke-device-name">MacBook Pro 16"</div>
+            <div class="body-sm text-muted mono" style="font-size: 0.75rem;">Chrome 124.0 • New York, NY (198.51.100.12)</div>
+          </div>
+        </div>
+        <div class="text-muted mono" style="font-size: 0.75rem; padding-top: 4px; border-top: 1px dashed #E2E8F0; margin-top: 6px;">
+          <i class="bi bi-clock"></i> Last Active: 24 min ago • Okta Enterprise Session
+        </div>
+      </div>
+
+      <!-- Immediate Operational Impact Callout (Matching Screenshot 5) -->
+      <div style="background-color: #FEF2F2; border: 1px solid #FECACA; border-radius: var(--radius-lg); padding: 0.85rem 1rem; margin-bottom: 1.15rem;">
+        <div class="flex items-center gap-xs" style="color: #DC2626; font-weight: 700; font-size: 0.875rem; margin-bottom: 6px;">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>Immediate Operational Impact</span>
+        </div>
+        <ul style="margin: 0; padding-left: 1.25rem; font-size: 0.8rem; color: #991B1B; line-height: 1.5;">
+          <li>Any unsaved CRM updates or offline sync drafts on that device will be halted.</li>
+          <li>The device will be instantly signed out and must complete Okta SSO / MFA to reconnect.</li>
+          <li>Active pipeline API tokens, cached cookies, and delegated tokens will be invalidated now.</li>
+        </ul>
+      </div>
+
+      <!-- MFA Recheck Checkbox -->
+      <div class="flex items-start gap-sm" style="margin-bottom: 1.25rem;">
+        <input type="checkbox" id="require-mfa-recheck" checked style="margin-top: 3px; accent-color: #059669; width: 16px; height: 16px;">
+        <label for="require-mfa-recheck" style="font-size: 0.8125rem; color: var(--color-text-primary); cursor: pointer;">
+          <strong>Require multi-factor verification on next login</strong>
+          <div class="text-muted" style="font-size: 0.75rem;">Force biometric or hardware security key re-check for this identity.</div>
+        </label>
+      </div>
+
+      <!-- Audit Trail Microtext -->
+      <div class="text-muted mono text-center" style="font-size: 0.7rem; margin-bottom: 1rem; letter-spacing: 0.03em;">
+        <i class="bi bi-shield-check text-emerald"></i> Audit Trail: #SEC-8921-REV &bull; SOC2 ENFORCED
+      </div>
+
+      <!-- Action Buttons (Matching Screenshot 1 & 5) -->
+      <div class="flex flex-col gap-xs">
+        <button type="button" class="btn btn-primary btn-block btn-lg" onclick="closeRevokeModal()">
+          <i class="bi bi-check-lg"></i> Done & Dismiss Audit
+        </button>
+        <button type="button" class="btn btn-danger btn-block btn-lg" onclick="confirmRevokeSession()">
+          <i class="bi bi-slash-circle"></i> Revoke Session Immediately
+        </button>
+        <button type="button" class="btn btn-secondary btn-block" style="background-color: #F8FAFC; border-color: #E2E8F0;" onclick="closeRevokeModal()">
+          Keep Session Active
+        </button>
+      </div>
+
+      <div class="text-muted text-center" style="font-size: 0.72rem; margin-top: 0.75rem;">
+        <i class="bi bi-shield-check text-emerald"></i> Zero trust active compliance policy enforced &bull; SOC2 Type II Certified
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="dashboard.html" class="mobile-nav-item"><i class="bi bi-grid"></i><span>Overview</span></a>
+    <a href="contacts.html" class="mobile-nav-item"><i class="bi bi-people"></i><span>Contacts</span></a>
+    <a href="deals.html" class="mobile-nav-item"><i class="bi bi-kanban"></i><span>Pipeline</span></a>
+    <a href="tasks.html" class="mobile-nav-item"><i class="bi bi-check2-circle"></i><span>Tasks</span></a>
+    <a href="reports.html" class="mobile-nav-item"><i class="bi bi-graph-up-arrow"></i><span>Reports</span></a>
+    <a href="settings.html" class="mobile-nav-item active"><i class="bi bi-three-dots"></i><span>More</span></a>
+  </nav>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script>
+    // Tab switching controller
+    let undoTimer = null;
+    let undoSeconds = 7;
+
+    function switchSettingsTab(tab) {
+      const companyTab = document.getElementById('tab-content-company');
+      const notifTab = document.getElementById('tab-content-notifications');
+      const secTab = document.getElementById('tab-content-security');
+      
+      const btnCompany = document.getElementById('tab-btn-company');
+      const btnNotif = document.getElementById('tab-btn-notifications');
+      const btnSec = document.getElementById('tab-btn-security');
+
+      const title = document.getElementById('settings-page-title');
+      const desc = document.getElementById('settings-page-desc');
+
+      // Reset tabs
+      companyTab.style.display = 'none';
+      notifTab.style.display = 'none';
+      secTab.style.display = 'none';
+
+      btnCompany.className = 'tab-pill inactive';
+      btnNotif.className = 'tab-pill inactive';
+      btnSec.className = 'tab-pill inactive';
+
+      if (tab === 'notifications') {
+        notifTab.style.display = 'block';
+        btnNotif.className = 'tab-pill active';
+        desc.textContent = 'Manage notifications, alerts, delivery channels, and daily summaries.';
+        history.replaceState(null, '', '?tab=notifications');
+      } else if (tab === 'security') {
+        secTab.style.display = 'block';
+        btnSec.className = 'tab-pill active';
+        desc.textContent = 'Manage account authentication, multi-factor security, session history, and API keys.';
+        history.replaceState(null, '', '?tab=security');
+      } else {
+        companyTab.style.display = 'block';
+        btnCompany.className = 'tab-pill active';
+        desc.textContent = 'Manage company details, billing, workspace defaults, and brand appearance.';
+        history.replaceState(null, '', '?tab=company');
+      }
+    }
+
+    // Modal controls
+    function openRevokeModal(deviceName) {
+      const modal = document.getElementById('revoke-session-modal');
+      const targetName = document.getElementById('target-revoke-device-name');
+      if (targetName && deviceName) targetName.textContent = deviceName;
+      modal.classList.add('active');
+    }
+
+    function closeRevokeModal() {
+      const modal = document.getElementById('revoke-session-modal');
+      modal.classList.remove('active');
+    }
+
+    function confirmRevokeSession() {
+      closeRevokeModal();
+      
+      // Transition security tab to revoked view
+      document.getElementById('security-default-view').style.display = 'none';
+      document.getElementById('security-revoked-view').style.display = 'block';
+
+      showToast('Session Revoked', 'MacBook Pro 16" disconnected. Access token terminated.', 'success');
+
+      // Start undo countdown timer
+      undoSeconds = 7;
+      const countdownEl = document.getElementById('undo-countdown-text');
+      if (countdownEl) countdownEl.textContent = `Undo (${undoSeconds}s)`;
+
+      clearInterval(undoTimer);
+      undoTimer = setInterval(() => {
+        undoSeconds--;
+        if (countdownEl) {
+          if (undoSeconds > 0) {
+            countdownEl.textContent = `Undo (${undoSeconds}s)`;
+          } else {
+            countdownEl.textContent = 'Permanent';
+            clearInterval(undoTimer);
+          }
+        }
+      }, 1000);
+    }
+
+    function undoRevokeSession() {
+      clearInterval(undoTimer);
+      returnToSecuritySettings();
+      showToast('Session Restored', 'Revocation cancelled. Device session reinstated.', 'info');
+    }
+
+    function returnToSecuritySettings() {
+      clearInterval(undoTimer);
+      document.getElementById('security-revoked-view').style.display = 'none';
+      document.getElementById('security-default-view').style.display = 'block';
+      
+      // Show green alert banner
+      const banner = document.getElementById('session-revoked-banner');
+      if (banner) banner.style.display = 'block';
+
+      // Update badge count to 2 active
+      const countEl = document.getElementById('active-sessions-count');
+      if (countEl) countEl.textContent = '2 active';
+
+      // Update MacBook Pro 16" card to terminated state matching Screenshot 2
+      const macCard = document.getElementById('session-card-macbook');
+      if (macCard) {
+        macCard.style.backgroundColor = '#F8FAFC';
+        macCard.style.opacity = '0.9';
+        macCard.innerHTML = `
+          <div class="flex items-center gap-sm">
+            <div style="width: 32px; height: 32px; background: #F1F5F9; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; color: #94A3B8;">
+              <i class="bi bi-laptop"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-xs">
+                <span style="font-weight: 700; font-size: 0.875rem; text-decoration: line-through; color: var(--color-text-secondary);">MacBook Pro 16"</span>
+                <span class="badge badge-neutral" style="font-size: 0.65rem; padding: 1px 5px; font-weight: 700;">Terminated</span>
+              </div>
+              <div class="body-sm text-muted mono" style="font-size: 0.72rem;">Audit #SEC-8921-REV &bull; Revoked Just now</div>
+            </div>
+          </div>
+          <i class="bi bi-lock text-muted"></i>
+        `;
+      }
+    }
+
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      const icon = btn.querySelector('i');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'bi bi-eye';
+      }
+    }
+
+    function saveCompanySettings() {
+      const name = document.getElementById('company-legal-name').value.trim();
+      const website = document.getElementById('company-website').value.trim();
+      const taxId = document.getElementById('company-taxid').value.trim();
+      const headquarters = document.getElementById('company-address').value.trim();
+
+      window.CRMStorage.saveSettings({
+        companyName: name,
+        website,
+        taxId,
+        headquarters
+      });
+
+      showToast('Workspace Saved', 'Company identity and defaults updated.', 'success');
+    }
+
+    function saveNotificationPreferences() {
+      showToast('Preferences Saved', 'Delivery channels and alert triggers updated.', 'success');
+    }
+
+    function resetNotificationPreferences() {
+      document.getElementById('notif-push').checked = true;
+      document.getElementById('notif-email').checked = true;
+      document.getElementById('notif-browser').checked = false;
+      document.getElementById('notif-inbound-leads').checked = true;
+      document.getElementById('notif-stage-advance').checked = true;
+      document.getElementById('notif-deal-risk').checked = true;
+      document.getElementById('notif-form-submissions').checked = false;
+      document.getElementById('notif-overdue').checked = true;
+      document.getElementById('notif-morning-agenda').checked = true;
+      document.getElementById('notif-meeting-prompt').checked = true;
+      document.getElementById('notif-quiet-hours').checked = true;
+      showToast('Preferences Reset', 'Default notification frequencies restored.', 'info');
+    }
+
+    function saveSecuritySettings() {
+      showToast('Security Saved', 'Multi-factor authentication & session policies enforced.', 'success');
+    }
+
+    function downloadRecoveryCodes() {
+      const codes = [
+        "A8F2-9901-BC41",
+        "E449-7128-09AA",
+        "CC81-6450-F12D",
+        "55B1-9980-A4F7",
+        "33E2-8812-7091",
+        "99C4-1029-44F2",
+        "B771-5541-E882",
+        "2210-9984-77A1",
+        "44E1-3329-8801",
+        "F812-7740-9912"
+      ].join("\n");
+      const blob = new Blob([codes], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `clientflow_recovery_codes_${Date.now()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Downloaded', 'MFA backup recovery codes saved.', 'success');
+    }
+
+    function downloadAuditLog() {
+      const csv = [
+        "Timestamp,Event,Initiator,Target,IP,Status",
+        `${new Date().toISOString()},SESSION_REVOKE,Sarah Jenkins,MacBook Pro 16",198.51.100.12,SUCCESS_SIEM_LOGGED`,
+        `${new Date(Date.now()-3600000).toISOString()},MFA_CHALLENGE,Sarah Jenkins,iPhone 15 Pro,192.0.2.45,VERIFIED`,
+        `${new Date(Date.now()-7200000).toISOString()},LOGIN,Sarah Jenkins,MacBook Pro 16",198.51.100.12,SUCCESS_OKTA`
+      ].join("\n");
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `clientflow_audit_log_${Date.now()}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Audit Export', 'Security SIEM audit log downloaded as CSV.', 'success');
+    }
+
+    function exportCompanyData() {
+      const dump = {
+        organization: window.CRMStorage.getSettings(),
+        contacts: window.CRMStorage.getContacts(),
+        deals: window.CRMStorage.getDeals(),
+        exportedAt: new Date().toISOString()
+      };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dump, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", `clientflow_workspace_export_${Date.now()}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      showToast('Export Complete', 'Downloaded workspace company data backup.', 'success');
+    }
+
+    // Auto-detect tab from URL
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabParam = urlParams.get('tab');
+      if (tabParam === 'notifications') {
+        switchSettingsTab('notifications');
+      } else if (tabParam === 'security') {
+        switchSettingsTab('security');
+      } else {
+        switchSettingsTab('company');
+      }
+    });
+  </script>
+</body>
+</html>

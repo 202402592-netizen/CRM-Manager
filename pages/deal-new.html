@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Deal — ClientFlow CRM</title>
+  <meta name="description" content="Create a new B2B sales pipeline deal in ClientFlow CRM.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .input-clean-box {
+      background-color: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 0.65rem 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all var(--transition-fast);
+    }
+    .input-clean-box:focus-within {
+      background-color: #FFFFFF;
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+    .pill-select {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-md);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #E2E8F0;
+      background: #EEF2FF;
+      color: #3730A3;
+      text-align: center;
+      transition: all var(--transition-fast);
+    }
+    .pill-select.active {
+      background: #059669;
+      color: #FFFFFF;
+      border-color: #059669;
+    }
+    .pill-stage {
+      flex: 1;
+      padding: 0.6rem 0.5rem;
+      border-radius: var(--radius-md);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #E2E8F0;
+      background: #EEF2FF;
+      color: #3730A3;
+      text-align: center;
+      transition: all var(--transition-fast);
+    }
+    .pill-stage.active {
+      background: #064E3B;
+      color: #FFFFFF;
+      border-color: #064E3B;
+    }
+    .sticky-bottom-actions {
+      position: sticky;
+      bottom: 0;
+      background: #FFFFFF;
+      border-top: 1px solid var(--color-border);
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 100;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Enterprise Dark Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <div class="brand-icon"><i class="bi bi-activity"></i></div>
+          <div class="brand-title">ClientFlow <span class="brand-badge">CRM</span></div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main</div>
+        <a href="dashboard.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-grid nav-item-icon"></i> <span>Overview</span></span></a>
+        <a href="contacts.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-people nav-item-icon"></i> <span>Contacts</span></span><span class="nav-item-badge">1,428</span></a>
+        <a href="deals.html" class="sidebar-nav-item active"><span class="nav-item-left"><i class="bi bi-kanban nav-item-icon"></i> <span>Sales Pipeline</span></span><span class="nav-item-badge">38</span></a>
+        <a href="tasks.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-check2-circle nav-item-icon"></i> <span>Tasks</span></span><span class="nav-item-badge" style="background: rgba(220, 38, 38, 0.4);">18</span></a>
+
+        <div class="nav-section-title">Insights</div>
+        <a href="reports.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-graph-up-arrow nav-item-icon"></i> <span>Reports & Analytics</span></span></a>
+        <a href="calendar.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-calendar3 nav-item-icon"></i> <span>Calendar</span></span></a>
+
+        <div class="nav-section-title">Organization</div>
+        <a href="team.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person-badge nav-item-icon"></i> <span>Team Members</span></span></a>
+        <a href="notifications.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-bell nav-item-icon"></i> <span>Notifications</span></span></a>
+
+        <div class="nav-section-title">System & Security</div>
+        <a href="profile.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person nav-item-icon"></i> <span>User Profile</span></span></a>
+        <a href="settings.html"><span class="nav-item-left"><i class="bi bi-gear nav-item-icon"></i> <span>Settings</span></span></a>
+        <a href="audit-log.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-shield-check nav-item-icon"></i> <span>SIEM Audit Log</span></span></a>
+        <a href="help.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-question-circle nav-item-icon"></i> <span>Help & FAQ</span></span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar avatar-sm user-avatar-initials">SJ</div>
+        <div class="sidebar-footer-user">
+          <div class="sidebar-footer-name">Sarah Jenkins</div>
+          <div class="sidebar-footer-role">Lead Enterprise AE</div>
+        </div>
+        <a href="login.html" title="Sign out" style="color: #9CA3AF; padding: 4px;"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Canvas Area -->
+    <div class="app-main">
+      
+      <!-- Sticky Header (Matching Screenshot 3) -->
+      <header class="app-header">
+        <div class="header-left">
+          <a href="deals.html" class="btn btn-ghost btn-sm btn-icon" title="Return to Pipeline">
+            <i class="bi bi-arrow-left" style="font-size: 1.15rem;"></i>
+          </a>
+          <div class="flex items-center gap-xs">
+            <div style="width: 22px; height: 22px; background: #064E3B; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #34D399; font-size: 0.75rem;">
+              <i class="bi bi-kanban"></i>
+            </div>
+            <span class="current" style="font-weight: 800; font-size: 1.05rem; color: var(--color-text-primary);">Add Deal</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="header-search-trigger" onclick="openGlobalSearch()">
+            <div class="flex items-center gap-sm"><i class="bi bi-search"></i><span>Search entities...</span></div>
+            <span class="search-shortcut-badge">/</span>
+          </div>
+        </div>
+
+        <div class="header-right flex items-center gap-xs">
+          <a href="notifications.html" class="header-icon-btn"><i class="bi bi-bell"></i><span class="notification-indicator"></span></a>
+          <a href="profile.html" class="avatar avatar-sm user-avatar-initials" style="text-decoration: none;">SJ</a>
+        </div>
+      </header>
+
+      <!-- Viewport Canvas (Matching Screenshot 3) -->
+      <main class="content-canvas" style="max-width: 640px; margin: 0 auto; padding-bottom: 5rem;">
+        
+        <!-- Subtitle & Draft Action (Matching Screenshot 3) -->
+        <div class="flex items-center justify-between" style="margin-bottom: 1rem;">
+          <div class="flex items-center gap-xs">
+            <button type="button" class="btn btn-ghost btn-sm btn-icon" style="background:#F1F5F9; border-radius:50%; width:30px; height:30px;" onclick="history.back()">
+              <i class="bi bi-x"></i>
+            </button>
+            <div>
+              <h1 style="font-size: 1.25rem; font-weight: 800; margin: 0; color: var(--color-text-primary);">New Deal</h1>
+              <div class="body-sm text-muted" style="font-size: 0.78rem;">Enterprise Pipeline &bull; FY25 Q3</div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" style="border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; background:#EEF2FF; border-color:#E0E7FF; color:#3730A3;" onclick="showToast('Draft Saved', 'Deal progress saved locally', 'info')">
+            <i class="bi bi-bookmark"></i> Save as Draft
+          </button>
+        </div>
+
+        <!-- 4-Step Stepper (Matching Screenshot 3) -->
+        <div class="flex items-center justify-between" style="background:#FFF; border:1px solid #E2E8F0; border-radius:var(--radius-xl); padding: 0.75rem 1rem; margin-bottom: 1.25rem;">
+          <div class="flex items-center gap-xs">
+            <span style="width:24px; height:24px; border-radius:50%; background:#064E3B; color:#FFF; font-size:0.75rem; font-weight:800; display:flex; align-items:center; justify-content:center;">1</span>
+            <strong style="font-size: 0.8125rem; color:#064E3B;">Core</strong>
+          </div>
+          <div style="flex:1; height:2px; background:#064E3B; margin: 0 8px;"></div>
+          <div class="flex items-center gap-xs">
+            <span style="width:24px; height:24px; border-radius:50%; background:#EEF2FF; color:#3730A3; font-size:0.75rem; font-weight:800; display:flex; align-items:center; justify-content:center;">2</span>
+            <span style="font-size: 0.8125rem; color:#64748B;">Contact</span>
+          </div>
+          <div style="flex:1; height:2px; background:#E2E8F0; margin: 0 8px;"></div>
+          <div class="flex items-center gap-xs">
+            <span style="width:24px; height:24px; border-radius:50%; background:#EEF2FF; color:#3730A3; font-size:0.75rem; font-weight:800; display:flex; align-items:center; justify-content:center;">3</span>
+            <span style="font-size: 0.8125rem; color:#64748B;">Forecast</span>
+          </div>
+          <div style="flex:1; height:2px; background:#E2E8F0; margin: 0 8px;"></div>
+          <div class="flex items-center gap-xs">
+            <span style="width:24px; height:24px; border-radius:50%; background:#EEF2FF; color:#3730A3; font-size:0.75rem; font-weight:800; display:flex; align-items:center; justify-content:center;">4</span>
+            <span style="font-size: 0.8125rem; color:#64748B;">Details</span>
+          </div>
+        </div>
+
+        <!-- Section 1: Deal Information (Matching Screenshot 3) -->
+        <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+          <div class="card-header">
+            <div class="flex items-center gap-xs">
+              <i class="bi bi-card-text text-emerald"></i>
+              <span style="font-weight: 700; font-size: 0.95rem;">Deal Information</span>
+            </div>
+          </div>
+          <div class="card-body">
+            
+            <!-- Deal Name -->
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                <label for="deal-name-input" class="label-md" style="font-weight: 600;">Deal Name <span class="text-danger">*</span></label>
+                <span class="mono text-muted" style="font-size: 0.72rem;">0/80</span>
+              </div>
+              <div class="input-clean-box">
+                <div class="flex items-center gap-sm flex-1">
+                  <i class="bi bi-file-earmark-text text-muted"></i>
+                  <input type="text" id="deal-name-input" placeholder="e.g. Acme Q3 License Expansion" required style="border: none; background: transparent; width: 100%; outline: none; font-size: 0.875rem;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Deal Value -->
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label class="label-md" style="font-weight: 600; margin-bottom: 4px;">Deal Value <span class="text-danger">*</span></label>
+              <div class="flex items-center gap-xs">
+                <div style="background:#EEF2FF; border:1px solid #E0E7FF; border-radius:var(--radius-md); padding:0.65rem 0.85rem; font-weight:700; font-size:0.875rem; color:#3730A3;">
+                  $ USD <i class="bi bi-chevron-down text-muted" style="font-size: 0.75rem;"></i>
+                </div>
+                <div class="input-clean-box flex-1">
+                  <div class="flex items-center gap-sm flex-1">
+                    <i class="bi bi-cash-stack text-muted"></i>
+                    <input type="number" id="deal-value-input" value="85000" class="mono" style="border: none; background: transparent; width: 100%; outline: none; font-size: 1rem; font-weight: 800;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pipeline Track -->
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label class="label-md text-muted" style="font-weight: 600; margin-bottom: 4px;">Pipeline Track</label>
+              <div class="input-clean-box">
+                <select id="deal-track-input" style="border: none; background: transparent; width: 100%; outline: none; font-size: 0.875rem; font-weight: 600;">
+                  <option selected>Enterprise Sales (Direct)</option>
+                  <option>Mid-Market Velocity</option>
+                  <option>Channel & Strategic Partners</option>
+                  <option>Customer Expansion / Renewals</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Deal Stage (Matching Screenshot 3) -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <div class="flex items-center justify-between" style="margin-bottom: 6px;">
+                <label class="label-md text-muted" style="font-weight: 600;">Deal Stage</label>
+                <span class="mono text-emerald" style="font-size: 0.75rem; font-weight: 700;">Stage 3 of 4</span>
+              </div>
+              <div class="grid grid-cols-2 gap-xs">
+                <button type="button" class="pill-stage" onclick="selectStage(this)">1. Lead</button>
+                <button type="button" class="pill-stage" onclick="selectStage(this)">2. Discovery</button>
+                <button type="button" class="pill-stage active" onclick="selectStage(this)">3. Proposal Sent</button>
+                <button type="button" class="pill-stage" onclick="selectStage(this)">4. Negotiation</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 2: Associated Entity (Matching Screenshot 3) -->
+        <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+          <div class="card-header">
+            <div class="flex items-center gap-xs">
+              <i class="bi bi-building text-emerald"></i>
+              <span style="font-weight: 700; font-size: 0.95rem;">Associated Entity</span>
+            </div>
+            <span class="badge badge-emerald" style="font-size: 0.7rem; font-weight: 700;">Linked</span>
+          </div>
+          <div class="card-body">
+            
+            <!-- Company Account -->
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label class="label-md text-muted" style="font-weight: 600; margin-bottom: 4px;">Company Account</label>
+              <div class="flex items-center justify-between" style="background-color: #EEF2FF; border: 1px solid #E0E7FF; border-radius: var(--radius-lg); padding: 0.75rem 0.85rem;">
+                <div class="flex items-center gap-sm">
+                  <div style="width: 34px; height: 34px; border-radius: var(--radius-sm); background: #064E3B; color: #FFF; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; justify-content: center;">
+                    AL
+                  </div>
+                  <div>
+                    <strong style="font-size: 0.875rem;">Apex Logistics Inc.</strong>
+                    <div class="body-sm text-muted" style="font-size: 0.72rem;">San Francisco, CA &bull; 2,400 Emps</div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-ghost btn-sm btn-icon" title="Clear Account">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Primary Contact -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="label-md text-muted" style="font-weight: 600; margin-bottom: 4px;">Primary Contact</label>
+              <div class="flex items-center justify-between" style="background-color: #EEF2FF; border: 1px solid #E0E7FF; border-radius: var(--radius-lg); padding: 0.75rem 0.85rem;">
+                <div class="flex items-center gap-sm">
+                  <div class="avatar avatar-sm user-avatar-initials" style="background:#1E40AF; color:#FFF;">MV</div>
+                  <div>
+                    <strong style="font-size: 0.875rem;">Marcus Vance</strong>
+                    <div class="body-sm text-muted" style="font-size: 0.72rem;">VP Technology &bull; marcus@apexlogistics.io</div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-secondary btn-sm" style="font-size: 0.75rem; background:#FFF; font-weight: 600;" onclick="showToast('Change Contact', 'Contact selector modal opened', 'info')">
+                  Change
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 3: Forecast & Timing (Matching Screenshot 3) -->
+        <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 1.25rem;">
+          <div class="card-header">
+            <div class="flex items-center gap-xs">
+              <i class="bi bi-graph-up text-emerald"></i>
+              <span style="font-weight: 700; font-size: 0.95rem;">Forecast & Timing</span>
+            </div>
+          </div>
+          <div class="card-body">
+            
+            <!-- Expected Close Date -->
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label for="close-date-input" class="label-md" style="font-weight: 600; margin-bottom: 4px;">Expected Close Date <span class="text-danger">*</span></label>
+              <div class="input-clean-box">
+                <div class="flex items-center gap-sm flex-1">
+                  <i class="bi bi-calendar3 text-muted"></i>
+                  <input type="date" id="close-date-input" value="2025-06-30" required style="border: none; background: transparent; width: 100%; outline: none; font-size: 0.875rem; font-weight: 600;">
+                </div>
+              </div>
+            </div>
+
+            <!-- Win Probability -->
+            <div class="form-group" style="margin-bottom: 1.25rem;">
+              <div class="flex items-center justify-between" style="margin-bottom: 6px;">
+                <label class="label-md text-muted" style="font-weight: 600;">Win Probability</label>
+                <span class="mono text-emerald" style="font-size: 1.15rem; font-weight: 800;" id="prob-display">75%</span>
+              </div>
+              <div class="flex items-center gap-xs" style="margin-bottom: 0.75rem;">
+                <button type="button" class="pill-select" onclick="setProb(this, 25)">25%</button>
+                <button type="button" class="pill-select" onclick="setProb(this, 50)">50%</button>
+                <button type="button" class="pill-select active" onclick="setProb(this, 75)">75%</button>
+                <button type="button" class="pill-select" onclick="setProb(this, 90)">90%</button>
+              </div>
+              <div class="progress-bar-wrap" style="height: 5px;">
+                <div class="progress-bar-fill" id="prob-progress-fill" style="width: 75%; background-color: #059669;"></div>
+              </div>
+            </div>
+
+            <!-- Forecast Category -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="label-md text-muted" style="font-weight: 600; margin-bottom: 6px;">Forecast Category</label>
+              <div class="flex items-center gap-xs">
+                <button type="button" class="pill-select active" onclick="setForecastCat(this)"><i class="bi bi-check-circle"></i> Commit</button>
+                <button type="button" class="pill-select" onclick="setForecastCat(this)"><i class="bi bi-graph-up"></i> Best Case</button>
+                <button type="button" class="pill-select" onclick="setForecastCat(this)"><i class="bi bi-funnel"></i> Pipeline</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 4: Ownership & Priority (Matching Screenshot 3) -->
+        <div class="card" style="border-radius: var(--radius-xl); margin-bottom: 2rem;">
+          <div class="card-header">
+            <div class="flex items-center gap-xs">
+              <i class="bi bi-shield-person text-emerald"></i>
+              <span style="font-weight: 700; font-size: 0.95rem;">Ownership & Priority</span>
+            </div>
+          </div>
+          <div class="card-body">
+            
+            <!-- Deal Owner -->
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label class="label-md text-muted" style="font-weight: 600; margin-bottom: 4px;">Deal Owner</label>
+              <div class="input-clean-box">
+                <div class="flex items-center gap-sm flex-1">
+                  <div class="avatar avatar-sm user-avatar-initials" style="width:24px; height:24px; font-size:0.65rem; background:#059669; color:#FFF;">SJ</div>
+                  <select id="deal-owner-select" style="border: none; background: transparent; width: 100%; outline: none; font-size: 0.875rem; font-weight: 600;">
+                    <option selected>Sarah Jenkins (Enterprise AE)</option>
+                    <option>Alex Rivera (Mid-Market AE)</option>
+                    <option>Marcus Vance (Growth & Inbound AE)</option>
+                    <option>David Kim (Lead Solutions Engineer)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Deal Priority -->
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label class="label-md text-muted" style="font-weight: 600; margin-bottom: 6px;">Deal Priority</label>
+              <div class="flex items-center gap-xs">
+                <button type="button" class="pill-select" onclick="setPriority(this)">Low</button>
+                <button type="button" class="pill-select" onclick="setPriority(this)">Medium</button>
+                <button type="button" class="pill-select active" onclick="setPriority(this)">High</button>
+                <button type="button" class="pill-select" onclick="setPriority(this)">Urgent</button>
+              </div>
+            </div>
+
+            <!-- Executive Notes & Scope -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <div class="flex items-center justify-between" style="margin-bottom: 4px;">
+                <label for="deal-notes-input" class="label-md text-muted" style="font-weight: 600;">Executive Notes & Scope</label>
+                <span class="text-muted" style="font-size: 0.72rem;">Optional</span>
+              </div>
+              <textarea id="deal-notes-input" rows="3" class="form-control" placeholder="Key deal drivers, multi-year ramp requirements, procurement blockers..." style="border-radius: var(--radius-lg); font-size: 0.8125rem;"></textarea>
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+
+      <!-- Sticky Bottom Action Bar (Matching Screenshot 3) -->
+      <div class="sticky-bottom-actions">
+        <button type="button" class="btn btn-secondary flex-1 btn-lg" style="background:#F1F5F9; border-color:#E2E8F0;" onclick="history.back()">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary flex-1 btn-lg" onclick="handleCreateDeal()">
+          <i class="bi bi-check-circle"></i> Create Deal
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script>
+    function selectStage(btn) {
+      btn.parentElement.querySelectorAll('.pill-stage').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function setProb(btn, val) {
+      btn.parentElement.querySelectorAll('.pill-select').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('prob-display').textContent = `${val}%`;
+      document.getElementById('prob-progress-fill').style.width = `${val}%`;
+    }
+
+    function setForecastCat(btn) {
+      btn.parentElement.querySelectorAll('.pill-select').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function setPriority(btn) {
+      btn.parentElement.querySelectorAll('.pill-select').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function handleCreateDeal() {
+      const name = document.getElementById('deal-name-input').value.trim() || 'Acme Q3 License Expansion';
+      const val = parseInt(document.getElementById('deal-value-input').value) || 85000;
+      const date = document.getElementById('close-date-input').value || '2025-06-30';
+
+      if (window.CRMStorage) {
+        window.CRMStorage.saveDeal({
+          title: name,
+          company: 'Apex Logistics Inc.',
+          value: val,
+          stage: 'Proposal Sent',
+          probability: 75,
+          expectedClose: date,
+          rep: 'Sarah Jenkins'
+        });
+      }
+
+      showToast('Deal Created', `${name} ($${val.toLocaleString()}) added to pipeline`, 'success');
+      setTimeout(() => {
+        window.location.href = 'deals.html';
+      }, 900);
+    }
+  </script>
+</body>
+</html>

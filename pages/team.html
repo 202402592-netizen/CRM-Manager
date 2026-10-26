@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Management — ClientFlow CRM</title>
+  <meta name="description" content="Manage your revenue sales team, quota attainment, roles, and pending invitations.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .team-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Enterprise Dark Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <div class="brand-icon"><i class="bi bi-activity"></i></div>
+          <div class="brand-title">ClientFlow <span class="brand-badge">CRM</span></div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main</div>
+        <a href="dashboard.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-grid nav-item-icon"></i> <span>Overview</span></span></a>
+        <a href="contacts.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-people nav-item-icon"></i> <span>Contacts</span></span><span class="nav-item-badge">1,428</span></a>
+        <a href="deals.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-kanban nav-item-icon"></i> <span>Sales Pipeline</span></span><span class="nav-item-badge">38</span></a>
+        <a href="tasks.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-check2-circle nav-item-icon"></i> <span>Tasks</span></span><span class="nav-item-badge" style="background: rgba(220, 38, 38, 0.4);">18</span></a>
+
+        <div class="nav-section-title">Insights</div>
+        <a href="reports.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-graph-up-arrow nav-item-icon"></i> <span>Reports & Analytics</span></span></a>
+        <a href="calendar.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-calendar3 nav-item-icon"></i> <span>Calendar</span></span></a>
+
+        <div class="nav-section-title">Organization</div>
+        <a href="team.html" class="sidebar-nav-item active"><span class="nav-item-left"><i class="bi bi-person-badge nav-item-icon"></i> <span>Team Members</span></span></a>
+        <a href="notifications.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-bell nav-item-icon"></i> <span>Notifications</span></span></a>
+
+        <div class="nav-section-title">System</div>
+        <a href="profile.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person nav-item-icon"></i> <span>User Profile</span></span></a>
+        <a href="settings.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-gear nav-item-icon"></i> <span>Settings</span></span></a>
+        <a href="help.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-question-circle nav-item-icon"></i> <span>Help & FAQ</span></span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar avatar-sm user-avatar-initials">SJ</div>
+        <div class="sidebar-footer-user">
+          <div class="sidebar-footer-name">Sarah Jenkins</div>
+          <div class="sidebar-footer-role">Senior Enterprise AE</div>
+        </div>
+        <a href="login.html" title="Sign out" style="color: #9CA3AF; padding: 4px;"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Content Canvas Area -->
+    <div class="app-main">
+      
+      <!-- Sticky Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" aria-label="Toggle menu"><i class="bi bi-list"></i></button>
+          <div class="header-breadcrumb">
+            <span>CLIENTFLOW</span>
+            <i class="bi bi-chevron-right text-muted" style="font-size: 0.75rem;"></i>
+            <span class="current">Team Management</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="header-search-trigger" onclick="openGlobalSearch()">
+            <div class="flex items-center gap-sm"><i class="bi bi-search"></i><span>Search team members...</span></div>
+            <span class="search-shortcut-badge">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="notifications.html" class="header-icon-btn"><i class="bi bi-bell"></i><span class="notification-indicator"></span></a>
+          <a href="profile.html" class="avatar avatar-sm user-avatar-initials" style="text-decoration: none;">SJ</a>
+        </div>
+      </header>
+
+      <!-- Viewport Canvas (Matching Screenshot 3) -->
+      <main class="content-canvas" style="max-width: 960px; margin: 0 auto;">
+        
+        <!-- Top Status Bar (Matching Screenshot 3) -->
+        <div class="flex items-center justify-between flex-wrap gap-sm" style="margin-bottom: 0.85rem;">
+          <div class="flex items-center gap-sm">
+            <span class="badge badge-emerald" style="font-weight: 700;">
+              <span class="badge-dot"></span> 12 Active Members
+            </span>
+            <span class="body-sm text-muted">Q3 Revenue Team</span>
+          </div>
+
+          <div class="flex items-center gap-xs">
+            <button class="btn btn-secondary btn-sm btn-icon" title="Export" onclick="showToast('Export', 'Exporting sales roster...', 'info')"><i class="bi bi-download"></i></button>
+            <button class="btn btn-secondary btn-sm btn-icon" title="Filter" onclick="showToast('Filter', 'Filter roster settings', 'info')"><i class="bi bi-sliders"></i></button>
+          </div>
+        </div>
+
+        <!-- Expand Sales Roster Card (Matching Screenshot 3) -->
+        <div class="card" style="background-color: var(--color-surface-white); border-radius: var(--radius-xl); padding: 1rem 1.25rem; margin-bottom: 1.25rem;">
+          <div class="flex items-center justify-between gap-md">
+            <div class="flex items-center gap-sm">
+              <div class="avatar avatar-md" style="background-color: #D1FAE5; color: #047857; font-size: 1.2rem;">
+                <i class="bi bi-person-plus"></i>
+              </div>
+              <div>
+                <div style="font-weight: 700; color: var(--color-text-primary); font-size: 0.95rem;">Expand Sales Roster</div>
+                <div class="body-sm" style="color: var(--color-text-secondary);">Send role-based invitations to reps</div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="openModal('team-invite-modal')">
+              <i class="bi bi-plus-lg"></i> Invite
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 KPI Cards (2x2 Grid Matching Screenshot 3) -->
+        <div class="team-kpi-grid">
+          
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Total Members</span>
+              <div class="metric-icon-wrap"><i class="bi bi-people"></i></div>
+            </div>
+            <div class="metric-value mono" style="font-size: 1.65rem;">12</div>
+            <div class="metric-footer">
+              <span class="metric-badge positive">+2</span>
+              <span>this Q</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Quota Attain.</span>
+              <div class="metric-icon-wrap" style="background-color: #D1FAE5; color: #047857;"><i class="bi bi-graph-up-arrow"></i></div>
+            </div>
+            <div class="metric-value mono" style="font-size: 1.65rem; color: #047857;">104.2%</div>
+            <div class="metric-footer text-muted">Pacing</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Deals Assigned</span>
+              <div class="metric-icon-wrap"><i class="bi bi-gem"></i></div>
+            </div>
+            <div class="metric-value mono" style="font-size: 1.65rem;">48 <span class="body-sm text-muted" style="font-size: 0.8rem; font-weight: 400;">active</span></div>
+            <div class="metric-footer mono text-muted">$1.24M pipeline</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-label">Pending Invites</span>
+              <div class="metric-icon-wrap" style="background-color: #DBEAFE; color: #1E40AF;"><i class="bi bi-envelope-paper"></i></div>
+            </div>
+            <div class="metric-value mono" style="font-size: 1.65rem;">2 <span class="badge badge-info" style="font-size: 0.7rem; font-weight: 600; vertical-align: middle;">Active</span></div>
+            <div class="metric-footer text-muted" style="font-size: 0.75rem;">1 Admin, 1 AE</div>
+          </div>
+
+        </div>
+
+        <!-- Search Bar (Matching Screenshot 3) -->
+        <div class="card" style="padding: 0.65rem 0.85rem; border-radius: var(--radius-md); margin-bottom: 0.85rem;">
+          <div class="input-with-icon">
+            <span class="input-icon-left"><i class="bi bi-search"></i></span>
+            <input type="text" id="team-search-input" class="form-control" placeholder="Search member by name, email, or role..." style="border: none; background: transparent; height: 32px;">
+          </div>
+        </div>
+
+        <!-- Segment Filter Chips (Matching Screenshot 3) -->
+        <div class="filter-chips" style="margin-bottom: 1.25rem;">
+          <button class="chip-btn team-segment-chip active-emerald">All (12)</button>
+          <button class="chip-btn team-segment-chip">Sales Execs (6)</button>
+          <button class="chip-btn team-segment-chip">Account Managers (3)</button>
+        </div>
+
+        <!-- Team Members List Container (Populated by js/team.js matching Screenshot 3) -->
+        <div id="team-members-list">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Pending Invitations Accordion Card (Matching Screenshot 3) -->
+        <div class="card" style="margin-top: 1.5rem; border-radius: var(--radius-xl);">
+          <div class="card-header" style="cursor: pointer;">
+            <div class="flex items-center gap-sm">
+              <div class="avatar avatar-sm" style="background-color: #DBEAFE; color: #1E40AF;"><i class="bi bi-envelope"></i></div>
+              <div>
+                <div style="font-weight: 700; font-size: 0.95rem;">Pending Invitations (2)</div>
+                <div class="body-sm text-muted" style="font-size: 0.75rem;">Awaiting team member activation</div>
+              </div>
+            </div>
+            <i class="bi bi-chevron-up text-muted"></i>
+          </div>
+          <div class="card-body flex flex-col gap-sm" style="padding-top: 0.75rem;">
+            
+            <!-- Invite 1 -->
+            <div class="checklist-item">
+              <div>
+                <div class="flex items-center gap-xs">
+                  <span style="font-weight: 700;">Jordan Hayes</span>
+                  <span class="badge badge-neutral" style="font-size: 0.65rem;">Senior AE</span>
+                </div>
+                <div class="mono" style="font-size: 0.75rem; color: var(--color-text-tertiary);">jordan.h@acme.com</div>
+                <div class="body-sm text-muted" style="font-size: 0.72rem; margin-top: 2px;">Expires in 3 days</div>
+              </div>
+              <div class="flex items-center gap-xs">
+                <button class="btn btn-secondary btn-sm" onclick="showToast('Resent', 'Invitation resent to jordan.h@acme.com', 'info')">Resend</button>
+                <button class="btn btn-ghost btn-sm text-muted" onclick="showToast('Cancelled', 'Invitation revoked', 'warning')">Cancel</button>
+              </div>
+            </div>
+
+            <!-- Invite 2 -->
+            <div class="checklist-item">
+              <div>
+                <div class="flex items-center gap-xs">
+                  <span style="font-weight: 700;">Priya Patel</span>
+                  <span class="badge badge-neutral" style="font-size: 0.65rem;">CSM Lead</span>
+                </div>
+                <div class="mono" style="font-size: 0.75rem; color: var(--color-text-tertiary);">priya.p@techflow.sa</div>
+                <div class="body-sm text-muted" style="font-size: 0.72rem; margin-top: 2px;">Sent yesterday</div>
+              </div>
+              <div class="flex items-center gap-xs">
+                <button class="btn btn-secondary btn-sm" onclick="showToast('Resent', 'Invitation resent to priya.p@techflow.sa', 'info')">Resend</button>
+                <button class="btn btn-ghost btn-sm text-muted" onclick="showToast('Cancelled', 'Invitation revoked', 'warning')">Cancel</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Role Permissions Guide Card (Matching Screenshot 3) -->
+        <div class="card" style="background-color: #F0F4FF; border-color: #D6E4FF; padding: 1.15rem 1.25rem; margin-top: 1.25rem;">
+          <div class="flex items-start gap-sm">
+            <i class="bi bi-shield-check text-info" style="font-size: 1.25rem; margin-top: 2px;"></i>
+            <div class="body-sm" style="color: #1E3A8A; line-height: 1.45;">
+              <strong>Role Permissions Guide:</strong> <strong>Admins</strong> hold full data export and billing controls. <strong>Account Executives</strong> manage assignable deals, accounts, and personal pipeline reporting.
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav">
+    <a href="dashboard.html" class="mobile-nav-item"><i class="bi bi-grid"></i><span>Overview</span></a>
+    <a href="contacts.html" class="mobile-nav-item"><i class="bi bi-people"></i><span>Contacts</span></a>
+    <a href="deals.html" class="mobile-nav-item"><i class="bi bi-kanban"></i><span>Pipeline</span></a>
+    <a href="tasks.html" class="mobile-nav-item"><i class="bi bi-check2-circle"></i><span>Tasks</span></a>
+    <a href="reports.html" class="mobile-nav-item"><i class="bi bi-graph-up-arrow"></i><span>Reports</span></a>
+    <a href="settings.html" class="mobile-nav-item active"><i class="bi bi-three-dots"></i><span>More</span></a>
+  </nav>
+
+  <!-- Add Member Modal -->
+  <div class="modal-backdrop" id="team-invite-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">Invite Team Member</div>
+        <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="closeModal('team-invite-modal')"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <form id="team-invite-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="inv-name" class="form-label">Full Name <span class="required">*</span></label>
+            <input type="text" id="inv-name" class="form-control" placeholder="e.g. Taylor Smith" required>
+          </div>
+          <div class="form-group">
+            <label for="inv-email" class="form-label">Work Email <span class="required">*</span></label>
+            <input type="email" id="inv-email" class="form-control" placeholder="t.smith@clientflow.io" required>
+          </div>
+          <div class="form-group">
+            <label for="inv-role" class="form-label">CRM Role</label>
+            <select id="inv-role" class="form-control">
+              <option value="Lead Enterprise AE">Lead Enterprise AE</option>
+              <option value="Mid-Market AE">Mid-Market AE</option>
+              <option value="Growth & Inbound AE">Growth & Inbound AE</option>
+              <option value="Solutions Engineer">Solutions Engineer</option>
+              <option value="RevOps Admin">RevOps Admin</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('team-invite-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Send Invite</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/team.js"></script>
+</body>
+</html>

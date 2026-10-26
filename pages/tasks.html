@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasks & Follow Ups — ClientFlow CRM</title>
+  <meta name="description" content="Manage deal follow-ups, client deliverables, and priority tasks in ClientFlow CRM.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .task-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .quick-add-bar {
+      background-color: var(--color-surface-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 0.5rem 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow-tier-1);
+    }
+    .quick-add-input {
+      border: none;
+      background: transparent;
+      outline: none;
+      flex: 1;
+      font-size: 0.875rem;
+      color: var(--color-text-primary);
+    }
+    .quick-add-input::placeholder {
+      color: var(--color-text-tertiary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout">
+    
+    <!-- Enterprise Dark Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="dashboard.html" class="brand-logo">
+          <div class="brand-icon"><i class="bi bi-activity"></i></div>
+          <div class="brand-title">ClientFlow <span class="brand-badge">CRM</span></div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main</div>
+        <a href="dashboard.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-grid nav-item-icon"></i> <span>Overview</span></span></a>
+        <a href="contacts.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-people nav-item-icon"></i> <span>Contacts</span></span><span class="nav-item-badge">1,428</span></a>
+        <a href="deals.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-kanban nav-item-icon"></i> <span>Sales Pipeline</span></span><span class="nav-item-badge">38</span></a>
+        <a href="tasks.html" class="sidebar-nav-item active"><span class="nav-item-left"><i class="bi bi-check2-circle nav-item-icon"></i> <span>Tasks</span></span><span class="nav-item-badge" style="background: rgba(220, 38, 38, 0.4);">18</span></a>
+
+        <div class="nav-section-title">Insights</div>
+        <a href="reports.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-graph-up-arrow nav-item-icon"></i> <span>Reports & Analytics</span></span></a>
+        <a href="calendar.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-calendar3 nav-item-icon"></i> <span>Calendar</span></span></a>
+
+        <div class="nav-section-title">Organization</div>
+        <a href="team.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person-badge nav-item-icon"></i> <span>Team Members</span></span></a>
+        <a href="notifications.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-bell nav-item-icon"></i> <span>Notifications</span></span></a>
+
+        <div class="nav-section-title">System</div>
+        <a href="profile.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-person nav-item-icon"></i> <span>User Profile</span></span></a>
+        <a href="settings.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-gear nav-item-icon"></i> <span>Settings</span></span></a>
+        <a href="help.html" class="sidebar-nav-item"><span class="nav-item-left"><i class="bi bi-question-circle nav-item-icon"></i> <span>Help & FAQ</span></span></a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar avatar-sm user-avatar-initials">SJ</div>
+        <div class="sidebar-footer-user">
+          <div class="sidebar-footer-name">Sarah Jenkins</div>
+          <div class="sidebar-footer-role">Senior Enterprise AE</div>
+        </div>
+        <a href="login.html" title="Sign out" style="color: #9CA3AF; padding: 4px;"><i class="bi bi-box-arrow-right"></i></a>
+      </div>
+    </aside>
+
+    <!-- Main Canvas Area -->
+    <div class="app-main">
+      
+      <!-- Sticky Header -->
+      <header class="app-header">
+        <div class="header-left">
+          <button type="button" class="mobile-menu-btn" aria-label="Toggle menu"><i class="bi bi-list"></i></button>
+          <div class="header-breadcrumb">
+            <span>CLIENTFLOW</span>
+            <i class="bi bi-chevron-right text-muted" style="font-size: 0.75rem;"></i>
+            <span class="current">Tasks & Follow Ups</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <div class="header-search-trigger" onclick="openGlobalSearch()">
+            <div class="flex items-center gap-sm"><i class="bi bi-search"></i><span>Search follow-ups...</span></div>
+            <span class="search-shortcut-badge">/</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <a href="notifications.html" class="header-icon-btn"><i class="bi bi-bell"></i><span class="notification-indicator"></span></a>
+          <a href="profile.html" class="avatar avatar-sm user-avatar-initials" style="text-decoration: none;">SJ</a>
+        </div>
+      </header>
+
+      <!-- Viewport Canvas (Matching Screenshot 1) -->
+      <main class="content-canvas" id="tasks-view-container">
+        
+        <!-- Top Banner: Active Workstream Daily Execution -->
+        <div class="flex items-center justify-between flex-wrap gap-sm" style="margin-bottom: 1rem;">
+          <div>
+            <div style="font-size: 0.6875rem; font-weight: 700; color: #047857; text-transform: uppercase; letter-spacing: 0.05em; display: flex; align-items: center; gap: 4px;">
+              <span class="badge-dot" style="background-color: var(--color-primary);"></span> ACTIVE WORKSTREAM
+            </div>
+            <h1 class="display-lg" style="font-size: 1.5rem; margin-top: 2px;">Daily Execution</h1>
+          </div>
+
+          <button class="btn btn-primary" onclick="openModal('add-task-modal')">
+            <i class="bi bi-plus-lg"></i> Create Task
+          </button>
+        </div>
+
+        <!-- 3 Summary KPI Cards (Matching Screenshot 1) -->
+        <div class="task-kpi-grid">
+          
+          <div class="card" style="padding: 0.85rem 1rem; text-align: center; border-radius: var(--radius-lg);">
+            <div class="label-sm text-muted">Pending</div>
+            <div class="mono" id="metric-tasks-pending" style="font-size: 1.65rem; font-weight: 800; color: var(--color-text-primary);">18</div>
+          </div>
+
+          <div class="card" style="padding: 0.85rem 1rem; text-align: center; border-radius: var(--radius-lg); background-color: #FEE2E2; border-color: #FECACA;">
+            <div class="label-sm" style="color: #991B1B;">Overdue</div>
+            <div class="mono" id="metric-tasks-overdue" style="font-size: 1.65rem; font-weight: 800; color: #DC2626;">3</div>
+          </div>
+
+          <div class="card" style="padding: 0.85rem 1rem; text-align: center; border-radius: var(--radius-lg); background-color: #D1FAE5; border-color: #A7F3D0;">
+            <div class="label-sm" style="color: #065F46;">Due Today</div>
+            <div class="mono" id="metric-tasks-today" style="font-size: 1.65rem; font-weight: 800; color: #059669;">8</div>
+          </div>
+
+        </div>
+
+        <!-- View Switch Buttons & Filters (Matching Screenshot 1) -->
+        <div class="flex items-center gap-xs flex-wrap" style="margin-bottom: 0.85rem;">
+          <button class="btn btn-primary btn-sm" style="border-radius: var(--radius-full); padding: 0.4rem 0.9rem;">
+            <i class="bi bi-list-task"></i> List View
+          </button>
+          <a href="calendar.html" class="btn btn-secondary btn-sm" style="border-radius: var(--radius-full); padding: 0.4rem 0.9rem; background-color: #EEF2FF; border-color: #E0E7FF; color: #3730A3;">
+            <i class="bi bi-calendar3"></i> Calendar View
+          </a>
+          <button class="btn btn-secondary btn-sm" style="border-radius: var(--radius-full); padding: 0.4rem 0.9rem; margin-left: auto;" onclick="showToast('Filter', 'Filter tasks by rep and priority', 'info')">
+            <i class="bi bi-sliders"></i> Filter
+          </button>
+        </div>
+
+        <!-- Segment Filter Chips (Matching Screenshot 1) -->
+        <div class="filter-chips" style="margin-bottom: 1rem;">
+          <button class="chip-btn task-segment-chip" data-filter="all">All <span class="chip-count">29</span></button>
+          <button class="chip-btn task-segment-chip active-emerald" data-filter="today">Today <span class="chip-count">8</span></button>
+          <button class="chip-btn task-segment-chip" data-filter="upcoming">Upcoming <span class="chip-count">12</span></button>
+          <button class="chip-btn task-segment-chip" data-filter="overdue">
+            <span class="badge-dot" style="background-color: var(--color-error);"></span> Overdue
+          </button>
+        </div>
+
+        <!-- Quick Add Bar (Matching Screenshot 1) -->
+        <div class="quick-add-bar">
+          <i class="bi bi-lightning-charge text-emerald"></i>
+          <input type="text" id="quick-add-task-input" class="quick-add-input" placeholder="Quick add follow-up or meeting...">
+          <button class="btn-ghost btn-sm btn-icon" title="Date" onclick="showToast('Date Picker', 'Select target due date', 'info')"><i class="bi bi-calendar-event"></i></button>
+          <button class="btn-ghost btn-sm btn-icon" title="Voice note" onclick="showToast('Voice Input', 'Voice dictation bridge standby', 'info')"><i class="bi bi-mic"></i></button>
+          <button id="quick-add-task-btn" class="btn btn-primary btn-sm btn-icon" style="background-color: #064E3B; border-color: #064E3B;"><i class="bi bi-arrow-right"></i></button>
+        </div>
+
+        <!-- Section 1: Overdue Attention Required (Matching Screenshot 1) -->
+        <div style="margin-bottom: 1.5rem;">
+          <div class="flex items-center justify-between" style="margin-bottom: 0.65rem;">
+            <div class="flex items-center gap-xs" style="font-weight: 700; font-size: 0.95rem; color: #111827;">
+              <i class="bi bi-exclamation-triangle text-danger"></i> Overdue Attention Required
+            </div>
+            <span class="badge badge-danger" style="font-weight: 600;">Action Needed</span>
+          </div>
+
+          <div id="overdue-tasks-list">
+            <!-- Rendered dynamically by tasks.js with red left-accent border -->
+          </div>
+        </div>
+
+        <!-- Section 2: Today's Schedule — Oct 24 (Matching Screenshot 1) -->
+        <div style="margin-bottom: 1.5rem;">
+          <div class="flex items-center justify-between" style="margin-bottom: 0.65rem;">
+            <div class="flex items-center gap-xs" style="font-weight: 700; font-size: 0.95rem; color: #111827;">
+              <i class="bi bi-calendar-check text-emerald"></i> Today's Schedule — Oct 24
+            </div>
+            <span class="label-md text-muted">3 Remaining</span>
+          </div>
+
+          <div id="today-tasks-list">
+            <!-- Rendered dynamically by tasks.js with checkoff feedback -->
+          </div>
+        </div>
+
+        <!-- Motivational Card (Matching Screenshot 1) -->
+        <div class="card" style="background-color: #E6F4EA; border-color: #A7F3D0; border-radius: var(--radius-xl); padding: 1.15rem 1.25rem; margin-top: 1rem;">
+          <div class="flex items-center justify-between gap-md">
+            <div class="flex items-center gap-md">
+              <div class="avatar avatar-md" style="background-color: #059669; color: #FFFFFF; font-size: 1.25rem;">
+                <i class="bi bi-party-popper"></i>
+              </div>
+              <div>
+                <div style="font-weight: 700; color: #065F46; font-size: 0.9375rem;">Momentum is strong!</div>
+                <div class="body-sm" style="color: #047857; margin-top: 2px;">You closed 6 follow-ups this week already.</div>
+              </div>
+            </div>
+            <span class="badge" style="background-color: #065F46; color: #FFFFFF; font-weight: 700;">+24% pace</span>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Mobile Bottom Navigation (6 icons matching Screenshot 1 & 2) -->
+  <nav class="mobile-bottom-nav">
+    <a href="dashboard.html" class="mobile-nav-item">
+      <i class="bi bi-grid"></i>
+      <span>Overview</span>
+    </a>
+    <a href="contacts.html" class="mobile-nav-item">
+      <i class="bi bi-people"></i>
+      <span>Contacts</span>
+    </a>
+    <a href="deals.html" class="mobile-nav-item">
+      <i class="bi bi-kanban"></i>
+      <span>Pipeline</span>
+    </a>
+    <a href="tasks.html" class="mobile-nav-item active">
+      <i class="bi bi-check2-circle"></i>
+      <span>Tasks</span>
+    </a>
+    <a href="reports.html" class="mobile-nav-item">
+      <i class="bi bi-graph-up-arrow"></i>
+      <span>Reports</span>
+    </a>
+    <a href="settings.html" class="mobile-nav-item">
+      <i class="bi bi-three-dots"></i>
+      <span>More</span>
+    </a>
+  </nav>
+
+  <!-- Add Task Modal -->
+  <div class="modal-backdrop" id="add-task-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">Create Sales Task</div>
+        <button type="button" class="btn btn-ghost btn-sm btn-icon" onclick="closeModal('add-task-modal')"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <form id="add-task-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="task-title" class="form-label">Task Name <span class="required">*</span></label>
+            <input type="text" id="task-title" class="form-control" placeholder="e.g. Follow up on FinTech compliance module" required>
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="task-account" class="form-label">Account / Company</label>
+              <input type="text" id="task-account" class="form-control" placeholder="e.g. Sterling Bank">
+            </div>
+            <div class="form-group">
+              <label for="task-stakeholder" class="form-label">Contact Person</label>
+              <input type="text" id="task-stakeholder" class="form-control" placeholder="e.g. Robert Vance">
+            </div>
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label for="task-duedate" class="form-label">Due Date</label>
+              <input type="date" id="task-duedate" class="form-control" value="2024-10-24">
+            </div>
+            <div class="form-group">
+              <label for="task-priority" class="form-label">Priority</label>
+              <select id="task-priority" class="form-control">
+                <option value="High">High Priority</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Normal">Normal</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('add-task-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Schedule Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/tasks.js"></script>
+</body>
+</html>
