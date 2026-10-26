@@ -1,5 +1,7 @@
 /** Centralized live API repository. Business records never use localStorage. */
-const API_BASE = 'http://localhost:5000/api/v1';
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:5000/api/v1'
+  : 'https://crm-manager-sooty.vercel.app/api/v1';
 const LEGACY_BUSINESS_KEYS = ['cf_crm_contacts_v2','cf_crm_deals_v2','cf_crm_tasks_v2','cf_crm_activities_v2','cf_crm_team_v2','cf_crm_notifications_v2','cf_crm_settings_v2','cf_crm_session_v2'];
 const STAGE_TO_LABEL = { NEW_LEAD: 'New Lead', CONTACTED: 'Contacted', QUALIFIED: 'Qualified', PROPOSAL_SENT: 'Proposal Sent', WON: 'Won', LOST: 'Lost' };
 const LABEL_TO_STAGE = Object.fromEntries(Object.entries(STAGE_TO_LABEL).map(([key, value]) => [value, key]));
@@ -12,15 +14,15 @@ class CRMStorageEngine {
     LEGACY_BUSINESS_KEYS.forEach(key => localStorage.removeItem(key));
     this.token = localStorage.getItem('cf_access_token') || '';
     this.session = JSON.parse(localStorage.getItem('cf_user_session') || 'null') || {};
-    console.info('[ClientFlow] API repository:', API_BASE);
+    console.info('[ClientFlow] API repository:', API_BASE_URL);
   }
   _request(path, options = {}) {
-    const xhr = new XMLHttpRequest(); xhr.open(options.method || 'GET', API_BASE + path, false); xhr.setRequestHeader('Content-Type', 'application/json'); if (this.token) xhr.setRequestHeader('Authorization', `Bearer ${this.token}`); xhr.send(options.body ? JSON.stringify(options.body) : null);
+    const xhr = new XMLHttpRequest(); xhr.open(options.method || 'GET', API_BASE_URL + path, false); xhr.setRequestHeader('Content-Type', 'application/json'); if (this.token) xhr.setRequestHeader('Authorization', `Bearer ${this.token}`); xhr.send(options.body ? JSON.stringify(options.body) : null);
     if (xhr.status === 401) { this.token = ''; localStorage.removeItem('cf_access_token'); }
     if (xhr.status < 200 || xhr.status >= 300) { console.error('[ClientFlow] API error', xhr.status, path, xhr.responseText); return null; }
     const value = xhr.responseText ? JSON.parse(xhr.responseText) : null; console.info('[ClientFlow]', options.method || 'GET', path, xhr.status, Array.isArray(value) ? `${value.length} records` : 'ok'); return value;
   }
-  async request(path, options = {}) { const response = await fetch(API_BASE + path, { ...options, headers: { 'Content-Type': 'application/json', ...(this.token ? { Authorization: `Bearer ${this.token}` } : {}), ...(options.headers || {}) }, body: options.body ? JSON.stringify(options.body) : undefined }); if (response.status === 401) { this.token = ''; localStorage.removeItem('cf_access_token'); } const value = await response.json().catch(() => ({})); if (!response.ok) throw new Error(value.message || `API ${response.status}`); return value; }
+  async request(path, options = {}) { const response = await fetch(API_BASE_URL + path, { ...options, headers: { 'Content-Type': 'application/json', ...(this.token ? { Authorization: `Bearer ${this.token}` } : {}), ...(options.headers || {}) }, body: options.body ? JSON.stringify(options.body) : undefined }); if (response.status === 401) { this.token = ''; localStorage.removeItem('cf_access_token'); } const value = await response.json().catch(() => ({})); if (!response.ok) throw new Error(value.message || `API ${response.status}`); return value; }
   _contact(c) { if (!c) return null; const owner = c.ownerId && typeof c.ownerId === 'object' ? c.ownerId : null; return { ...c, id: idOf(c), avatar: c.avatar || initials(c.name), isVip: c.status === 'VIP' || (c.tags || []).includes('Strategic'), statusLabel: c.status === 'Customer' ? 'Active Customer' : c.status === 'Lead' ? 'Qualified Lead' : c.status, rep: owner?.name || c.rep || 'Unassigned', repAvatar: owner?.avatar || initials(owner?.name), lastActive: relativeTime(c.lastActivityAt || c.updatedAt) }; }
   _deal(d) { if (!d) return null; const owner = d.ownerId && typeof d.ownerId === 'object' ? d.ownerId : null; const contact = d.contactId && typeof d.contactId === 'object' ? d.contactId : null; return { ...d, id: idOf(d), stage: STAGE_TO_LABEL[d.stage] || d.stage, apiStage: d.stage, rep: owner?.name || d.rep || 'Unassigned', repAvatar: owner?.avatar || initials(owner?.name), contactName: contact?.name || d.contactName || '', company: d.company || contact?.company || '' }; }
   _task(t) { if (!t) return null; const assignee = t.assigneeId && typeof t.assigneeId === 'object' ? t.assigneeId : null; const contact = t.contactId && typeof t.contactId === 'object' ? t.contactId : null; const due = new Date(t.dueDate); const overdue = t.status === 'pending' && due < new Date(); return { ...t, id: idOf(t), assignee: assignee?.name || t.assignee || 'Unassigned', assigneeAvatar: assignee?.avatar || initials(assignee?.name), account: contact?.company || t.account || '', stakeholder: contact?.name || t.stakeholder || '', dueTime: due.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }), isOverdue: overdue, completedTime: t.completedAt ? new Date(t.completedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '' }; }
